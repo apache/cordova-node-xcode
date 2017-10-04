@@ -1,4 +1,5 @@
 var pbx = require('../lib/pbxProject'),
+    pbxFile = require('../lib/pbxFile'),
     project,
     projectHash;
 
@@ -136,6 +137,85 @@ exports.addGroupToGroup = {
         test.done();
     }
 }
+
+exports.predefinedPbxGroups = {
+    setUp: function(callback) {
+        project = new pbx('test/parser/projects/empty-groups.pbxproj').parseSync();
+
+        this.file = new pbxFile('some-file.m');
+        this.file.fileRef = project.generateUuid();
+        project.addToPbxFileReferenceSection(this.file);
+
+        callback();
+    },
+
+    'should add a file to "Plugins" group': function(test) {
+        project.addToPluginsPbxGroup(this.file);
+        var foundInGroup = findChildInGroup(project.pbxGroupByName('Plugins'), this.file.fileRef);
+        test.ok(foundInGroup);
+        test.done();
+    },
+
+    'should remove a file from "Plugins" group': function(test) {
+        project.addToPluginsPbxGroup(this.file);
+        project.removeFromPluginsPbxGroup(this.file);
+
+        var foundInGroup = findChildInGroup(project.pbxGroupByName('Plugins'), this.file.fileRef);
+        test.ok(!foundInGroup);
+        test.done();
+    },
+
+    'should add a file to "Resources" group': function(test) {
+        project.addToResourcesPbxGroup(this.file);
+
+        var foundInGroup = findChildInGroup(project.pbxGroupByName('Resources'), this.file.fileRef);
+        test.ok(foundInGroup);
+        test.done();
+    },
+
+    'should remove a file from "Resources" group': function(test) {
+        project.addToResourcesPbxGroup(this.file);
+        project.removeFromResourcesPbxGroup(this.file);
+
+        var foundInGroup = findChildInGroup(project.pbxGroupByName('Resources'), this.file.fileRef);
+        test.ok(!foundInGroup);
+        test.done();
+    },
+
+    'should add a file to "Frameworks" group': function(test) {
+        project.addToFrameworksPbxGroup(this.file);
+
+        var foundInGroup = findChildInGroup(project.pbxGroupByName('Frameworks'), this.file.fileRef);
+        test.ok(foundInGroup);
+        test.done();
+    },
+
+    'should remove a file from "Frameworks" group': function(test) {
+        project.addToFrameworksPbxGroup(this.file);
+        project.removeFromFrameworksPbxGroup(this.file);
+
+        var foundInGroup = findChildInGroup(project.pbxGroupByName('Frameworks'), this.file.fileRef);
+        test.ok(!foundInGroup);
+        test.done();
+    },
+
+    'should add a file to "Products" group': function(test) {
+        project.addToProductsPbxGroup(this.file);
+
+        var foundInGroup = findChildInGroup(project.pbxGroupByName('Products'), this.file.fileRef);
+        test.ok(foundInGroup);
+        test.done();
+    },
+
+    'should remove a file from "Products" group': function(test) {
+        project.addToProductsPbxGroup(this.file);
+        project.removeFromProductsPbxGroup(this.file);
+
+        var foundInGroup = findChildInGroup(project.pbxGroupByName('Products'), this.file.fileRef);
+        test.ok(!foundInGroup);
+        test.done();
+    }
+};
 
 exports.addSourceFileToGroup = {
     'should create group + add source file' : function(test) {

@@ -166,5 +166,32 @@ exports.removeFramework = {
         }
 
         test.done();
+    },
+    'should remove embedded frameworks': function (test) {
+        var newFile = proj.addFramework('/path/to/Custom.framework', { customFramework: true, embed:true, sign:true }),
+            frameworks = proj.pbxFrameworksBuildPhaseObj(),
+            buildFileSection = proj.pbxBuildFileSection(),
+            bfsLength = Object.keys(buildFileSection).length;
+
+        test.equal(frameworks.files.length, 16);
+        test.equal(62, bfsLength);
+
+        var deletedFile = proj.removeFramework('/path/to/Custom.framework', { customFramework: true, embed:true }),
+            frameworks = proj.pbxFrameworksBuildPhaseObj(),
+            buildFileSection = proj.pbxBuildFileSection(),
+            bfsLength = Object.keys(buildFileSection).length;
+
+        test.equal(frameworks.files.length, 15);
+        test.equal(58, bfsLength);
+
+        var frameworkPaths = frameworkSearchPaths(proj);
+        expectedPath = '"/path/to"';
+
+        for (i = 0; i < frameworkPaths.length; i++) {
+            var current = frameworkPaths[i];
+            test.ok(current.indexOf(expectedPath) == -1);
+        }
+
+        test.done();
     }
 }

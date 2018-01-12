@@ -172,6 +172,25 @@ exports['updateProductName function'] = {
     }
 }
 
+exports['updateProductBundleIdentifier function'] = {
+    setUp:function(callback) {
+        callback();
+    },
+    tearDown:function(callback) {
+        fs.writeFileSync(bcpbx, original_pbx, 'utf-8');
+        callback();
+    },
+    'should change the PRODUCT_BUNDLE_IDENTIFIER field in the .pbxproj file': function (test) {
+        var myProj = new pbx('test/parser/projects/build-config.pbxproj');
+        myProj.parse(function(err, hash) {
+            myProj.updateProductBundleIdentifier('org.apache.any');
+            var newContents = myProj.writeSync();
+            test.ok(newContents.match(/PRODUCT_BUNDLE_IDENTIFIER\s*=\s*"org.apache.any"/));
+            test.done();
+        });
+    }
+}
+
 exports['updateBuildProperty function'] = {
     setUp:function(callback) {
         callback();

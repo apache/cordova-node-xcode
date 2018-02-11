@@ -47,7 +47,7 @@ Allows you to edit xcodeproject files and write them back out.
 
 If there's a problem parsing, you will want to edit the grammar under
 `lib/parser/pbxproj.pegjs`. You can test it online with the PEGjs online thingy
-at http://pegjs.majda.cz/online - I have had some mixed results though.
+at https://pegjs.org/online - I have had some mixed results though.
 
 Tests under the `test/parser` directory will compile the parser from the
 grammar. Other tests will use the prebuilt parser (`lib/parser/pbxproj.js`).

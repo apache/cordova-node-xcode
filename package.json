@@ -11,14 +11,15 @@
     "node": ">=6.0.0"
   },
   "dependencies": {
-    "pegjs": "^0.10.0",
     "simple-plist": "^0.2.1",
     "uuid": "3.0.1"
   },
   "devDependencies": {
-    "nodeunit": "^0.11.2"
+    "nodeunit": "^0.11.2",
+    "pegjs": "^0.10.0"
   },
   "scripts": {
+    "pegjs": "pegjs lib/parser/pbxproj.pegjs",
     "test": "nodeunit test/parser test"
   },
   "license": "Apache-2.0",

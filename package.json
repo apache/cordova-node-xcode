@@ -8,7 +8,7 @@
     "url": "https://github.com/apache/cordova-node-xcode.git"
   },
   "engines": {
-    "node": ">=0.6.7"
+    "node": ">=6.0.0"
   },
   "dependencies": {
     "pegjs": "^0.10.0",

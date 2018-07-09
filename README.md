@@ -54,9 +54,10 @@ grammar. Other tests will use the prebuilt parser (`lib/parser/pbxproj.js`).
 
 To rebuild the parser js file after editing the grammar, run:
 
-    ./node_modules/.bin/pegjs lib/parser/pbxproj.pegjs
+    npm run pegjs
 
-(easier if `./node_modules/.bin` is in your path)
+(and be sure to restore the Apache license notice in
+`lib/parser/pbxproj.js` before committing)
 
 ## License
 

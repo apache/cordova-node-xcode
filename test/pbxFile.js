@@ -89,10 +89,10 @@ exports['lastKnownFileType'] = {
         test.done();
     },
 
-    'should set lastKnownFileType to unknown if undetectable': function (test) {
+    'should set lastKnownFileType to null if undetectable': function (test) {
         var sourceFile = new pbxFile('Plugins/ChildBrowser.guh');
 
-        test.equal('unknown', sourceFile.lastKnownFileType);
+        test.equal(null, sourceFile.lastKnownFileType);
         test.done();
     }
 }
@@ -277,6 +277,14 @@ exports['settings'] = {
             { compilerFlags: "-std=c++11 -fno-objc-arc" });
 
         test.deepEqual({COMPILER_FLAGS:'"-std=c++11 -fno-objc-arc"'}, sourceFile.settings);
+        test.done();
+    },
+
+    'should have extension if {explicitFileType:"blah"} specified': function (test) {
+        var sourceFile = new pbxFile('AppExtension',
+            { explicitFileType: '"wrapper.app-extension"'});
+
+        test.ok(sourceFile.basename === 'AppExtension.appex');
         test.done();
     }
 }

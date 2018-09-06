@@ -89,10 +89,10 @@ exports['lastKnownFileType'] = {
         test.done();
     },
 
-    'should set lastKnownFileType to null if undetectable': function (test) {
+    'should set lastKnownFileType to unknown if undetectable': function (test) {
         var sourceFile = new pbxFile('Plugins/ChildBrowser.guh');
 
-        test.equal(null, sourceFile.lastKnownFileType);
+        test.equal('unknown', sourceFile.lastKnownFileType);
         test.done();
     }
 }

@@ -71,10 +71,10 @@ exports.removeKnownRegion = {
   },
 
   'should do nothing if named region does not exist in knownRegions': function (test) {
-    let numberOfRegions = project.pbxProjectSection()[project.getFirstProject()['uuid']]['knownRegions'].length;
+    var numberOfRegions = project.pbxProjectSection()[project.getFirstProject()['uuid']]['knownRegions'].length;
 
     project.removeKnownRegion('Korean');
-    let newNumberOfRegions = project.pbxProjectSection()[project.getFirstProject()['uuid']]['knownRegions'].length;
+    var newNumberOfRegions = project.pbxProjectSection()[project.getFirstProject()['uuid']]['knownRegions'].length;
     test.equal(numberOfRegions, newNumberOfRegions);
     test.done();
   },

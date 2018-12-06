@@ -14,7 +14,7 @@
     "uuid": "3.0.1"
   },
   "devDependencies": {
-    "nodeunit": "github:brodybits/nodeunit#tap-12",
+    "nodeunit": "^0.11.3",
     "pegjs": "^0.10.0"
   },
   "scripts": {

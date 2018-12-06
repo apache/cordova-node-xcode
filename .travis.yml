@@ -17,12 +17,10 @@ install:
   - nvm --version
   - node --version
   - npm --version
-  # remaining install steps can be removed once we drop Node.js 0.8 support:
   - 'if [ "${TRAVIS_NODE_VERSION}" = "0.8" ] ; then nvm install --latest-npm 0.8 ; fi'
   - npm install
   - node --version
   - npm --version
-
 
 script:
   - npm test

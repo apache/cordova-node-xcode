@@ -28,7 +28,7 @@ Parser toolkit for xcodeproj project files
 
 Allows you to edit xcodeproject files and write them back out.
 
-based on [alunny / node-xcode](https://github.com/alunny/node-xcode)
+based on donated code from [alunny / node-xcode](https://github.com/alunny/node-xcode)
 
 ## Example
 

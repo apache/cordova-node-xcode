@@ -19,7 +19,7 @@
 #
 -->
 
-# Cordova node xcode tool
+# Cordova node xcode utility
 
 [![NPM](https://nodei.co/npm/xcode.png?compact=true)](https://nodei.co/npm/xcode/)
 [![Build Status](https://travis-ci.org/apache/cordova-node-xcode.svg?branch=master)](https://travis-ci.org/apache/cordova-node-xcode)

@@ -14,8 +14,6 @@ install:
   - node --version
   - npm --version
   - npm install
-  - node --version
-  - npm --version
 
 script:
   - npm test

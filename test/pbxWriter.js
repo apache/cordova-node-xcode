@@ -96,5 +96,37 @@ exports.writeSync = {
     },
     'should write out the "file-references" test': function (test) {
         testProjectContents('test/parser/projects/file-references.pbxproj', test);
+    },
+    'should not null and undefined with the "omitEmptyValues" option set to false test': function (test) {
+        var filename = 'test/parser/projects/with_omit_empty_values_disabled.pbxproj'
+        var expectedFilename = 'test/parser/projects/expected/with_omit_empty_values_disabled_expected.pbxproj'
+        var content = fs.readFileSync(expectedFilename, 'utf-8').replace(/    /g, '\t');
+        var project = new pbx(filename);
+        project.parse(function (err) {
+            if (err) {
+                return test.done(err);
+            }
+            const group = project.addPbxGroup([], 'CustomGroup', undefined)
+            var written = project.writeSync();
+            content = content.replace('CUSTOM_GROUP_UUID_REPLACED_BY_TEST', group.uuid)
+            test.equal(content, written);
+            test.done();
+        });
+    },
+    'should drop null and undefined with the "omitEmptyValues" option set to true test': function (test) {
+        var filename = 'test/parser/projects/with_omit_empty_values_enabled.pbxproj'
+        var expectedFilename = 'test/parser/projects/expected/with_omit_empty_values_enabled_expected.pbxproj'
+        var content = fs.readFileSync(expectedFilename, 'utf-8').replace(/    /g, '\t');
+        var project = new pbx(filename);
+        project.parse(function (err) {
+            if (err) {
+                return test.done(err);
+            }
+            var group = project.addPbxGroup([], 'CustomGroup', undefined);
+            var written = project.writeSync({ omitEmptyValues: true });
+            content = content.replace('CUSTOM_GROUP_UUID_REPLACED_BY_TEST', group.uuid)
+            test.equal(content, written);
+            test.done();
+        });
     }
 }

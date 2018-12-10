@@ -280,7 +280,7 @@ exports['settings'] = {
         test.done();
     },
 
-    'should have extension if {explicitFileType:"blah"} specified': function (test) {
+    'should be .appex if {explicitFileType:\'"wrapper.app-extension"\'} specified': function (test) {
         var sourceFile = new pbxFile('AppExtension',
             { explicitFileType: '"wrapper.app-extension"'});
 

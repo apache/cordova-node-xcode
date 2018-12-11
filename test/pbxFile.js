@@ -278,5 +278,13 @@ exports['settings'] = {
 
         test.deepEqual({COMPILER_FLAGS:'"-std=c++11 -fno-objc-arc"'}, sourceFile.settings);
         test.done();
+    },
+
+    'should be .appex if {explicitFileType:\'"wrapper.app-extension"\'} specified': function (test) {
+        var sourceFile = new pbxFile('AppExtension',
+            { explicitFileType: '"wrapper.app-extension"'});
+
+        test.ok(sourceFile.basename === 'AppExtension.appex');
+        test.done();
     }
 }

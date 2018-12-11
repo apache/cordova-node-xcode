@@ -24,3 +24,4 @@ install:
 
 script:
   - npm test
+  - 'if [ "${TRAVIS_NODE_VERSION}" = "10" ] ; then npm run eslint ; fi'

@@ -284,7 +284,7 @@ exports['settings'] = {
         var sourceFile = new pbxFile('AppExtension',
             { explicitFileType: '"wrapper.app-extension"'});
 
-        test.ok(sourceFile.basename === 'AppExtension.appex');
+        test.equal('AppExtension.appex', sourceFile.basename);
         test.done();
     }
 }

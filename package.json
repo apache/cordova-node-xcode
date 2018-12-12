@@ -15,10 +15,19 @@
     "uuid": "3.0.1"
   },
   "devDependencies": {
+    "eslint": "^5.10.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
     "nodeunit": "^0.11.3",
     "pegjs": "^0.10.0"
   },
   "scripts": {
+    "eslint": "eslint lib test",
+    "eslint:lib": "eslint lib",
+    "eslint:test": "eslint test",
     "pegjs": "node_modules/.bin/pegjs lib/parser/pbxproj.pegjs",
     "test": "node_modules/.bin/nodeunit test/parser test"
   },

@@ -1,0 +1,26 @@
+root: true
+
+extends:
+  - standard
+
+rules:
+  # semistandard rules:
+  semi:
+    - error
+    - always
+  no-extra-semi:
+    - error
+
+  # general indent rule:
+  indent:
+    - error
+    - 4
+
+  # general custom rule(s):
+  camelcase: off
+
+  # FUTURE TBD configure these globally or not:
+  # no-throw-literal: off
+  # no-unused-vars:
+  #   - error
+  #   - args: after-used

@@ -1,0 +1,36 @@
+rules:
+  # Specific to test:
+  handle-callback-err: off
+
+  # TODO: Resolve the issues in the tests so that these rules can be re-enabled:
+  comma-dangle: off
+  comma-spacing: off
+  comma-style: off
+  curly: off
+  eqeqeq: off
+  func-call-spacing: off
+  indent: off
+  key-spacing: off
+  new-cap: off
+  no-multi-spaces: off
+  no-multiple-empty-lines: off
+  no-path-concat: off
+  no-redeclare: off
+  no-regex-spaces: off
+  no-sequences: off
+  no-tabs: off
+  no-template-curly-in-string: off
+  no-undef: off
+  no-unused-expressions: off
+  no-unused-vars: off
+  no-use-before-define: off
+  object-curly-spacing: off
+  one-var: off
+  padded-blocks: off
+  quotes: off
+  semi: off
+  space-before-blocks: off
+  space-before-function-paren: off
+  space-in-parens: off
+  space-infix-ops: off
+  standard/object-curly-even-spacing: off

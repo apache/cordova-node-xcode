@@ -26,4 +26,4 @@ var PEG = require('pegjs'),
 exports['should ignore comments outside the main object'] = function (test) {
     parser.parse(pbx);
     test.done();
-}
+};

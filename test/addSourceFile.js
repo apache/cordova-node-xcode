@@ -146,7 +146,7 @@ exports.addSourceFile = {
     },
     'duplicate entries': {
         'should return false': function (test) {
-            var newFile = proj.addSourceFile('Plugins/file.m'); 
+            var newFile = proj.addSourceFile('Plugins/file.m');
 
             test.ok(!proj.addSourceFile('Plugins/file.m'));
             test.done();

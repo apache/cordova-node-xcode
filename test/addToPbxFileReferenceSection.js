@@ -34,7 +34,7 @@ exports['addToPbxFileReferenceSection function'] = {
     'should add file and comment to fileReferenceSection': function (test) {
         var file = new pbxFile('file.m');
         file.fileRef = myProj.generateUuid();
-        
+
         myProj.addToPbxFileReferenceSection(file)
 
         test.equal(myProj.pbxFileReferenceSection()[file.fileRef].isa, 'PBXFileReference');
@@ -58,7 +58,7 @@ exports['addToPbxFileReferenceSection function'] = {
     },
     'should add file with preset includeInIndex to fileReferenceSection correctly': function (test) {
         var appexFile = { fileRef: myProj.generateUuid(), isa: 'PBXFileReference', includeInIndex: 0, path: "WatchKit Extension.appex"};
-        
+
         myProj.addToPbxFileReferenceSection(appexFile)
 
         test.equal(myProj.pbxFileReferenceSection()[appexFile.fileRef].isa, 'PBXFileReference');
@@ -68,7 +68,7 @@ exports['addToPbxFileReferenceSection function'] = {
     },
     'should add file with preset sourceTree to fileReferenceSection correctly': function (test) {
         var appexFile = { fileRef: myProj.generateUuid(), isa: 'PBXFileReference', sourceTree: 'BUILT_PRODUCTS_DIR', path: "WatchKit Extension.appex"};
-        
+
         myProj.addToPbxFileReferenceSection(appexFile)
 
         test.equal(myProj.pbxFileReferenceSection()[appexFile.fileRef].isa, 'PBXFileReference');

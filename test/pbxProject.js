@@ -51,7 +51,7 @@ exports['parseSync function'] = {
         test.equal(projHash.hash.project.archiveVersion, 1);
         test.equal(projHash.hash.project.objectVersion, 45);
         test.equal(projHash.hash.project.nonObject, '29B97313FDCFA39411CA2CEF');
-    
+
         test.done();
   },
 }

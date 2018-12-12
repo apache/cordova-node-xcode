@@ -94,7 +94,7 @@ exports.addHeaderFile = {
     },
     'duplicate entries': {
         'should return false': function (test) {
-            var newFile = proj.addHeaderFile('Plugins/file.h'); 
+            var newFile = proj.addHeaderFile('Plugins/file.h');
 
             test.ok(!proj.addHeaderFile('Plugins/file.h'));
             test.done();

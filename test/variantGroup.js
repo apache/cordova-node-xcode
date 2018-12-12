@@ -19,7 +19,7 @@ var pbx = require('../lib/pbxProject'),
     project,
     projectHash;
 
-var findChildInGroup = function(obj, target) {
+var findChildInGroup = function (obj, target) {
     var found = false;
 
     for (var i = 0, j = obj.children.length; i < j; i++) {
@@ -30,9 +30,9 @@ var findChildInGroup = function(obj, target) {
     }
 
     return found;
-}
+};
 
-var findFileByUUID = function(obj, target) {
+var findFileByUUID = function (obj, target) {
     var found = false;
 
     for (var k = 0, l = obj.files.length; k < l; k++) {
@@ -43,9 +43,9 @@ var findFileByUUID = function(obj, target) {
     }
 
     return found;
-}
+};
 
-var findByFileRef = function(obj, target) {
+var findByFileRef = function (obj, target) {
     var found = false;
 
     for (var property in obj) {
@@ -57,9 +57,9 @@ var findByFileRef = function(obj, target) {
         }
     }
     return found;
-}
+};
 
-var findByName = function(obj, target) {
+var findByName = function (obj, target) {
     var found = false;
     for (var property in obj) {
         if (!/comment/.test(property)) {
@@ -70,25 +70,27 @@ var findByName = function(obj, target) {
         }
     }
     return found;
-}
+};
 
-exports.setUp = function(callback) {
+exports.setUp = function (callback) {
     project = new pbx('test/parser/projects/variantgroup.pbxproj');
     projectHash = project.parseSync();
     callback();
-}
+};
 
 exports.getVariantGroupByKey = {
-    'should return PBXVariantGroup for Localizable.strings': function(test) {
-        var groupKey = project.findPBXVariantGroupKey({name: 'Localizable.strings'});
+    'should return PBXVariantGroup for Localizable.strings': function (test) {
+        var groupKey = project.findPBXVariantGroupKey({
+            name: 'Localizable.strings'
+        });
         var group = project.getPBXVariantGroupByKey(groupKey);
         test.ok(group.name === 'Localizable.strings');
         test.done();
     }
-}
+};
 
 exports.createVariantGroup = {
-    'should create a new Test Variant Group': function(test) {
+    'should create a new Test Variant Group': function (test) {
         delete project.getPBXObject('PBXVariantGroup');
 
         var found = false;
@@ -97,7 +99,7 @@ exports.createVariantGroup = {
         var found = findByName(groups, 'Test');
         test.ok(found === false);
 
-        var group = project.findPBXVariantGroupKey({name:'Test'});
+        var group = project.findPBXVariantGroupKey({ name: 'Test' });
         test.ok(group === undefined);
 
         project.pbxCreateVariantGroup('Test');
@@ -106,33 +108,42 @@ exports.createVariantGroup = {
         found = findByName(groups, 'Test');
         test.ok(found === true);
 
-        group = project.findPBXVariantGroupKey({name:'Test'});
+        group = project.findPBXVariantGroupKey({ name: 'Test' });
         test.ok(typeof group === 'string');
         test.done();
     }
-}
+};
 
 exports.findVariantGroupKey = {
-    'should return a valid group key':function(test) {
-        var keyByName = project.findPBXVariantGroupKey({ name: 'Localizable.strings'});
-        var nonExistingKey = project.findPBXVariantGroupKey({ name: 'Foo'});
+    'should return a valid group key': function (test) {
+        var keyByName = project.findPBXVariantGroupKey({
+            name: 'Localizable.strings'
+        });
+        var nonExistingKey = project.findPBXVariantGroupKey({ name: 'Foo' });
 
         test.ok(keyByName === '07E3BDBC1DF1DEA500E49912');
         test.ok(nonExistingKey === undefined);
 
         test.done();
     }
-}
+};
 
 exports.createLocalisationVariantGroup = {
-    'should create a new localisation variationgroup then add group to Resources group': function(test) {
+    'should create a new localisation variationgroup then add group to Resources group': function (
+        test
+    ) {
         delete project.getPBXObject('PBXVariantGroup');
 
-        var localizationVariantGp = project.addLocalizationVariantGroup('InfoPlist.strings');
+        var localizationVariantGp = project.addLocalizationVariantGroup(
+            'InfoPlist.strings'
+        );
 
-        var resourceGroupKey =  project.findPBXGroupKey({name: 'Resources'});
+        var resourceGroupKey = project.findPBXGroupKey({ name: 'Resources' });
         var resourceGroup = project.getPBXGroupByKey(resourceGroupKey);
-        var foundInResourcesGroup = findChildInGroup(resourceGroup, localizationVariantGp.fileRef );
+        var foundInResourcesGroup = findChildInGroup(
+            resourceGroup,
+            localizationVariantGp.fileRef
+        );
         test.ok(foundInResourcesGroup);
 
         var foundInResourcesBuildPhase = false;
@@ -147,16 +158,24 @@ exports.createLocalisationVariantGroup = {
 
         test.done();
     }
-}
+};
 
 exports.addResourceFileToLocalisationGroup = {
-    'should add resource file to the TestVariantGroup group' : function(test) {
-
-        var infoPlistVarGp = project.addLocalizationVariantGroup('InfoPlist.strings');
+    'should add resource file to the TestVariantGroup group': function (test) {
+        var infoPlistVarGp = project.addLocalizationVariantGroup(
+            'InfoPlist.strings'
+        );
         var testKey = infoPlistVarGp.fileRef;
-        var file = project.addResourceFile('Resources/en.lproj/Localization.strings', {variantGroup: true}, testKey);
+        var file = project.addResourceFile(
+            'Resources/en.lproj/Localization.strings',
+            { variantGroup: true },
+            testKey
+        );
 
-        var foundInLocalisationVariantGroup = findChildInGroup(project.getPBXVariantGroupByKey(testKey), file.fileRef );
+        var foundInLocalisationVariantGroup = findChildInGroup(
+            project.getPBXVariantGroupByKey(testKey),
+            file.fileRef
+        );
         test.ok(foundInLocalisationVariantGroup);
 
         var foundInResourcesBuildPhase = false;
@@ -174,21 +193,39 @@ exports.addResourceFileToLocalisationGroup = {
 
         test.done();
     }
-}
+};
 
 exports.removeResourceFileFromGroup = {
-    'should add resource file then remove resource file from Localizable.strings group' : function(test) {
-        var testKey = project.findPBXVariantGroupKey({name:'Localizable.strings'});
-        var file = project.addResourceFile('Resources/zh.lproj/Localization.strings', {}, testKey);
+    'should add resource file then remove resource file from Localizable.strings group': function (
+        test
+    ) {
+        var testKey = project.findPBXVariantGroupKey({
+            name: 'Localizable.strings'
+        });
+        var file = project.addResourceFile(
+            'Resources/zh.lproj/Localization.strings',
+            {},
+            testKey
+        );
 
-        var foundInGroup = findChildInGroup(project.getPBXVariantGroupByKey(testKey),file.fileRef );
+        var foundInGroup = findChildInGroup(
+            project.getPBXVariantGroupByKey(testKey),
+            file.fileRef
+        );
         test.ok(foundInGroup);
 
-        project.removeResourceFile('Resources/zh.lproj/Localization.strings', {}, testKey);
+        project.removeResourceFile(
+            'Resources/zh.lproj/Localization.strings',
+            {},
+            testKey
+        );
 
-        var foundInGroup = findChildInGroup(project.getPBXVariantGroupByKey(testKey),file.fileRef );
+        var foundInGroup = findChildInGroup(
+            project.getPBXVariantGroupByKey(testKey),
+            file.fileRef
+        );
         test.ok(!foundInGroup);
 
         test.done();
     }
-}
+};

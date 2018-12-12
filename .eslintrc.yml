@@ -19,6 +19,9 @@ rules:
   # general custom rule(s):
   camelcase: off
 
+  # TBD ignore for now, due to prettier-eslint:
+  standard/computed-property-even-spacing: off
+
   # FUTURE TBD configure these globally or not:
   # no-throw-literal: off
   # no-unused-vars:

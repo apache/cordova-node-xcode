@@ -39,28 +39,28 @@ exports.pbxItemByComment = {
     },
     'should return PBXContainerItemProxy': function (test) {
         var pbxItem = proj.pbxItemByComment('libPhoneGap.a', 'PBXReferenceProxy');
-        
+
         test.ok(pbxItem);
         test.equals(pbxItem.isa, 'PBXReferenceProxy');
         test.done()
     },
     'should return PBXResourcesBuildPhase': function (test) {
         var pbxItem = proj.pbxItemByComment('Resources', 'PBXResourcesBuildPhase');
-        
+
         test.ok(pbxItem);
         test.equals(pbxItem.isa, 'PBXResourcesBuildPhase');
         test.done()
     },
     'should return PBXShellScriptBuildPhase': function (test) {
         var pbxItem = proj.pbxItemByComment('Touch www folder', 'PBXShellScriptBuildPhase');
-        
+
         test.ok(pbxItem);
         test.equals(pbxItem.isa, 'PBXShellScriptBuildPhase');
         test.done()
     },
     'should return null when PBXNativeTarget not found': function (test) {
         var pbxItem = proj.pbxItemByComment('Invalid', 'PBXTargetDependency');
-        
+
         test.equal(pbxItem, null);
         test.done()
     }

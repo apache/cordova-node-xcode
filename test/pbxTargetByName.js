@@ -32,14 +32,14 @@ exports.setUp = function (callback) {
 exports.pbxTargetByName = {
     'should return PBXNativeTarget': function (test) {
         var pbxTarget = proj.pbxTargetByName('KitchenSinktablet');
-        
+
         test.ok(pbxTarget);
         test.equals(pbxTarget.isa, 'PBXNativeTarget');
         test.done()
     },
     'should return null when PBXNativeTarget not found': function (test) {
         var pbxTarget = proj.pbxTargetByName('Invalid');
-        
+
         test.equal(pbxTarget, null);
         test.done()
     }

@@ -35,7 +35,7 @@ exports.removeResourceFile = {
         var newFile = proj.addResourceFile('assets.bundle');
 
         test.equal(newFile.constructor, pbxFile);
-        
+
         var deletedFile = proj.removeResourceFile('assets.bundle');
 
         test.equal(deletedFile.constructor, pbxFile);
@@ -46,22 +46,22 @@ exports.removeResourceFile = {
         var newFile = proj.addResourceFile('assets.bundle');
 
         test.ok(newFile.uuid);
-        
+
         var deletedFile = proj.removeResourceFile('assets.bundle');
-        
+
         test.ok(deletedFile.uuid);
-        
+
         test.done()
     },
     'should set a fileRef on the pbxFile': function (test) {
         var newFile = proj.addResourceFile('assets.bundle');
 
         test.ok(newFile.fileRef);
-        
+
         var deletedFile = proj.removeResourceFile('assets.bundle');
 
         test.ok(deletedFile.fileRef);
-        
+
         test.done()
     },
     'should remove 2 fields from the PBXBuildFile section': function (test) {
@@ -80,7 +80,7 @@ exports.removeResourceFile = {
         test.equal(58, bfsLength);
         test.ok(!buildFileSection[deletedFile.uuid]);
         test.ok(!buildFileSection[deletedFile.uuid + '_comment']);
-        
+
         test.done();
     },
     'should remove the PBXBuildFile comment correctly': function (test) {
@@ -89,13 +89,13 @@ exports.removeResourceFile = {
             buildFileSection = proj.pbxBuildFileSection();
 
         test.equal(buildFileSection[commentKey], 'assets.bundle in Resources');
-        
+
         var deletedFile = proj.removeResourceFile('assets.bundle'),
             commentKey = deletedFile.uuid + '_comment',
             buildFileSection = proj.pbxBuildFileSection();
 
         test.ok(!buildFileSection[commentKey]);
-        
+
         test.done();
     },
     'should remove the PBXBuildFile object correctly': function (test) {
@@ -112,7 +112,7 @@ exports.removeResourceFile = {
             buildFileEntry = buildFileSection[deletedFile.uuid];
 
         test.ok(!buildFileEntry);
-        
+
         test.done();
     },
     'should remove 2 fields from the PBXFileReference section': function (test) {
@@ -140,7 +140,7 @@ exports.removeResourceFile = {
             commentKey = newFile.fileRef + '_comment';
 
         test.equal(fileRefSection[commentKey], 'assets.bundle');
-        
+
         var deletedFile = proj.removeResourceFile('assets.bundle'),
             fileRefSection = proj.pbxFileReferenceSection(),
             commentKey = deletedFile.fileRef + '_comment';
@@ -175,7 +175,7 @@ exports.removeResourceFile = {
             resources = proj.pbxGroupByName('Resources');
 
         test.equal(resources.children.length, 10);
-        
+
         var deletedFile = proj.removeResourceFile('Resources/assets.bundle'),
             resources = proj.pbxGroupByName('Resources');
 
@@ -187,7 +187,7 @@ exports.removeResourceFile = {
             sources = proj.pbxResourcesBuildPhaseObj();
 
         test.equal(sources.files.length, 13);
-        
+
         var deletedFile = proj.removeResourceFile('Resources/assets.bundle'),
             sources = proj.pbxResourcesBuildPhaseObj();
 

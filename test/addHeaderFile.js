@@ -21,29 +21,31 @@ var fullProject = require('./fixtures/full-project'),
     pbxFile = require('../lib/pbxFile'),
     proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
     callback();
-}
+};
 
 exports.addHeaderFile = {
     'should return a pbxFile': function (test) {
         var newFile = proj.addHeaderFile('file.h');
 
         test.equal(newFile.constructor, pbxFile);
-        test.done()
+        test.done();
     },
     'should set a fileRef on the pbxFile': function (test) {
         var newFile = proj.addHeaderFile('file.h');
 
         test.ok(newFile.fileRef);
-        test.done()
+        test.done();
     },
-    'should populate the PBXFileReference section with 2 fields': function (test) {
+    'should populate the PBXFileReference section with 2 fields': function (
+        test
+    ) {
         var newFile = proj.addHeaderFile('file.h'),
             fileRefSection = proj.pbxFileReferenceSection(),
             frsLength = Object.keys(fileRefSection).length;
@@ -112,4 +114,4 @@ exports.addHeaderFile = {
             test.done();
         }
     }
-}
+};

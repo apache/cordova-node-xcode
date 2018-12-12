@@ -20,7 +20,7 @@ var pbx = require('../lib/pbxProject'),
     project,
     projectHash;
 
-var findChildInGroup = function(obj, target) {
+var findChildInGroup = function (obj, target) {
     var found = false;
 
     for (var i = 0, j = obj.children.length; i < j; i++) {
@@ -31,9 +31,9 @@ var findChildInGroup = function(obj, target) {
     }
 
     return found;
-}
+};
 
-var findFileByUUID = function(obj, target) {
+var findFileByUUID = function (obj, target) {
     var found = false;
 
     for (var k = 0, l = obj.files.length; k < l; k++) {
@@ -44,9 +44,9 @@ var findFileByUUID = function(obj, target) {
     }
 
     return found;
-}
+};
 
-var findByFileRef = function(obj, target) {
+var findByFileRef = function (obj, target) {
     var found = false;
 
     for (var property in obj) {
@@ -58,9 +58,9 @@ var findByFileRef = function(obj, target) {
         }
     }
     return found;
-}
+};
 
-var findByName = function(obj, target) {
+var findByName = function (obj, target) {
     var found = false;
     for (var property in obj) {
         if (!/comment/.test(property)) {
@@ -71,39 +71,38 @@ var findByName = function(obj, target) {
         }
     }
     return found;
-}
+};
 
-exports.setUp = function(callback) {
+exports.setUp = function (callback) {
     project = new pbx('test/parser/projects/group.pbxproj');
     projectHash = project.parseSync();
     callback();
-}
+};
 
 exports.getGroupByKey = {
-    'should return PBXGroup for Classes': function(test) {
-        var groupKey = project.findPBXGroupKey({name: 'Classes'});
+    'should return PBXGroup for Classes': function (test) {
+        var groupKey = project.findPBXGroupKey({ name: 'Classes' });
         var group = project.getPBXGroupByKey(groupKey);
         test.ok(group.name === 'Classes');
         test.done();
     },
-    'should return PBXGroup for Plugins': function(test) {
-        var groupKey = project.findPBXGroupKey({name: 'Plugins'});
+    'should return PBXGroup for Plugins': function (test) {
+        var groupKey = project.findPBXGroupKey({ name: 'Plugins' });
         var group = project.getPBXGroupByKey(groupKey);
         test.ok(group.name === 'Plugins');
         test.done();
     }
-}
+};
 
 exports.createGroup = {
-    'should create a new Test Group': function(test) {
+    'should create a new Test Group': function (test) {
         var found = false;
         var groups = project.getPBXObject('PBXGroup');
 
         var found = findByName(groups, 'Test');
         test.ok(found === false);
 
-
-        var group = project.findPBXGroupKey({name:'Test'});
+        var group = project.findPBXGroupKey({ name: 'Test' });
         test.ok(group === undefined);
 
         project.pbxCreateGroup('Test', 'Test');
@@ -112,18 +111,21 @@ exports.createGroup = {
         found = findByName(groups, 'Test');
         test.ok(found === true);
 
-        group = project.findPBXGroupKey({name:'Test'});
+        group = project.findPBXGroupKey({ name: 'Test' });
         test.ok(typeof group === 'string');
         test.done();
     }
-}
+};
 
 exports.findGroupKey = {
-    'should return a valid group key':function(test) {
-        var keyByName = project.findPBXGroupKey({ name: 'Classes'});
-        var keyByPath = project.findPBXGroupKey({ path: 'icons'});
-        var keyByPathName = project.findPBXGroupKey({ path: '"HelloCordova/Plugins"', name: 'Plugins'});
-        var nonExistingKey = project.findPBXGroupKey({ name: 'Foo'});
+    'should return a valid group key': function (test) {
+        var keyByName = project.findPBXGroupKey({ name: 'Classes' });
+        var keyByPath = project.findPBXGroupKey({ path: 'icons' });
+        var keyByPathName = project.findPBXGroupKey({
+            path: '"HelloCordova/Plugins"',
+            name: 'Plugins'
+        });
+        var nonExistingKey = project.findPBXGroupKey({ name: 'Foo' });
 
         test.ok(keyByName === '080E96DDFE201D6D7F000001');
         test.ok(keyByPath === '308D052D1370CCF300D202BF');
@@ -132,12 +134,14 @@ exports.findGroupKey = {
 
         test.done();
     }
-}
+};
 
 exports.addGroupToGroup = {
-    'should create a new test group then add group to Classes group': function(test) {
+    'should create a new test group then add group to Classes group': function (
+        test
+    ) {
         var testKey = project.pbxCreateGroup('Test', 'Test');
-        var classesKey = project.findPBXGroupKey({name: 'Classes'});
+        var classesKey = project.findPBXGroupKey({ name: 'Classes' });
         project.addToPbxGroup(testKey, classesKey);
 
         var classesGroup = project.getPBXGroupByKey(classesKey);
@@ -153,11 +157,13 @@ exports.addGroupToGroup = {
 
         test.done();
     }
-}
+};
 
 exports.predefinedPbxGroups = {
-    setUp: function(callback) {
-        project = new pbx('test/parser/projects/empty-groups.pbxproj').parseSync();
+    setUp: function (callback) {
+        project = new pbx(
+            'test/parser/projects/empty-groups.pbxproj'
+        ).parseSync();
 
         this.file = new pbxFile('some-file.m');
         this.file.fileRef = project.generateUuid();
@@ -166,198 +172,289 @@ exports.predefinedPbxGroups = {
         callback();
     },
 
-    'should add a file to "Plugins" group': function(test) {
+    'should add a file to "Plugins" group': function (test) {
         project.addToPluginsPbxGroup(this.file);
-        var foundInGroup = findChildInGroup(project.pbxGroupByName('Plugins'), this.file.fileRef);
+        var foundInGroup = findChildInGroup(
+            project.pbxGroupByName('Plugins'),
+            this.file.fileRef
+        );
         test.ok(foundInGroup);
         test.done();
     },
 
-    'should remove a file from "Plugins" group': function(test) {
+    'should remove a file from "Plugins" group': function (test) {
         project.addToPluginsPbxGroup(this.file);
         project.removeFromPluginsPbxGroup(this.file);
 
-        var foundInGroup = findChildInGroup(project.pbxGroupByName('Plugins'), this.file.fileRef);
+        var foundInGroup = findChildInGroup(
+            project.pbxGroupByName('Plugins'),
+            this.file.fileRef
+        );
         test.ok(!foundInGroup);
         test.done();
     },
 
-    'should add a file to "Resources" group': function(test) {
+    'should add a file to "Resources" group': function (test) {
         project.addToResourcesPbxGroup(this.file);
 
-        var foundInGroup = findChildInGroup(project.pbxGroupByName('Resources'), this.file.fileRef);
+        var foundInGroup = findChildInGroup(
+            project.pbxGroupByName('Resources'),
+            this.file.fileRef
+        );
         test.ok(foundInGroup);
         test.done();
     },
 
-    'should remove a file from "Resources" group': function(test) {
+    'should remove a file from "Resources" group': function (test) {
         project.addToResourcesPbxGroup(this.file);
         project.removeFromResourcesPbxGroup(this.file);
 
-        var foundInGroup = findChildInGroup(project.pbxGroupByName('Resources'), this.file.fileRef);
+        var foundInGroup = findChildInGroup(
+            project.pbxGroupByName('Resources'),
+            this.file.fileRef
+        );
         test.ok(!foundInGroup);
         test.done();
     },
 
-    'should add a file to "Frameworks" group': function(test) {
+    'should add a file to "Frameworks" group': function (test) {
         project.addToFrameworksPbxGroup(this.file);
 
-        var foundInGroup = findChildInGroup(project.pbxGroupByName('Frameworks'), this.file.fileRef);
+        var foundInGroup = findChildInGroup(
+            project.pbxGroupByName('Frameworks'),
+            this.file.fileRef
+        );
         test.ok(foundInGroup);
         test.done();
     },
 
-    'should remove a file from "Frameworks" group': function(test) {
+    'should remove a file from "Frameworks" group': function (test) {
         project.addToFrameworksPbxGroup(this.file);
         project.removeFromFrameworksPbxGroup(this.file);
 
-        var foundInGroup = findChildInGroup(project.pbxGroupByName('Frameworks'), this.file.fileRef);
+        var foundInGroup = findChildInGroup(
+            project.pbxGroupByName('Frameworks'),
+            this.file.fileRef
+        );
         test.ok(!foundInGroup);
         test.done();
     },
 
-    'should add a file to "Products" group': function(test) {
+    'should add a file to "Products" group': function (test) {
         project.addToProductsPbxGroup(this.file);
 
-        var foundInGroup = findChildInGroup(project.pbxGroupByName('Products'), this.file.fileRef);
+        var foundInGroup = findChildInGroup(
+            project.pbxGroupByName('Products'),
+            this.file.fileRef
+        );
         test.ok(foundInGroup);
         test.done();
     },
 
-    'should remove a file from "Products" group': function(test) {
+    'should remove a file from "Products" group': function (test) {
         project.addToProductsPbxGroup(this.file);
         project.removeFromProductsPbxGroup(this.file);
 
-        var foundInGroup = findChildInGroup(project.pbxGroupByName('Products'), this.file.fileRef);
+        var foundInGroup = findChildInGroup(
+            project.pbxGroupByName('Products'),
+            this.file.fileRef
+        );
         test.ok(!foundInGroup);
         test.done();
     }
 };
 
 exports.addSourceFileToGroup = {
-    'should create group + add source file' : function(test) {
+    'should create group + add source file': function (test) {
         var testKey = project.pbxCreateGroup('Test', 'Test');
         var file = project.addSourceFile('Notifications.m', {}, testKey);
 
-        var foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey),file.fileRef );
+        var foundInGroup = findChildInGroup(
+            project.getPBXGroupByKey(testKey),
+            file.fileRef
+        );
         test.ok(foundInGroup);
 
-        var foundInBuildFileSection = findByFileRef(project.pbxBuildFileSection(), file.fileRef);
+        var foundInBuildFileSection = findByFileRef(
+            project.pbxBuildFileSection(),
+            file.fileRef
+        );
         test.ok(foundInBuildFileSection);
 
-        var foundInBuildPhase = findFileByUUID(project.pbxSourcesBuildPhaseObj(), file.uuid);
+        var foundInBuildPhase = findFileByUUID(
+            project.pbxSourcesBuildPhaseObj(),
+            file.uuid
+        );
         test.ok(foundInBuildPhase);
 
         test.done();
     }
-}
+};
 
 exports.removeSourceFileFromGroup = {
-    'should create group + add source file then remove source file' : function(test) {
+    'should create group + add source file then remove source file': function (
+        test
+    ) {
         var testKey = project.pbxCreateGroup('Test', 'Test');
         var file = project.addSourceFile('Notifications.m', {}, testKey);
 
-        var foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey),file.fileRef );
+        var foundInGroup = findChildInGroup(
+            project.getPBXGroupByKey(testKey),
+            file.fileRef
+        );
         test.ok(foundInGroup);
 
-        var foundInBuildFileSection = findByFileRef(project.pbxBuildFileSection(), file.fileRef);
+        var foundInBuildFileSection = findByFileRef(
+            project.pbxBuildFileSection(),
+            file.fileRef
+        );
         test.ok(foundInBuildFileSection);
 
-        var foundInBuildPhase = findFileByUUID(project.pbxSourcesBuildPhaseObj(), file.uuid);
+        var foundInBuildPhase = findFileByUUID(
+            project.pbxSourcesBuildPhaseObj(),
+            file.uuid
+        );
         test.ok(foundInBuildPhase);
 
         project.removeSourceFile('Notifications.m', {}, testKey);
 
-        var foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey),file.fileRef );
+        var foundInGroup = findChildInGroup(
+            project.getPBXGroupByKey(testKey),
+            file.fileRef
+        );
         test.ok(!foundInGroup);
 
-        var foundInBuildFileSection = findByFileRef(project.pbxBuildFileSection(), file.fileRef);
+        var foundInBuildFileSection = findByFileRef(
+            project.pbxBuildFileSection(),
+            file.fileRef
+        );
         test.ok(!foundInBuildFileSection);
 
-        var foundInBuildPhase = findFileByUUID(project.pbxSourcesBuildPhaseObj(), file.uuid);
+        var foundInBuildPhase = findFileByUUID(
+            project.pbxSourcesBuildPhaseObj(),
+            file.uuid
+        );
         test.ok(!foundInBuildPhase);
 
         test.done();
     }
-}
+};
 
 exports.addHeaderFileToGroup = {
-    'should create group + add header file' : function(test) {
+    'should create group + add header file': function (test) {
         var testKey = project.pbxCreateGroup('Test', 'Test');
         var file = project.addHeaderFile('Notifications.h', {}, testKey);
 
-        var foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey),file.fileRef );
+        var foundInGroup = findChildInGroup(
+            project.getPBXGroupByKey(testKey),
+            file.fileRef
+        );
         test.ok(foundInGroup);
 
         test.done();
     }
-}
+};
 
 exports.removeHeaderFileFromGroup = {
-    'should create group + add source file then remove header file' : function(test) {
+    'should create group + add source file then remove header file': function (
+        test
+    ) {
         var testKey = project.pbxCreateGroup('Test', 'Test');
         var file = project.addHeaderFile('Notifications.h', {}, testKey);
 
-        var foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey),file.fileRef );
+        var foundInGroup = findChildInGroup(
+            project.getPBXGroupByKey(testKey),
+            file.fileRef
+        );
         test.ok(foundInGroup);
 
         project.removeHeaderFile('Notifications.h', {}, testKey);
 
-        var foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey),file.fileRef );
+        var foundInGroup = findChildInGroup(
+            project.getPBXGroupByKey(testKey),
+            file.fileRef
+        );
         test.ok(!foundInGroup);
 
         test.done();
     }
-}
+};
 
 exports.addResourceFileToGroup = {
-    'should add resource file (PNG) to the splash group' : function(test) {
+    'should add resource file (PNG) to the splash group': function (test) {
+        var testKey = project.findPBXGroupKey({ path: 'splash' });
+        var file = project.addResourceFile(
+            'DefaultTest-667h.png',
+            {},
+            testKey
+        );
 
-        var testKey = project.findPBXGroupKey({path:'splash'});
-        var file = project.addResourceFile('DefaultTest-667h.png', {}, testKey);
-
-        var foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey),file.fileRef );
+        var foundInGroup = findChildInGroup(
+            project.getPBXGroupByKey(testKey),
+            file.fileRef
+        );
         test.ok(foundInGroup);
 
         test.done();
     }
-}
+};
 
 exports.removeResourceFileFromGroup = {
-    'should add resource file (PNG) then remove resource file from splash group' : function(test) {
-        var testKey = project.findPBXGroupKey({path:'splash'});
-        var file = project.addResourceFile('DefaultTest-667h.png', {}, testKey);
+    'should add resource file (PNG) then remove resource file from splash group': function (
+        test
+    ) {
+        var testKey = project.findPBXGroupKey({ path: 'splash' });
+        var file = project.addResourceFile(
+            'DefaultTest-667h.png',
+            {},
+            testKey
+        );
 
-        var foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey),file.fileRef );
+        var foundInGroup = findChildInGroup(
+            project.getPBXGroupByKey(testKey),
+            file.fileRef
+        );
         test.ok(foundInGroup);
 
         project.removeResourceFile('DefaultTest-667h.png', {}, testKey);
 
-        var foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey),file.fileRef );
+        var foundInGroup = findChildInGroup(
+            project.getPBXGroupByKey(testKey),
+            file.fileRef
+        );
         test.ok(!foundInGroup);
 
         test.done();
     }
-}
+};
 
 exports.retrieveBuildPropertyForBuild = {
-    'should retrieve valid build property ':function(test) {
-        var releaseTargetedDeviceFamily = project.getBuildProperty('TARGETED_DEVICE_FAMILY', 'Release');
-        var debugTargetedDeviceFamily = project.getBuildProperty('TARGETED_DEVICE_FAMILY', 'Debug');
+    'should retrieve valid build property ': function (test) {
+        var releaseTargetedDeviceFamily = project.getBuildProperty(
+            'TARGETED_DEVICE_FAMILY',
+            'Release'
+        );
+        var debugTargetedDeviceFamily = project.getBuildProperty(
+            'TARGETED_DEVICE_FAMILY',
+            'Debug'
+        );
         var nonExistingProperty = project.getBuildProperty('FOO', 'Debug');
-        var nonExistingBuild = project.getBuildProperty('TARGETED_DEVICE_FAMILY', 'Foo');
+        var nonExistingBuild = project.getBuildProperty(
+            'TARGETED_DEVICE_FAMILY',
+            'Foo'
+        );
 
         test.equal(releaseTargetedDeviceFamily, '"1,2"');
-        test.equal(debugTargetedDeviceFamily,'"1"');
+        test.equal(debugTargetedDeviceFamily, '"1"');
         test.equal(nonExistingProperty, undefined);
         test.equal(nonExistingBuild, undefined);
 
         test.done();
     }
-}
+};
 
 exports.retrieveBuildConfigByName = {
-    'should retrieve valid build config':function(test) {
+    'should retrieve valid build config': function (test) {
         var releaseBuildConfig = project.getBuildConfigByName('Release');
         for (var property in releaseBuildConfig) {
             var value = releaseBuildConfig[property];
@@ -375,7 +472,7 @@ exports.retrieveBuildConfigByName = {
 
         test.done();
     }
-}
+};
 
 /* This proves the issue in 0.6.7
 exports.validatePropReplaceException = {
@@ -393,22 +490,26 @@ exports.validatePropReplaceException = {
 */
 
 exports.validatePropReplaceFix = {
-    'should create build configuration for VALID_ARCHS when none existed' : function(test) {
+    'should create build configuration for VALID_ARCHS when none existed': function (
+        test
+    ) {
         project.updateBuildProperty('VALID_ARCHS', '"armv7 armv7s"', 'Debug');
         test.done();
     }
-}
+};
 
 exports.validateHasFile = {
-    'should return true for has file MainViewController.m': function(test) {
+    'should return true for has file MainViewController.m': function (test) {
         var result = project.hasFile('MainViewController.m');
-        test.ok(result.path == "MainViewController.m");
+        test.ok(result.path == 'MainViewController.m');
         test.done();
     }
-}
+};
 
 exports.testWritingPBXProject = {
-    'should successfully write to PBXProject TargetAttributes': function(test) {
+    'should successfully write to PBXProject TargetAttributes': function (
+        test
+    ) {
         var pbxProjectObj = project.getPBXObject('PBXProject');
         var pbxProject;
         for (var property in pbxProjectObj) {
@@ -419,7 +520,7 @@ exports.testWritingPBXProject = {
 
         var target;
         var projectTargets = pbxProject.targets;
-        for (var i = 0, j = pbxProject.targets.length; i < j; i++ ) {
+        for (var i = 0, j = pbxProject.targets.length; i < j; i++) {
             target = pbxProject.targets[i].value;
         }
 
@@ -427,13 +528,13 @@ exports.testWritingPBXProject = {
         pbxProject.attributes.TargetAttributes[target] = {
             DevelopmentTeam: 'N6X4RJZZ5D',
             SystemCapabilities: {
-                "com.apple.BackgroundModes": {
-                    enabled : 0
+                'com.apple.BackgroundModes': {
+                    enabled: 0
                 },
-                "com.apple.DataProtection" : {
-                    enabled : 0
+                'com.apple.DataProtection': {
+                    enabled: 0
                 },
-                "com.apple.Keychain" : {
+                'com.apple.Keychain': {
                     enabled: 1
                 }
             }
@@ -443,14 +544,18 @@ exports.testWritingPBXProject = {
 
         test.done();
     },
-    'should add target attribute to PBXProject TargetAttributes': function(test) {
+    'should add target attribute to PBXProject TargetAttributes': function (
+        test
+    ) {
         project.addTargetAttribute('ProvisioningStyle', 'Manual');
         var output = project.writeSync();
         test.equal(output.match(/ProvisioningStyle\s*=\s*Manual/g).length, 1);
 
         test.done();
     },
-    'should change target attribute at PBXProject TargetAttributes': function(test) {
+    'should change target attribute at PBXProject TargetAttributes': function (
+        test
+    ) {
         project.addTargetAttribute('ProvisioningStyle', 'Manual');
         var output = project.writeSync();
         test.equal(output.match(/ProvisioningStyle\s*=\s*Manual/g).length, 1);
@@ -458,11 +563,16 @@ exports.testWritingPBXProject = {
         project.addTargetAttribute('ProvisioningStyle', 'Automatic');
         output = project.writeSync();
         test.equal(output.match(/ProvisioningStyle\s*=\s*Manual/g), null);
-        test.equal(output.match(/ProvisioningStyle\s*=\s*Automatic/g).length, 1);
+        test.equal(
+            output.match(/ProvisioningStyle\s*=\s*Automatic/g).length,
+            1
+        );
 
         test.done();
     },
-    'should remove target attribute from PBXProject TargetAttributes': function(test) {
+    'should remove target attribute from PBXProject TargetAttributes': function (
+        test
+    ) {
         project.addTargetAttribute('ProvisioningStyle', 'Manual');
         var output = project.writeSync();
         test.equal(output.match(/ProvisioningStyle\s*=\s*Manual/g).length, 1);
@@ -473,4 +583,4 @@ exports.testWritingPBXProject = {
 
         test.done();
     }
-}
+};

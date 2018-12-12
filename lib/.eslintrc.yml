@@ -1,31 +1,16 @@
 rules:
   # Specific to lib:
-  brace-style: off
-  comma-dangle: off
   curly: off
   new-cap: off
   no-dupe-keys: off
-  no-mixed-operators: off
-  no-multi-spaces: off
   no-new-object: off
   spaced-comment: off
 
   # TODO: Resolve the issues in the code so that these rules can be re-enabled:
   eqeqeq: off
-  func-call-spacing: off
-  key-spacing: off
-  keyword-spacing: off
-  no-extra-semi: off
-  no-multiple-empty-lines: off
   no-path-concat: off
   no-redeclare: off
   no-undef: off
   no-unneeded-ternary: off
   no-unused-vars: off
-  object-curly-spacing: off
   one-var: off
-  operator-linebreak: off
-  padded-blocks: off
-  quotes: off
-  space-infix-ops: off
-  standard/object-curly-even-spacing: off

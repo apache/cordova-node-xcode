@@ -9,7 +9,6 @@ rules:
   curly: off
   eqeqeq: off
   func-call-spacing: off
-  indent: off
   key-spacing: off
   new-cap: off
   no-multi-spaces: off
@@ -28,9 +27,5 @@ rules:
   one-var: off
   padded-blocks: off
   quotes: off
-  semi: off
-  space-before-blocks: off
-  space-before-function-paren: off
-  space-in-parens: off
   space-infix-ops: off
   standard/object-curly-even-spacing: off

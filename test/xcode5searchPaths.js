@@ -15,7 +15,7 @@
  under the License.
  */
 
-var xcode5proj = require('./fixtures/library-search-paths')
+var xcode5proj = require('./fixtures/library-search-paths'),
     xcode5projStr = JSON.stringify(xcode5proj),
     pbx = require('../lib/pbxProject'),
     pbxFile = require('../lib/pbxFile'),

@@ -15,7 +15,7 @@
  under the License.
  */
 
-var fullProject = require('./fixtures/multiple-targets')
+var fullProject = require('./fixtures/multiple-targets'),
     fullProjectStr = JSON.stringify(fullProject),
     pbx = require('../lib/pbxProject'),
     pbxFile = require('../lib/pbxFile'),

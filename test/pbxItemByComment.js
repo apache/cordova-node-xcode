@@ -15,7 +15,7 @@
  under the License.
  */
 
-var fullProject = require('./fixtures/full-project')
+var fullProject = require('./fixtures/full-project'),
     fullProjectStr = JSON.stringify(fullProject),
     pbx = require('../lib/pbxProject'),
     proj = new pbx('.');

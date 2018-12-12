@@ -15,7 +15,7 @@
  under the License.
  */
 
-var jsonProject = require('./fixtures/full-project')
+var jsonProject = require('./fixtures/full-project'),
     fullProjectStr = JSON.stringify(jsonProject),
     path = require('path'),
     pbx = require('../lib/pbxProject'),

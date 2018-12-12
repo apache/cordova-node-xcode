@@ -21,18 +21,19 @@ var fullProject = require('./fixtures/full-project'),
     pbxFile = require('../lib/pbxFile'),
     proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
     callback();
-}
+};
 
-function nonComments(obj) {
+function nonComments (obj) {
     var keys = Object.keys(obj),
-        newObj = {}, i = 0;
+        newObj = {},
+        i = 0;
 
     for (i; i < keys.length; i++) {
         if (!/_comment$/.test(keys[i])) {
@@ -43,12 +44,14 @@ function nonComments(obj) {
     return newObj;
 }
 
-function frameworkSearchPaths(proj) {
+function frameworkSearchPaths (proj) {
     var configs = nonComments(proj.pbxXCBuildConfigurationSection()),
         allPaths = [],
-        ids = Object.keys(configs), i, buildSettings;
+        ids = Object.keys(configs),
+        i,
+        buildSettings;
 
-    for (i = 0; i< ids.length; i++) {
+    for (i = 0; i < ids.length; i++) {
         buildSettings = configs[ids[i]].buildSettings;
 
         if (buildSettings['FRAMEWORK_SEARCH_PATHS']) {
@@ -69,7 +72,7 @@ exports.removeFramework = {
 
         test.equal(deletedFile.constructor, pbxFile);
 
-        test.done()
+        test.done();
     },
     'should set a fileRef on the pbxFile': function (test) {
         var newFile = proj.addFramework('libsqlite3.dylib');
@@ -80,12 +83,14 @@ exports.removeFramework = {
 
         test.ok(deletedFile.fileRef);
 
-        test.done()
+        test.done();
     },
-    'should remove 2 fields from the PBXFileReference section': function (test) {
+    'should remove 2 fields from the PBXFileReference section': function (
+        test
+    ) {
         var newFile = proj.addFramework('libsqlite3.dylib');
-            fileRefSection = proj.pbxFileReferenceSection(),
-            frsLength = Object.keys(fileRefSection).length;
+        (fileRefSection = proj.pbxFileReferenceSection()),
+        (frsLength = Object.keys(fileRefSection).length);
 
         test.equal(68, frsLength);
         test.ok(fileRefSection[newFile.fileRef]);
@@ -127,7 +132,7 @@ exports.removeFramework = {
         test.equal(frameworks.children.length, newLength);
 
         var deletedFile = proj.removeFramework('libsqlite3.dylib'),
-        newLength = newLength - 1;
+            newLength = newLength - 1;
 
         test.equal(frameworks.children.length, newLength);
 
@@ -147,18 +152,22 @@ exports.removeFramework = {
         test.done();
     },
     'should remove custom frameworks': function (test) {
-        var newFile = proj.addFramework('/path/to/Custom.framework', { customFramework: true }),
+        var newFile = proj.addFramework('/path/to/Custom.framework', {
+                customFramework: true
+            }),
             frameworks = proj.pbxFrameworksBuildPhaseObj();
 
         test.equal(frameworks.files.length, 16);
 
-        var deletedFile = proj.removeFramework('/path/to/Custom.framework', { customFramework: true }),
+        var deletedFile = proj.removeFramework('/path/to/Custom.framework', {
+                customFramework: true
+            }),
             frameworks = proj.pbxFrameworksBuildPhaseObj();
 
         test.equal(frameworks.files.length, 15);
 
         var frameworkPaths = frameworkSearchPaths(proj);
-            expectedPath = '"/path/to"';
+        expectedPath = '"/path/to"';
 
         for (i = 0; i < frameworkPaths.length; i++) {
             var current = frameworkPaths[i];
@@ -168,7 +177,11 @@ exports.removeFramework = {
         test.done();
     },
     'should remove embedded frameworks': function (test) {
-        var newFile = proj.addFramework('/path/to/Custom.framework', { customFramework: true, embed:true, sign:true }),
+        var newFile = proj.addFramework('/path/to/Custom.framework', {
+                customFramework: true,
+                embed: true,
+                sign: true
+            }),
             frameworks = proj.pbxFrameworksBuildPhaseObj(),
             buildFileSection = proj.pbxBuildFileSection(),
             bfsLength = Object.keys(buildFileSection).length;
@@ -176,7 +189,10 @@ exports.removeFramework = {
         test.equal(frameworks.files.length, 16);
         test.equal(62, bfsLength);
 
-        var deletedFile = proj.removeFramework('/path/to/Custom.framework', { customFramework: true, embed:true }),
+        var deletedFile = proj.removeFramework('/path/to/Custom.framework', {
+                customFramework: true,
+                embed: true
+            }),
             frameworks = proj.pbxFrameworksBuildPhaseObj(),
             buildFileSection = proj.pbxBuildFileSection(),
             bfsLength = Object.keys(buildFileSection).length;
@@ -194,4 +210,4 @@ exports.removeFramework = {
 
         test.done();
     }
-}
+};

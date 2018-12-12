@@ -21,14 +21,14 @@ var fullProject = require('./fixtures/full-project'),
     pbxFile = require('../lib/pbxFile'),
     proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
     callback();
-}
+};
 
 exports.removeResourceFile = {
     'should return a pbxFile': function (test) {
@@ -40,7 +40,7 @@ exports.removeResourceFile = {
 
         test.equal(deletedFile.constructor, pbxFile);
 
-        test.done()
+        test.done();
     },
     'should set a uuid on the pbxFile': function (test) {
         var newFile = proj.addResourceFile('assets.bundle');
@@ -51,7 +51,7 @@ exports.removeResourceFile = {
 
         test.ok(deletedFile.uuid);
 
-        test.done()
+        test.done();
     },
     'should set a fileRef on the pbxFile': function (test) {
         var newFile = proj.addResourceFile('assets.bundle');
@@ -62,7 +62,7 @@ exports.removeResourceFile = {
 
         test.ok(deletedFile.fileRef);
 
-        test.done()
+        test.done();
     },
     'should remove 2 fields from the PBXBuildFile section': function (test) {
         var newFile = proj.addResourceFile('assets.bundle'),
@@ -88,7 +88,10 @@ exports.removeResourceFile = {
             commentKey = newFile.uuid + '_comment',
             buildFileSection = proj.pbxBuildFileSection();
 
-        test.equal(buildFileSection[commentKey], 'assets.bundle in Resources');
+        test.equal(
+            buildFileSection[commentKey],
+            'assets.bundle in Resources'
+        );
 
         var deletedFile = proj.removeResourceFile('assets.bundle'),
             commentKey = deletedFile.uuid + '_comment',
@@ -115,7 +118,9 @@ exports.removeResourceFile = {
 
         test.done();
     },
-    'should remove 2 fields from the PBXFileReference section': function (test) {
+    'should remove 2 fields from the PBXFileReference section': function (
+        test
+    ) {
         var newFile = proj.addResourceFile('assets.bundle'),
             fileRefSection = proj.pbxFileReferenceSection(),
             frsLength = Object.keys(fileRefSection).length;
@@ -198,4 +203,4 @@ exports.removeResourceFile = {
         delete proj.pbxGroupByName('Resources').path;
         callback();
     }
-}
+};

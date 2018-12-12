@@ -22,13 +22,17 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "nodeunit": "^0.11.3",
-    "pegjs": "^0.10.0"
+    "pegjs": "^0.10.0",
+    "prettier-eslint": "^8.8.2"
   },
   "scripts": {
     "eslint": "eslint lib test",
     "eslint:lib": "eslint lib",
     "eslint:test": "eslint test",
     "pegjs": "node_modules/.bin/pegjs lib/parser/pbxproj.pegjs",
+    "prettier": "npm run prettier:lib && npm run prettier:test",
+    "prettier:lib": "prettier-eslint --print-width 78 --tab-width 4 --single-quote --write lib/*.js",
+    "prettier:test": "prettier-eslint --print-width 78 --tab-width 4 --single-quote --write test/*.js test/parser/*.js",
     "test": "node_modules/.bin/nodeunit test/parser test"
   },
   "license": "Apache-2.0",

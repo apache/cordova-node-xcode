@@ -19,7 +19,7 @@ var pbx = require('../lib/pbxProject'),
     fs = require('fs'),
     myProj;
 
-function testProjectContents(filename, test, expectedFilename) {
+function testProjectContents (filename, test, expectedFilename) {
     var myProj = new pbx(filename);
 
     var content;
@@ -40,7 +40,7 @@ function testProjectContents(filename, test, expectedFilename) {
 }
 
 // for debugging failing tests
-function testContentsInDepth(filename, test) {
+function testContentsInDepth (filename, test) {
     var myProj = new pbx(filename),
         content = fs.readFileSync(filename, 'utf-8');
 
@@ -49,14 +49,17 @@ function testContentsInDepth(filename, test) {
 
     myProj.parse(function (err, projHash) {
         var written = myProj.writeSync(),
-            writtenLines = written.split('\n')
-            contentLines = content.split('\n')
+            writtenLines = written.split('\n');
+        contentLines = content.split('\n');
 
         test.equal(writtenLines.length, contentLines.length);
 
-        for (var i=0; i<writtenLines.length; i++) {
-            test.equal(writtenLines[i], contentLines[i],
-                'match failed on line ' + (i+1))
+        for (var i = 0; i < writtenLines.length; i++) {
+            test.equal(
+                writtenLines[i],
+                contentLines[i],
+                'match failed on line ' + (i + 1)
+            );
         }
 
         test.done();
@@ -71,52 +74,89 @@ exports.writeSync = {
         // Special case in that the originating project does not have a trailing comma for all of its array entries.
         // This is definitely possibly.
         // But when we write/read it out again during testing, the trailing commas are introduced by our library.
-        testProjectContents('test/parser/projects/with_array.pbxproj', test, 'test/parser/projects/expected/with_array_expected.pbxproj');
+        testProjectContents(
+            'test/parser/projects/with_array.pbxproj',
+            test,
+            'test/parser/projects/expected/with_array_expected.pbxproj'
+        );
     },
     'should write out the "section" test': function (test) {
         testProjectContents('test/parser/projects/section.pbxproj', test);
     },
     'should write out the "two-sections" test': function (test) {
-        testProjectContents('test/parser/projects/two-sections.pbxproj', test);
+        testProjectContents(
+            'test/parser/projects/two-sections.pbxproj',
+            test
+        );
     },
     'should write out the "section-entries" test': function (test) {
-        testProjectContents('test/parser/projects/section-entries.pbxproj', test);
+        testProjectContents(
+            'test/parser/projects/section-entries.pbxproj',
+            test
+        );
     },
     'should write out the "build-config" test': function (test) {
-        testProjectContents('test/parser/projects/build-config.pbxproj', test);
+        testProjectContents(
+            'test/parser/projects/build-config.pbxproj',
+            test
+        );
     },
     'should write out the "header-search" test': function (test) {
-        testProjectContents('test/parser/projects/header-search.pbxproj', test);
+        testProjectContents(
+            'test/parser/projects/header-search.pbxproj',
+            test
+        );
     },
     'should write out the "nested-object" test': function (test) {
-        testProjectContents('test/parser/projects/nested-object.pbxproj', test);
+        testProjectContents(
+            'test/parser/projects/nested-object.pbxproj',
+            test
+        );
     },
     'should write out the "build-files" test': function (test) {
         testProjectContents('test/parser/projects/build-files.pbxproj', test);
     },
     'should write out the "file-references" test': function (test) {
-        testProjectContents('test/parser/projects/file-references.pbxproj', test);
+        testProjectContents(
+            'test/parser/projects/file-references.pbxproj',
+            test
+        );
     },
-    'should not null and undefined with the "omitEmptyValues" option set to false test': function (test) {
-        var filename = 'test/parser/projects/with_omit_empty_values_disabled.pbxproj'
-        var expectedFilename = 'test/parser/projects/expected/with_omit_empty_values_disabled_expected.pbxproj'
-        var content = fs.readFileSync(expectedFilename, 'utf-8').replace(/    /g, '\t');
+    'should not null and undefined with the "omitEmptyValues" option set to false test': function (
+        test
+    ) {
+        var filename =
+            'test/parser/projects/with_omit_empty_values_disabled.pbxproj';
+        var expectedFilename =
+            'test/parser/projects/expected/with_omit_empty_values_disabled_expected.pbxproj';
+        var content = fs
+            .readFileSync(expectedFilename, 'utf-8')
+            .replace(/    /g, '\t');
         var project = new pbx(filename);
         project.parse(function (err) {
             if (err) {
                 return test.done(err);
             }
-            const group = project.addPbxGroup([], 'CustomGroup', undefined)
+            const group = project.addPbxGroup([], 'CustomGroup', undefined);
             var written = project.writeSync();
-            content = content.replace('CUSTOM_GROUP_UUID_REPLACED_BY_TEST', group.uuid)
+            content = content.replace(
+                'CUSTOM_GROUP_UUID_REPLACED_BY_TEST',
+                group.uuid
+            );
             test.equal(content, written);
             test.done();
         });
     },
-    'should drop null and undefined with the "omitEmptyValues" option set to true test': function (test) {
-        var filename = 'test/parser/projects/with_omit_empty_values_enabled.pbxproj'
-        var expectedFilename = 'test/parser/projects/expected/with_omit_empty_values_enabled_expected.pbxproj'
-        var content = fs.readFileSync(expectedFilename, 'utf-8').replace(/    /g, '\t');
+    'should drop null and undefined with the "omitEmptyValues" option set to true test': function (
+        test
+    ) {
+        var filename =
+            'test/parser/projects/with_omit_empty_values_enabled.pbxproj';
+        var expectedFilename =
+            'test/parser/projects/expected/with_omit_empty_values_enabled_expected.pbxproj';
+        var content = fs
+            .readFileSync(expectedFilename, 'utf-8')
+            .replace(/    /g, '\t');
         var project = new pbx(filename);
         project.parse(function (err) {
             if (err) {
@@ -124,9 +164,12 @@ exports.writeSync = {
             }
             var group = project.addPbxGroup([], 'CustomGroup', undefined);
             var written = project.writeSync({ omitEmptyValues: true });
-            content = content.replace('CUSTOM_GROUP_UUID_REPLACED_BY_TEST', group.uuid)
+            content = content.replace(
+                'CUSTOM_GROUP_UUID_REPLACED_BY_TEST',
+                group.uuid
+            );
             test.equal(content, written);
             test.done();
         });
     }
-}
+};

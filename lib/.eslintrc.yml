@@ -3,7 +3,6 @@ rules:
   new-cap: off
   no-dupe-keys: off
   no-new-object: off
-  spaced-comment: off
 
   # TODO: Resolve the issues in the code so that these rules can be re-enabled:
   eqeqeq: off

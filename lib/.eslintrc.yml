@@ -1,6 +1,5 @@
 rules:
   # Specific to lib:
-  curly: off
   new-cap: off
   no-dupe-keys: off
   no-new-object: off

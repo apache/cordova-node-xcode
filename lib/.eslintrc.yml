@@ -5,7 +5,6 @@ rules:
   no-new-object: off
 
   # TODO: Resolve the issues in the code so that these rules can be re-enabled:
-  eqeqeq: off
   no-path-concat: off
   no-redeclare: off
   no-undef: off

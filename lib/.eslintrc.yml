@@ -1,7 +1,6 @@
 rules:
   # Specific to lib:
   new-cap: off
-  no-new-object: off
 
   # TODO: Resolve the issues in the code so that these rules can be re-enabled:
   no-path-concat: off

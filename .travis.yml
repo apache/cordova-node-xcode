@@ -5,10 +5,6 @@ git:
   depth: 10
 
 node_js:
-  - 0.8
-  - 0.10
-  - 0.12
-  - 4
   - 6
   - 8
   - 10
@@ -17,10 +13,7 @@ install:
   - nvm --version
   - node --version
   - npm --version
-  - 'if [ "${TRAVIS_NODE_VERSION}" = "0.8" ] ; then nvm install --latest-npm 0.8 ; fi'
   - npm install
-  - node --version
-  - npm --version
 
 script:
   - npm test

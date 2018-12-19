@@ -36,14 +36,14 @@ exports.addFilesToTarget = {
         var target = "1D6058900D05DD3D006BFB54";
         var filename = "file.m";
 
-        var opt = { target : target }; 
+        var opt = { target : target };
         var newFile = proj.addSourceFile(filename,opt);
 
         test.equal(newFile.constructor, pbxFile);
 
         var sources = proj.pbxSourcesBuildPhaseObj(target);
         test.equal(sources.files[5].comment, filename+" in Sources");
-    
+
         test.done();
     },
     'should remove the file from the proper target': function (test) {
@@ -51,7 +51,7 @@ exports.addFilesToTarget = {
         var target = "1D6058900D05DD3D006BFB54";
         var filename = "file.m";
 
-        var opt = { target : target }; 
+        var opt = { target : target };
         var newFile = proj.addSourceFile(filename,opt);
 
         test.equal(newFile.constructor, pbxFile);
@@ -71,11 +71,11 @@ exports.addFilesToTarget = {
         var target = "XXXXX";
         var filename = "file.m";
 
-        var opt = { target : target }; 
+        var opt = { target : target };
         test.throws(function(){
             proj.addSourceFile(filename,opt);
         });
-        
+
 
         test.done();
     },
@@ -84,14 +84,14 @@ exports.addFilesToTarget = {
         var target = "1D6058900D05DD3D006BFB54";
         var filename = "library.lib";
 
-        var opt = { target : target }; 
+        var opt = { target : target };
         var newFile = proj.addStaticLibrary(filename,opt);
 
         test.equal(newFile.constructor, pbxFile);
 
         var libraries = proj.pbxFrameworksBuildPhaseObj(target);
         test.equal(libraries.files[4].comment, filename+" in Resources");
-    
+
         test.done();
     },
     'should remove the library to a proper target': function (test) {
@@ -99,7 +99,7 @@ exports.addFilesToTarget = {
         var target = "1D6058900D05DD3D006BFB54";
         var filename = "library.lib";
 
-        var opt = { target : target }; 
+        var opt = { target : target };
         var newFile = proj.addStaticLibrary(filename,opt);
 
         test.equal(newFile.constructor, pbxFile);
@@ -113,21 +113,21 @@ exports.addFilesToTarget = {
         test.equal(libraries.files.length,l-1);
 
         test.done();
-  
+
     },
      'should add the framework to a proper target': function (test) {
 
         var target = "1D6058900D05DD3D006BFB54";
         var filename = "delta.framework";
 
-        var opt = { target : target }; 
+        var opt = { target : target };
         var newFile = proj.addFramework(filename,opt);
 
         test.equal(newFile.constructor, pbxFile);
 
         var frameworks = proj.pbxFrameworksBuildPhaseObj(target);
         test.equal(frameworks.files[4].comment, filename+" in Frameworks");
-    
+
         test.done();
     },
     'should add a ressource fileto a proper target': function (test) {
@@ -135,14 +135,14 @@ exports.addFilesToTarget = {
         var target = "1D6058900D05DD3D006BFB54";
         var filename = "delta.png";
 
-        var opt = { target : target }; 
+        var opt = { target : target };
         var newFile = proj.addResourceFile(filename,opt);
 
         test.equal(newFile.constructor, pbxFile);
 
         var resources = proj.pbxResourcesBuildPhaseObj(target);
         test.equal(resources.files[26].comment, filename+" in Resources");
-    
+
         test.done();
     },
      'should remove a ressource file from a proper target': function (test) {
@@ -150,7 +150,7 @@ exports.addFilesToTarget = {
         var target = "1D6058900D05DD3D006BFB54";
         var filename = "delta.png";
 
-        var opt = { target : target }; 
+        var opt = { target : target };
         var newFile = proj.addResourceFile(filename,opt);
 
         test.equal(newFile.constructor, pbxFile);
@@ -163,7 +163,7 @@ exports.addFilesToTarget = {
         proj.removeResourceFile(filename,opt);
          var resources = proj.pbxResourcesBuildPhaseObj(target);
         test.equal(resources.files.length,l-1);
-    
+
         test.done();
     },
 }

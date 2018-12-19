@@ -31,7 +31,7 @@ var fullProject = require('./fixtures/full-project')
 			PRODUCT_NAME: '"${TARGET_NAME}"',
 			SKIP_INSTALL: 'YES'
 		},
-		name: 'Debug'                
+		name: 'Debug'
     },
     releaseConfiguration = {
 		isa: 'XCBuildConfiguration',
@@ -94,7 +94,7 @@ exports.addXCConfigurationList = {
             pbxXCConfigurationListSection = myProj.pbxXCConfigurationList();
             xcConfigurationList = myProj.addXCConfigurationList([debugConfiguration, releaseConfiguration], 'Release', 'XCConfigurationList Comment'),
             xcConfigurationListInPbx = pbxXCConfigurationListSection[xcConfigurationList.uuid];
-            
+
         test.deepEqual(xcConfigurationListInPbx, xcConfigurationList.xcConfigurationList);
         test.done();
     },
@@ -111,7 +111,7 @@ exports.addXCConfigurationList = {
             var configuration = xcConfigurationListConfigurations[index];
             expectedConfigurations.push(pbxBuildConfigurationSection[configuration.value]);
         }
-            
+
         test.deepEqual(expectedConfigurations, [debugConfiguration, releaseConfiguration]);
         test.deepEqual(xcConfigurationListInPbx.buildConfigurations, xcConfigurationListConfigurations);
         test.done();
@@ -126,7 +126,7 @@ exports.addXCConfigurationList = {
             var configuration = xcConfigurationListConfigurations[index];
             test.ok(pbxBuildConfigurationSection[configuration.value + '_comment']);
         }
-            
+
         test.done();
     }
 }

@@ -160,12 +160,12 @@ exports.addResourceFile = {
 
         'should add the PBXFileReference with the "Plugins" path': function (test) {
             delete proj.pbxGroupByName('Plugins').path;
-                    
+
             var newFile = proj.addResourceFile('Plugins/assets.bundle',
                                                 { plugin: true }),
                 fileRefSection = proj.pbxFileReferenceSection(),
                 fileRefEntry = fileRefSection[newFile.fileRef];
-                            
+
             test.equal(fileRefEntry.isa, 'PBXFileReference');
             test.equal(fileRefEntry.fileEncoding, undefined);
             test.equal(fileRefEntry.lastKnownFileType, 'wrapper.plug-in');
@@ -245,14 +245,14 @@ exports.addResourceFile = {
     },
     'duplicate entries': {
         'should return false': function (test) {
-            var newFile = proj.addResourceFile('Plugins/assets.bundle'); 
+            var newFile = proj.addResourceFile('Plugins/assets.bundle');
 
             test.ok(!proj.addResourceFile('Plugins/assets.bundle'));
             test.done();
         },
         'should return false (plugin entries)': function (test) {
             var newFile = proj.addResourceFile('Plugins/assets.bundle',
-                                                { plugin: true }); 
+                                                { plugin: true });
 
             test.ok(!proj.addResourceFile('Plugins/assets.bundle',
                                                 { plugin: true }));

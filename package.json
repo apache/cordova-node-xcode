@@ -11,7 +11,7 @@
     "node": ">=6.0.0"
   },
   "dependencies": {
-    "simple-plist": "^0.2.1",
+    "simple-plist": "^1.0.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

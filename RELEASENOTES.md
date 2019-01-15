@@ -20,6 +20,11 @@
 -->
 # Cordova-node-xcode Release Notes
 
+### 2.0.0 (Jan 15, 2019)
+* Updated to use ECMAScript 2015 Object.assign. ([#14](https://github.com/apache/cordova-node-xcode/pull/14))
+* fix: simple-plist@1 update in dependencies ([#30](https://github.com/apache/cordova-node-xcode/pull/30))
+* drop support for Node.js pre-6.0 [#29](https://github.com/apache/cordova-node-xcode/pull/29)
+
 ### 1.1.0 (Dec 19, 2018)
 * feat: omit objects with empty values ([#24](https://github.com/apache/cordova-node-xcode/pull/24))
 * Resolve issue with `pbxFile` extension ([#31](https://github.com/apache/cordova-node-xcode/pull/31))

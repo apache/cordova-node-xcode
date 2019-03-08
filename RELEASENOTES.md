@@ -20,6 +20,8 @@
 -->
 # Cordova-node-xcode Release Notes
 
+* Updated `objects = {` to be followed by a blank line, matching current Xcode layout ([#42](https://github.com/apache/cordova-node-xcode/pull/46))
+
 ### 2.0.0 (Jan 15, 2019)
 * Updated to use ECMAScript 2015 Object.assign. ([#14](https://github.com/apache/cordova-node-xcode/pull/14))
 * fix: simple-plist@1 update in dependencies ([#30](https://github.com/apache/cordova-node-xcode/pull/30))

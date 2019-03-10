@@ -7,4 +7,3 @@ rules:
   no-undef: off
   no-unneeded-ternary: off
   no-unused-vars: off
-  one-var: off

@@ -2,6 +2,10 @@ rules:
   # Specific to test:
   handle-callback-err: off
 
+  # TODO FIX these in test:
+  no-var: off
+  prefer-const: off
+
   # TODO: Resolve the issues in the tests so that these rules can be re-enabled:
   curly: off
   eqeqeq: off

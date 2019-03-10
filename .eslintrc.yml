@@ -17,6 +17,8 @@ rules:
     - 4
 
   # general custom rule(s):
+  no-var: error
+  prefer-const: error
   camelcase: off
 
   # TBD ignore for now, due to prettier-eslint:

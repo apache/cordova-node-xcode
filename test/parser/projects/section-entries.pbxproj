@@ -6,6 +6,7 @@
     objectVersion = 45;
     rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
     objects = {
+
 /* Begin PBXVariantGroup section */
 		1F766FDC13BBADB100FB74C0 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;

@@ -17,7 +17,3 @@ install:
 
 script:
   - npm test
-  # TODO MOVE eslint into npm test once we drop Node.js pre-6.0
-  - 'if [ "${TRAVIS_NODE_VERSION}" = "6" ] ; then npm run eslint ; fi'
-  - 'if [ "${TRAVIS_NODE_VERSION}" = "8" ] ; then npm run eslint ; fi'
-  - 'if [ "${TRAVIS_NODE_VERSION}" = "10" ] ; then npm run eslint ; fi'

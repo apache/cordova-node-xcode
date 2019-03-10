@@ -33,7 +33,8 @@
     "prettier": "npm run prettier:lib && npm run prettier:test",
     "prettier:lib": "prettier-eslint --print-width 78 --tab-width 4 --single-quote --write lib/*.js",
     "prettier:test": "prettier-eslint --print-width 78 --tab-width 4 --single-quote --write test/*.js test/parser/*.js",
-    "test": "node_modules/.bin/nodeunit test/parser test"
+    "test": "npm run eslint && node_modules/.bin/nodeunit test/parser test",
+    "test:unit": "node_modules/.bin/nodeunit test/parser test"
   },
   "license": "Apache-2.0",
   "contributors": [

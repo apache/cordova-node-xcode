@@ -15,13 +15,13 @@
  under the License.
  */
 
-var PEG = require('pegjs'),
-    fs = require('fs'),
-    pbx = fs.readFileSync('test/parser/projects/hash.pbxproj', 'utf-8'),
-    grammar = fs.readFileSync('lib/parser/pbxproj.pegjs', 'utf-8'),
-    parser = PEG.generate(grammar),
-    rawProj = parser.parse(pbx),
-    project = rawProj.project;
+const PEG = require('pegjs');
+const fs = require('fs');
+const pbx = fs.readFileSync('test/parser/projects/hash.pbxproj', 'utf-8');
+const grammar = fs.readFileSync('lib/parser/pbxproj.pegjs', 'utf-8');
+const parser = PEG.generate(grammar);
+const rawProj = parser.parse(pbx);
+const project = rawProj.project;
 
 exports['should have the top-line comment in place'] = function (test) {
     test.equals(rawProj.headComment, '!$*UTF8*$!');
@@ -35,7 +35,7 @@ exports['should parse a numeric attribute'] = function (test) {
 };
 
 exports['should parse an empty object'] = function (test) {
-    var empty = project.classes;
+    const empty = project.classes;
     test.equal(Object.keys(empty).length, 0);
     test.done();
 };

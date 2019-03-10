@@ -15,13 +15,13 @@
  under the License.
  */
 
-var PEG = require('pegjs'),
-    fs = require('fs'),
-    pbx = fs.readFileSync('test/parser/projects/section.pbxproj', 'utf-8'),
-    grammar = fs.readFileSync('lib/parser/pbxproj.pegjs', 'utf-8'),
-    parser = PEG.generate(grammar),
-    rawProj = parser.parse(pbx),
-    project = rawProj.project;
+const PEG = require('pegjs');
+const fs = require('fs');
+const pbx = fs.readFileSync('test/parser/projects/section.pbxproj', 'utf-8');
+const grammar = fs.readFileSync('lib/parser/pbxproj.pegjs', 'utf-8');
+const parser = PEG.generate(grammar);
+const rawProj = parser.parse(pbx);
+const project = rawProj.project;
 
 exports['should have a PBXTargetDependency section'] = function (test) {
     test.ok(project.objects['PBXTargetDependency']);
@@ -40,7 +40,7 @@ exports[
 exports['should have the right properties on the dependency'] = function (
     test
 ) {
-    var dependency =
+    const dependency =
         project.objects['PBXTargetDependency']['301BF551109A68C00062928A'];
 
     test.equal(dependency.isa, 'PBXTargetDependency');

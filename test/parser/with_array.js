@@ -15,13 +15,13 @@
  under the License.
  */
 
-var PEG = require('pegjs'),
-    fs = require('fs'),
-    pbx = fs.readFileSync('test/parser/projects/with_array.pbxproj', 'utf-8'),
-    grammar = fs.readFileSync('lib/parser/pbxproj.pegjs', 'utf-8'),
-    parser = PEG.generate(grammar),
-    rawProj = parser.parse(pbx),
-    project = rawProj.project;
+const PEG = require('pegjs');
+const fs = require('fs');
+const pbx = fs.readFileSync('test/parser/projects/with_array.pbxproj', 'utf-8');
+const grammar = fs.readFileSync('lib/parser/pbxproj.pegjs', 'utf-8');
+const parser = PEG.generate(grammar);
+const rawProj = parser.parse(pbx);
+const project = rawProj.project;
 
 exports['should parse arrays with commented entries'] = function (test) {
     test.ok(project.files instanceof Array);
@@ -42,14 +42,14 @@ exports['should parse empty arrays'] = function (test) {
 };
 
 exports['should be correct ordered'] = function (test) {
-    var archs = project.ARCHS;
+    const archs = project.ARCHS;
     test.equal(archs[0], 'armv6');
     test.equal(archs[1], 'armv7');
     test.done();
 };
 
 exports['should parse values and comments correctly'] = function (test) {
-    var appDelegate = project.files[1];
+    const appDelegate = project.files[1];
     test.equal(appDelegate.value, '1D3623260D0F684500981E51');
     test.equal(appDelegate.comment, 'AppDelegate.m in Sources');
     test.done();

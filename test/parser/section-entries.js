@@ -15,16 +15,16 @@
  under the License.
  */
 
-var PEG = require('pegjs'),
-    fs = require('fs'),
-    pbx = fs.readFileSync(
-        'test/parser/projects/section-entries.pbxproj',
-        'utf-8'
-    ),
-    grammar = fs.readFileSync('lib/parser/pbxproj.pegjs', 'utf-8'),
-    parser = PEG.generate(grammar),
-    rawProj = parser.parse(pbx),
-    project = rawProj.project;
+const PEG = require('pegjs');
+const fs = require('fs');
+const pbx = fs.readFileSync(
+    'test/parser/projects/section-entries.pbxproj',
+    'utf-8'
+);
+const grammar = fs.readFileSync('lib/parser/pbxproj.pegjs', 'utf-8');
+const parser = PEG.generate(grammar);
+const rawProj = parser.parse(pbx);
+const project = rawProj.project;
 
 exports['should have a PBXVariantGroup section'] = function (test) {
     test.ok(project.objects['PBXVariantGroup']);
@@ -38,7 +38,7 @@ exports['should have two children for PBXVariantGroup'] = function (test) {
 };
 
 exports['should store quote-surround values correctly'] = function (test) {
-    var localizable =
+    const localizable =
         project.objects['PBXVariantGroup']['1F766FDF13BBADB100FB74C0'];
 
     test.equal(localizable.sourceTree, '"<group>"');

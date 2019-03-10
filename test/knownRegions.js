@@ -15,10 +15,10 @@
  under the License.
  */
 
-var fullProject = require('./fixtures/full-project'),
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    project = new pbx('.');
+const fullProject = require('./fixtures/full-project');
+const fullProjectStr = JSON.stringify(fullProject);
+const pbx = require('../lib/pbxProject');
+const project = new pbx('.');
 
 function cleanHash () {
     return JSON.parse(fullProjectStr);
@@ -31,7 +31,7 @@ exports.setUp = function (callback) {
 
 exports.addKnownRegion = {
     'should add new region to existing knownRegions': function (test) {
-        var knownRegions = project.pbxProjectSection()[
+        let knownRegions = project.pbxProjectSection()[
             project.getFirstProject()['uuid']
         ]['knownRegions'];
         test.equal(knownRegions.indexOf('Spanish'), -1);
@@ -47,12 +47,12 @@ exports.addKnownRegion = {
     'should not add region if it already exists in knownRegions': function (
         test
     ) {
-        var numberOfRegions = project.pbxProjectSection()[
+        const numberOfRegions = project.pbxProjectSection()[
             project.getFirstProject()['uuid']
         ]['knownRegions'].length;
 
         project.addKnownRegion('German');
-        var newNumberOfRegions = project.pbxProjectSection()[
+        const newNumberOfRegions = project.pbxProjectSection()[
             project.getFirstProject()['uuid']
         ]['knownRegions'].length;
         test.equal(numberOfRegions, newNumberOfRegions);
@@ -81,7 +81,7 @@ exports.addKnownRegion = {
 
 exports.removeKnownRegion = {
     'should remove named region from knownRegions': function (test) {
-        var knownRegions = project.pbxProjectSection()[
+        let knownRegions = project.pbxProjectSection()[
             project.getFirstProject()['uuid']
         ]['knownRegions'];
         test.notEqual(knownRegions.indexOf('German'), -1);
@@ -97,12 +97,12 @@ exports.removeKnownRegion = {
     'should do nothing if named region does not exist in knownRegions': function (
         test
     ) {
-        var numberOfRegions = project.pbxProjectSection()[
+        const numberOfRegions = project.pbxProjectSection()[
             project.getFirstProject()['uuid']
         ]['knownRegions'].length;
 
         project.removeKnownRegion('Korean');
-        var newNumberOfRegions = project.pbxProjectSection()[
+        const newNumberOfRegions = project.pbxProjectSection()[
             project.getFirstProject()['uuid']
         ]['knownRegions'].length;
         test.equal(numberOfRegions, newNumberOfRegions);

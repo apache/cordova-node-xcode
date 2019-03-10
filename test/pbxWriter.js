@@ -15,14 +15,14 @@
  under the License.
  */
 
-var pbx = require('../lib/pbxProject'),
-    fs = require('fs'),
-    myProj;
+const pbx = require('../lib/pbxProject');
+const fs = require('fs');
+let myProj;
 
 function testProjectContents (filename, test, expectedFilename) {
-    var myProj = new pbx(filename);
+    const myProj = new pbx(filename);
 
-    var content;
+    let content;
     if (expectedFilename) {
         content = fs.readFileSync(expectedFilename, 'utf-8');
     } else {
@@ -32,7 +32,7 @@ function testProjectContents (filename, test, expectedFilename) {
     content = content.replace(/    /g, '\t');
 
     myProj.parse(function (err, projHash) {
-        var written = myProj.writeSync();
+        const written = myProj.writeSync();
 
         test.equal(content, written);
         test.done();
@@ -41,20 +41,20 @@ function testProjectContents (filename, test, expectedFilename) {
 
 // for debugging failing tests
 function testContentsInDepth (filename, test) {
-    var myProj = new pbx(filename),
-        content = fs.readFileSync(filename, 'utf-8');
+    const myProj = new pbx(filename);
+    let content = fs.readFileSync(filename, 'utf-8');
 
     // normalize tabs vs strings
     content = content.replace(/    /g, '\t');
 
     myProj.parse(function (err, projHash) {
-        var written = myProj.writeSync(),
-            writtenLines = written.split('\n');
+        const written = myProj.writeSync();
+        const writtenLines = written.split('\n');
         contentLines = content.split('\n');
 
         test.equal(writtenLines.length, contentLines.length);
 
-        for (var i = 0; i < writtenLines.length; i++) {
+        for (let i = 0; i < writtenLines.length; i++) {
             test.equal(
                 writtenLines[i],
                 contentLines[i],
@@ -125,20 +125,20 @@ exports.writeSync = {
     'should not null and undefined with the "omitEmptyValues" option set to false test': function (
         test
     ) {
-        var filename =
+        const filename =
             'test/parser/projects/with_omit_empty_values_disabled.pbxproj';
-        var expectedFilename =
+        const expectedFilename =
             'test/parser/projects/expected/with_omit_empty_values_disabled_expected.pbxproj';
-        var content = fs
+        let content = fs
             .readFileSync(expectedFilename, 'utf-8')
             .replace(/    /g, '\t');
-        var project = new pbx(filename);
+        const project = new pbx(filename);
         project.parse(function (err) {
             if (err) {
                 return test.done(err);
             }
             const group = project.addPbxGroup([], 'CustomGroup', undefined);
-            var written = project.writeSync();
+            const written = project.writeSync();
             content = content.replace(
                 'CUSTOM_GROUP_UUID_REPLACED_BY_TEST',
                 group.uuid
@@ -150,20 +150,20 @@ exports.writeSync = {
     'should drop null and undefined with the "omitEmptyValues" option set to true test': function (
         test
     ) {
-        var filename =
+        const filename =
             'test/parser/projects/with_omit_empty_values_enabled.pbxproj';
-        var expectedFilename =
+        const expectedFilename =
             'test/parser/projects/expected/with_omit_empty_values_enabled_expected.pbxproj';
-        var content = fs
+        let content = fs
             .readFileSync(expectedFilename, 'utf-8')
             .replace(/    /g, '\t');
-        var project = new pbx(filename);
+        const project = new pbx(filename);
         project.parse(function (err) {
             if (err) {
                 return test.done(err);
             }
-            var group = project.addPbxGroup([], 'CustomGroup', undefined);
-            var written = project.writeSync({ omitEmptyValues: true });
+            const group = project.addPbxGroup([], 'CustomGroup', undefined);
+            const written = project.writeSync({ omitEmptyValues: true });
             content = content.replace(
                 'CUSTOM_GROUP_UUID_REPLACED_BY_TEST',
                 group.uuid

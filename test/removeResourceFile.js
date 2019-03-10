@@ -15,11 +15,11 @@
  under the License.
  */
 
-var fullProject = require('./fixtures/full-project'),
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    proj = new pbx('.');
+const fullProject = require('./fixtures/full-project');
+const fullProjectStr = JSON.stringify(fullProject);
+const pbx = require('../lib/pbxProject');
+const pbxFile = require('../lib/pbxFile');
+const proj = new pbx('.');
 
 function cleanHash () {
     return JSON.parse(fullProjectStr);
@@ -32,50 +32,50 @@ exports.setUp = function (callback) {
 
 exports.removeResourceFile = {
     'should return a pbxFile': function (test) {
-        var newFile = proj.addResourceFile('assets.bundle');
+        const newFile = proj.addResourceFile('assets.bundle');
 
         test.equal(newFile.constructor, pbxFile);
 
-        var deletedFile = proj.removeResourceFile('assets.bundle');
+        const deletedFile = proj.removeResourceFile('assets.bundle');
 
         test.equal(deletedFile.constructor, pbxFile);
 
         test.done();
     },
     'should set a uuid on the pbxFile': function (test) {
-        var newFile = proj.addResourceFile('assets.bundle');
+        const newFile = proj.addResourceFile('assets.bundle');
 
         test.ok(newFile.uuid);
 
-        var deletedFile = proj.removeResourceFile('assets.bundle');
+        const deletedFile = proj.removeResourceFile('assets.bundle');
 
         test.ok(deletedFile.uuid);
 
         test.done();
     },
     'should set a fileRef on the pbxFile': function (test) {
-        var newFile = proj.addResourceFile('assets.bundle');
+        const newFile = proj.addResourceFile('assets.bundle');
 
         test.ok(newFile.fileRef);
 
-        var deletedFile = proj.removeResourceFile('assets.bundle');
+        const deletedFile = proj.removeResourceFile('assets.bundle');
 
         test.ok(deletedFile.fileRef);
 
         test.done();
     },
     'should remove 2 fields from the PBXBuildFile section': function (test) {
-        var newFile = proj.addResourceFile('assets.bundle'),
-            buildFileSection = proj.pbxBuildFileSection(),
-            bfsLength = Object.keys(buildFileSection).length;
+        const newFile = proj.addResourceFile('assets.bundle');
+        let buildFileSection = proj.pbxBuildFileSection();
+        let bfsLength = Object.keys(buildFileSection).length;
 
         test.equal(60, bfsLength);
         test.ok(buildFileSection[newFile.uuid]);
         test.ok(buildFileSection[newFile.uuid + '_comment']);
 
-        var deletedFile = proj.removeResourceFile('assets.bundle'),
-            buildFileSection = proj.pbxBuildFileSection(),
-            bfsLength = Object.keys(buildFileSection).length;
+        const deletedFile = proj.removeResourceFile('assets.bundle');
+        buildFileSection = proj.pbxBuildFileSection();
+        bfsLength = Object.keys(buildFileSection).length;
 
         test.equal(58, bfsLength);
         test.ok(!buildFileSection[deletedFile.uuid]);
@@ -84,35 +84,35 @@ exports.removeResourceFile = {
         test.done();
     },
     'should remove the PBXBuildFile comment correctly': function (test) {
-        var newFile = proj.addResourceFile('assets.bundle'),
-            commentKey = newFile.uuid + '_comment',
-            buildFileSection = proj.pbxBuildFileSection();
+        const newFile = proj.addResourceFile('assets.bundle');
+        let commentKey = newFile.uuid + '_comment';
+        let buildFileSection = proj.pbxBuildFileSection();
 
         test.equal(
             buildFileSection[commentKey],
             'assets.bundle in Resources'
         );
 
-        var deletedFile = proj.removeResourceFile('assets.bundle'),
-            commentKey = deletedFile.uuid + '_comment',
-            buildFileSection = proj.pbxBuildFileSection();
+        const deletedFile = proj.removeResourceFile('assets.bundle');
+        commentKey = deletedFile.uuid + '_comment';
+        buildFileSection = proj.pbxBuildFileSection();
 
         test.ok(!buildFileSection[commentKey]);
 
         test.done();
     },
     'should remove the PBXBuildFile object correctly': function (test) {
-        var newFile = proj.addResourceFile('assets.bundle'),
-            buildFileSection = proj.pbxBuildFileSection(),
-            buildFileEntry = buildFileSection[newFile.uuid];
+        const newFile = proj.addResourceFile('assets.bundle');
+        let buildFileSection = proj.pbxBuildFileSection();
+        let buildFileEntry = buildFileSection[newFile.uuid];
 
         test.equal(buildFileEntry.isa, 'PBXBuildFile');
         test.equal(buildFileEntry.fileRef, newFile.fileRef);
         test.equal(buildFileEntry.fileRef_comment, 'assets.bundle');
 
-        var deletedFile = proj.removeResourceFile('assets.bundle'),
-            buildFileSection = proj.pbxBuildFileSection(),
-            buildFileEntry = buildFileSection[deletedFile.uuid];
+        const deletedFile = proj.removeResourceFile('assets.bundle');
+        buildFileSection = proj.pbxBuildFileSection();
+        buildFileEntry = buildFileSection[deletedFile.uuid];
 
         test.ok(!buildFileEntry);
 
@@ -121,17 +121,17 @@ exports.removeResourceFile = {
     'should remove 2 fields from the PBXFileReference section': function (
         test
     ) {
-        var newFile = proj.addResourceFile('assets.bundle'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            frsLength = Object.keys(fileRefSection).length;
+        const newFile = proj.addResourceFile('assets.bundle');
+        let fileRefSection = proj.pbxFileReferenceSection();
+        let frsLength = Object.keys(fileRefSection).length;
 
         test.equal(68, frsLength);
         test.ok(fileRefSection[newFile.fileRef]);
         test.ok(fileRefSection[newFile.fileRef + '_comment']);
 
-        var deletedFile = proj.removeResourceFile('assets.bundle'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            frsLength = Object.keys(fileRefSection).length;
+        const deletedFile = proj.removeResourceFile('assets.bundle');
+        fileRefSection = proj.pbxFileReferenceSection();
+        frsLength = Object.keys(fileRefSection).length;
 
         test.equal(66, frsLength);
         test.ok(!fileRefSection[deletedFile.fileRef]);
@@ -140,15 +140,15 @@ exports.removeResourceFile = {
         test.done();
     },
     'should populate the PBXFileReference comment correctly': function (test) {
-        var newFile = proj.addResourceFile('assets.bundle'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            commentKey = newFile.fileRef + '_comment';
+        const newFile = proj.addResourceFile('assets.bundle');
+        let fileRefSection = proj.pbxFileReferenceSection();
+        let commentKey = newFile.fileRef + '_comment';
 
         test.equal(fileRefSection[commentKey], 'assets.bundle');
 
-        var deletedFile = proj.removeResourceFile('assets.bundle'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            commentKey = deletedFile.fileRef + '_comment';
+        const deletedFile = proj.removeResourceFile('assets.bundle');
+        fileRefSection = proj.pbxFileReferenceSection();
+        commentKey = deletedFile.fileRef + '_comment';
 
         test.ok(!fileRefSection[commentKey]);
         test.done();
@@ -156,9 +156,9 @@ exports.removeResourceFile = {
     'should remove the PBXFileReference object correctly': function (test) {
         delete proj.pbxGroupByName('Resources').path;
 
-        var newFile = proj.addResourceFile('Resources/assets.bundle'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            fileRefEntry = fileRefSection[newFile.fileRef];
+        const newFile = proj.addResourceFile('Resources/assets.bundle');
+        let fileRefSection = proj.pbxFileReferenceSection();
+        let fileRefEntry = fileRefSection[newFile.fileRef];
 
         test.equal(fileRefEntry.isa, 'PBXFileReference');
         test.equal(fileRefEntry.fileEncoding, undefined);
@@ -167,34 +167,34 @@ exports.removeResourceFile = {
         test.equal(fileRefEntry.path, '"Resources/assets.bundle"');
         test.equal(fileRefEntry.sourceTree, '"<group>"');
 
-        var deletedFile = proj.removeResourceFile('Resources/assets.bundle'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            fileRefEntry = fileRefSection[deletedFile.fileRef];
+        const deletedFile = proj.removeResourceFile('Resources/assets.bundle');
+        fileRefSection = proj.pbxFileReferenceSection();
+        fileRefEntry = fileRefSection[deletedFile.fileRef];
 
         test.ok(!fileRefEntry);
 
         test.done();
     },
     'should remove from the Resources PBXGroup group': function (test) {
-        var newFile = proj.addResourceFile('Resources/assets.bundle'),
-            resources = proj.pbxGroupByName('Resources');
+        const newFile = proj.addResourceFile('Resources/assets.bundle');
+        let resources = proj.pbxGroupByName('Resources');
 
         test.equal(resources.children.length, 10);
 
-        var deletedFile = proj.removeResourceFile('Resources/assets.bundle'),
-            resources = proj.pbxGroupByName('Resources');
+        const deletedFile = proj.removeResourceFile('Resources/assets.bundle');
+        resources = proj.pbxGroupByName('Resources');
 
         test.equal(resources.children.length, 9);
         test.done();
     },
     'should remove from the PBXSourcesBuildPhase': function (test) {
-        var newFile = proj.addResourceFile('Resources/assets.bundle'),
-            sources = proj.pbxResourcesBuildPhaseObj();
+        const newFile = proj.addResourceFile('Resources/assets.bundle');
+        let sources = proj.pbxResourcesBuildPhaseObj();
 
         test.equal(sources.files.length, 13);
 
-        var deletedFile = proj.removeResourceFile('Resources/assets.bundle'),
-            sources = proj.pbxResourcesBuildPhaseObj();
+        const deletedFile = proj.removeResourceFile('Resources/assets.bundle');
+        sources = proj.pbxResourcesBuildPhaseObj();
 
         test.equal(sources.files.length, 12);
         test.done();

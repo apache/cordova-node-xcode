@@ -15,10 +15,10 @@
  under the License.
  */
 
-var fullProject = require('./fixtures/full-project'),
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    proj = new pbx('.');
+const fullProject = require('./fixtures/full-project');
+const fullProjectStr = JSON.stringify(fullProject);
+const pbx = require('../lib/pbxProject');
+const proj = new pbx('.');
 
 function cleanHash () {
     return JSON.parse(fullProjectStr);
@@ -31,7 +31,7 @@ exports.setUp = function (callback) {
 
 exports.pbxItemByComment = {
     'should return PBXTargetDependency': function (test) {
-        var pbxItem = proj.pbxItemByComment(
+        const pbxItem = proj.pbxItemByComment(
             'PBXTargetDependency',
             'PBXTargetDependency'
         );
@@ -41,7 +41,7 @@ exports.pbxItemByComment = {
         test.done();
     },
     'should return PBXContainerItemProxy': function (test) {
-        var pbxItem = proj.pbxItemByComment(
+        const pbxItem = proj.pbxItemByComment(
             'libPhoneGap.a',
             'PBXReferenceProxy'
         );
@@ -51,7 +51,7 @@ exports.pbxItemByComment = {
         test.done();
     },
     'should return PBXResourcesBuildPhase': function (test) {
-        var pbxItem = proj.pbxItemByComment(
+        const pbxItem = proj.pbxItemByComment(
             'Resources',
             'PBXResourcesBuildPhase'
         );
@@ -61,7 +61,7 @@ exports.pbxItemByComment = {
         test.done();
     },
     'should return PBXShellScriptBuildPhase': function (test) {
-        var pbxItem = proj.pbxItemByComment(
+        const pbxItem = proj.pbxItemByComment(
             'Touch www folder',
             'PBXShellScriptBuildPhase'
         );
@@ -71,7 +71,7 @@ exports.pbxItemByComment = {
         test.done();
     },
     'should return null when PBXNativeTarget not found': function (test) {
-        var pbxItem = proj.pbxItemByComment('Invalid', 'PBXTargetDependency');
+        const pbxItem = proj.pbxItemByComment('Invalid', 'PBXTargetDependency');
 
         test.equal(pbxItem, null);
         test.done();

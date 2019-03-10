@@ -15,11 +15,11 @@
  under the License.
  */
 
-var jsonProject = require('./fixtures/full-project'),
-    fullProjectStr = JSON.stringify(jsonProject),
-    pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    myProj = new pbx('.');
+const jsonProject = require('./fixtures/full-project');
+const fullProjectStr = JSON.stringify(jsonProject);
+const pbx = require('../lib/pbxProject');
+const pbxFile = require('../lib/pbxFile');
+const myProj = new pbx('.');
 
 function cleanHash () {
     return JSON.parse(fullProjectStr);
@@ -32,7 +32,7 @@ exports.setUp = function (callback) {
 
 exports['addToPbxFileReferenceSection function'] = {
     'should add file and comment to fileReferenceSection': function (test) {
-        var file = new pbxFile('file.m');
+        const file = new pbxFile('file.m');
         file.fileRef = myProj.generateUuid();
 
         myProj.addToPbxFileReferenceSection(file);
@@ -70,7 +70,7 @@ exports['addToPbxFileReferenceSection function'] = {
     'should add file with preset explicitFileType to fileReferenceSection correctly': function (
         test
     ) {
-        var appexFile = {
+        const appexFile = {
             fileRef: myProj.generateUuid(),
             isa: 'PBXFileReference',
             explicitFileType: '"wrapper.app-extension"',
@@ -97,7 +97,7 @@ exports['addToPbxFileReferenceSection function'] = {
     'should add file with preset includeInIndex to fileReferenceSection correctly': function (
         test
     ) {
-        var appexFile = {
+        const appexFile = {
             fileRef: myProj.generateUuid(),
             isa: 'PBXFileReference',
             includeInIndex: 0,
@@ -124,7 +124,7 @@ exports['addToPbxFileReferenceSection function'] = {
     'should add file with preset sourceTree to fileReferenceSection correctly': function (
         test
     ) {
-        var appexFile = {
+        const appexFile = {
             fileRef: myProj.generateUuid(),
             isa: 'PBXFileReference',
             sourceTree: 'BUILT_PRODUCTS_DIR',

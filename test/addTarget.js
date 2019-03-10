@@ -15,19 +15,19 @@
  under the License.
  */
 
-var fullProject = require('./fixtures/full-project'),
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    proj = new pbx('.');
+const fullProject = require('./fixtures/full-project');
+const fullProjectStr = JSON.stringify(fullProject);
+const pbx = require('../lib/pbxProject');
+const pbxFile = require('../lib/pbxFile');
+const proj = new pbx('.');
 
 function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
-var TARGET_NAME = 'TestExtension',
-    TARGET_TYPE = 'app_extension',
-    TARGET_SUBFOLDER_NAME = 'TestExtensionFiles';
+const TARGET_NAME = 'TestExtension';
+const TARGET_TYPE = 'app_extension';
+const TARGET_SUBFOLDER_NAME = 'TestExtensionFiles';
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
@@ -50,7 +50,7 @@ exports.addTarget = {
         test.done();
     },
     'should create a new target': function (test) {
-        var target = proj.addTarget(
+        const target = proj.addTarget(
             TARGET_NAME,
             TARGET_TYPE,
             TARGET_SUBFOLDER_NAME
@@ -74,28 +74,28 @@ exports.addTarget = {
     'should create a new target and add source, framework, resource and header files and the corresponding build phases': function (
         test
     ) {
-        var target = proj.addTarget(
-                TARGET_NAME,
-                TARGET_TYPE,
-                TARGET_SUBFOLDER_NAME
-            ),
-            options = { target: target.uuid };
+        const target = proj.addTarget(
+            TARGET_NAME,
+            TARGET_TYPE,
+            TARGET_SUBFOLDER_NAME
+        );
+        const options = { target: target.uuid };
 
-        var sourceFile = proj.addSourceFile('Plugins/file.m', options),
-            sourcePhase = proj.addBuildPhase(
-                [],
-                'PBXSourcesBuildPhase',
-                'Sources',
-                target.uuid
-            ),
-            resourceFile = proj.addResourceFile('assets.bundle', options),
-            resourcePhase = proj.addBuildPhase(
-                [],
-                'PBXResourcesBuildPhase',
-                'Resources',
-                target.uuid
-            ),
-            frameworkFile = proj.addFramework('libsqlite3.dylib', options);
+        const sourceFile = proj.addSourceFile('Plugins/file.m', options);
+        const sourcePhase = proj.addBuildPhase(
+            [],
+            'PBXSourcesBuildPhase',
+            'Sources',
+            target.uuid
+        );
+        const resourceFile = proj.addResourceFile('assets.bundle', options);
+        const resourcePhase = proj.addBuildPhase(
+            [],
+            'PBXResourcesBuildPhase',
+            'Resources',
+            target.uuid
+        );
+        const frameworkFile = proj.addFramework('libsqlite3.dylib', options);
         (frameworkPhase = proj.addBuildPhase(
             [],
             'PBXFrameworkBuildPhase',

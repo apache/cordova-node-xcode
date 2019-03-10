@@ -15,12 +15,12 @@
  under the License.
  */
 
-var xcode5proj = require('./fixtures/library-search-paths'),
-    xcode5projStr = JSON.stringify(xcode5proj),
-    pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    proj = new pbx('.'),
-    libPoop = { path: 'some/path/poop.a' };
+const xcode5proj = require('./fixtures/library-search-paths');
+const xcode5projStr = JSON.stringify(xcode5proj);
+const pbx = require('../lib/pbxProject');
+const pbxFile = require('../lib/pbxFile');
+const proj = new pbx('.');
+const libPoop = { path: 'some/path/poop.a' };
 
 function cleanHash () {
     return JSON.parse(xcode5projStr);
@@ -31,15 +31,15 @@ exports.setUp = function (callback) {
     callback();
 };
 
-var PRODUCT_NAME = '"$(TARGET_NAME)"';
+const PRODUCT_NAME = '"$(TARGET_NAME)"';
 
 exports.addAndRemoveToFromLibrarySearchPaths = {
     'add should add the path to each configuration section': function (test) {
-        var expected = '"\\"$(SRCROOT)/$(TARGET_NAME)/some/path\\""',
-            config = proj.pbxXCBuildConfigurationSection(),
-            ref,
-            lib,
-            refSettings;
+        const expected = '"\\"$(SRCROOT)/$(TARGET_NAME)/some/path\\""';
+        const config = proj.pbxXCBuildConfigurationSection();
+        let ref;
+        let lib;
+        let refSettings;
 
         proj.addToLibrarySearchPaths(libPoop);
 
@@ -59,12 +59,13 @@ exports.addAndRemoveToFromLibrarySearchPaths = {
     'remove should remove from the path to each configuration section': function (
         test
     ) {
-        var config, ref, lib;
+        let ref, lib;
 
         proj.addToLibrarySearchPaths(libPoop);
         proj.removeFromLibrarySearchPaths(libPoop);
 
-        config = proj.pbxXCBuildConfigurationSection();
+        const config = proj.pbxXCBuildConfigurationSection();
+
         for (ref in config) {
             if (
                 ref.indexOf('_comment') > -1 ||

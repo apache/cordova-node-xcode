@@ -15,11 +15,11 @@
  under the License.
  */
 
-var fullProject = require('./fixtures/full-project'),
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    proj = new pbx('.');
+const fullProject = require('./fixtures/full-project');
+const fullProjectStr = JSON.stringify(fullProject);
+const pbx = require('../lib/pbxProject');
+const pbxFile = require('../lib/pbxFile');
+const proj = new pbx('.');
 
 function cleanHash () {
     return JSON.parse(fullProjectStr);
@@ -33,30 +33,30 @@ exports.setUp = function (callback) {
 exports.removeSourceFile = {
     'should return a pbxFile': function (test) {
         proj.addSourceFile('file.m');
-        var newFile = proj.removeSourceFile('file.m');
+        const newFile = proj.removeSourceFile('file.m');
 
         test.equal(newFile.constructor, pbxFile);
         test.done();
     },
     'should set a uuid on the pbxFile': function (test) {
         proj.addSourceFile('file.m');
-        var newFile = proj.removeSourceFile('file.m');
+        const newFile = proj.removeSourceFile('file.m');
 
         test.ok(newFile.uuid);
         test.done();
     },
     'should set a fileRef on the pbxFile': function (test) {
         proj.addSourceFile('file.m');
-        var newFile = proj.removeSourceFile('file.m');
+        const newFile = proj.removeSourceFile('file.m');
 
         test.ok(newFile.fileRef);
         test.done();
     },
     'should remove 2 fields from the PBXBuildFile section': function (test) {
         proj.addSourceFile('file.m');
-        var newFile = proj.removeSourceFile('file.m'),
-            buildFileSection = proj.pbxBuildFileSection(),
-            bfsLength = Object.keys(buildFileSection).length;
+        const newFile = proj.removeSourceFile('file.m');
+        const buildFileSection = proj.pbxBuildFileSection();
+        const bfsLength = Object.keys(buildFileSection).length;
 
         test.equal(58, bfsLength);
         test.ok(!buildFileSection[newFile.uuid]);
@@ -66,17 +66,17 @@ exports.removeSourceFile = {
     },
     'should remove comment from the PBXBuildFile correctly': function (test) {
         proj.addSourceFile('file.m');
-        var newFile = proj.removeSourceFile('file.m'),
-            commentKey = newFile.uuid + '_comment',
-            buildFileSection = proj.pbxBuildFileSection();
+        const newFile = proj.removeSourceFile('file.m');
+        const commentKey = newFile.uuid + '_comment';
+        const buildFileSection = proj.pbxBuildFileSection();
         test.notEqual(!buildFileSection[commentKey], 'file.m in Sources');
         test.done();
     },
     'should remove the PBXBuildFile object correctly': function (test) {
         proj.addSourceFile('file.m');
-        var newFile = proj.removeSourceFile('file.m'),
-            buildFileSection = proj.pbxBuildFileSection(),
-            buildFileEntry = buildFileSection[newFile.uuid];
+        const newFile = proj.removeSourceFile('file.m');
+        const buildFileSection = proj.pbxBuildFileSection();
+        const buildFileEntry = buildFileSection[newFile.uuid];
 
         test.equal(buildFileEntry, undefined);
 
@@ -86,9 +86,9 @@ exports.removeSourceFile = {
         test
     ) {
         proj.addSourceFile('file.m');
-        var newFile = proj.removeSourceFile('file.m'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            frsLength = Object.keys(fileRefSection).length;
+        const newFile = proj.removeSourceFile('file.m');
+        const fileRefSection = proj.pbxFileReferenceSection();
+        const frsLength = Object.keys(fileRefSection).length;
 
         test.equal(66, frsLength);
         test.ok(!fileRefSection[newFile.fileRef]);
@@ -98,50 +98,50 @@ exports.removeSourceFile = {
     },
     'should remove the PBXFileReference comment correctly': function (test) {
         proj.addSourceFile('file.m');
-        var newFile = proj.removeSourceFile('file.m'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            commentKey = newFile.fileRef + '_comment';
+        const newFile = proj.removeSourceFile('file.m');
+        const fileRefSection = proj.pbxFileReferenceSection();
+        const commentKey = newFile.fileRef + '_comment';
 
         test.ok(!fileRefSection[commentKey]);
         test.done();
     },
     'should remove the PBXFileReference object correctly': function (test) {
         proj.addSourceFile('file.m');
-        var newFile = proj.removeSourceFile('Plugins/file.m'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            fileRefEntry = fileRefSection[newFile.fileRef];
+        const newFile = proj.removeSourceFile('Plugins/file.m');
+        const fileRefSection = proj.pbxFileReferenceSection();
+        const fileRefEntry = fileRefSection[newFile.fileRef];
         test.ok(!fileRefEntry);
         test.done();
     },
     'should remove from the Plugins PBXGroup group': function (test) {
         proj.addSourceFile('Plugins/file.m');
-        var newFile = proj.removeSourceFile('Plugins/file.m'),
-            plugins = proj.pbxGroupByName('Plugins');
+        const newFile = proj.removeSourceFile('Plugins/file.m');
+        const plugins = proj.pbxGroupByName('Plugins');
         test.equal(plugins.children.length, 0);
         test.done();
     },
     'should have the right values for the PBXGroup entry': function (test) {
         proj.addSourceFile('Plugins/file.m');
-        var newFile = proj.removeSourceFile('Plugins/file.m'),
-            plugins = proj.pbxGroupByName('Plugins'),
-            pluginObj = plugins.children[0];
+        const newFile = proj.removeSourceFile('Plugins/file.m');
+        const plugins = proj.pbxGroupByName('Plugins');
+        const pluginObj = plugins.children[0];
 
         test.ok(!pluginObj);
         test.done();
     },
     'should remove from the PBXSourcesBuildPhase': function (test) {
         proj.addSourceFile('Plugins/file.m');
-        var newFile = proj.removeSourceFile('Plugins/file.m'),
-            sources = proj.pbxSourcesBuildPhaseObj();
+        const newFile = proj.removeSourceFile('Plugins/file.m');
+        const sources = proj.pbxSourcesBuildPhaseObj();
 
         test.equal(sources.files.length, 2);
         test.done();
     },
     'should have the right values for the Sources entry': function (test) {
         proj.addSourceFile('Plugins/file.m');
-        var newFile = proj.removeSourceFile('Plugins/file.m'),
-            sources = proj.pbxSourcesBuildPhaseObj(),
-            sourceObj = sources.files[2];
+        const newFile = proj.removeSourceFile('Plugins/file.m');
+        const sources = proj.pbxSourcesBuildPhaseObj();
+        const sourceObj = sources.files[2];
 
         test.ok(!sourceObj);
         test.done();
@@ -149,15 +149,15 @@ exports.removeSourceFile = {
     'should remove file from PBXFileReference after modified by Xcode': function (
         test
     ) {
-        var fileRef = proj.addSourceFile('Plugins/file.m').fileRef;
+        const fileRef = proj.addSourceFile('Plugins/file.m').fileRef;
 
         // Simulate Xcode's behaviour of stripping quotes around path and name
         // properties.
-        var entry = proj.pbxFileReferenceSection()[fileRef];
+        const entry = proj.pbxFileReferenceSection()[fileRef];
         entry.name = entry.name.replace(/^"(.*)"$/, '$1');
         entry.path = entry.path.replace(/^"(.*)"$/, '$1');
 
-        var newFile = proj.removeSourceFile('Plugins/file.m');
+        const newFile = proj.removeSourceFile('Plugins/file.m');
 
         test.ok(newFile.uuid);
         test.ok(!proj.pbxFileReferenceSection()[fileRef]);

@@ -15,33 +15,33 @@
  under the License.
  */
 
-var fullProject = require('./fixtures/full-project'),
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    proj = new pbx('.'),
-    debugConfiguration = {
-        isa: 'XCBuildConfiguration',
-        buildSettings: {
-            GCC_PREPROCESSOR_DEFINITIONS: ['"DEBUG=1"', '"$(inherited)"'],
-            INFOPLIST_FILE: 'Info.Plist',
-            LD_RUNPATH_SEARCH_PATHS:
+const fullProject = require('./fixtures/full-project');
+const fullProjectStr = JSON.stringify(fullProject);
+const pbx = require('../lib/pbxProject');
+const proj = new pbx('.');
+const debugConfiguration = {
+    isa: 'XCBuildConfiguration',
+    buildSettings: {
+        GCC_PREPROCESSOR_DEFINITIONS: ['"DEBUG=1"', '"$(inherited)"'],
+        INFOPLIST_FILE: 'Info.Plist',
+        LD_RUNPATH_SEARCH_PATHS:
                 '"$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"',
-            PRODUCT_NAME: '"${TARGET_NAME}"',
-            SKIP_INSTALL: 'YES'
-        },
-        name: 'Debug'
+        PRODUCT_NAME: '"${TARGET_NAME}"',
+        SKIP_INSTALL: 'YES'
     },
-    releaseConfiguration = {
-        isa: 'XCBuildConfiguration',
-        buildSettings: {
-            INFOPLIST_FILE: 'Info.Plist',
-            LD_RUNPATH_SEARCH_PATHS:
+    name: 'Debug'
+};
+const releaseConfiguration = {
+    isa: 'XCBuildConfiguration',
+    buildSettings: {
+        INFOPLIST_FILE: 'Info.Plist',
+        LD_RUNPATH_SEARCH_PATHS:
                 '"$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"',
-            PRODUCT_NAME: '"${TARGET_NAME}"',
-            SKIP_INSTALL: 'YES'
-        },
-        name: 'Release'
-    };
+        PRODUCT_NAME: '"${TARGET_NAME}"',
+        SKIP_INSTALL: 'YES'
+    },
+    name: 'Release'
+};
 
 function cleanHash () {
     return JSON.parse(fullProjectStr);
@@ -54,23 +54,23 @@ exports.setUp = function (callback) {
 
 exports.addXCConfigurationList = {
     'should return an XCConfigurationList': function (test) {
-        var myProj = new pbx('test/parser/projects/full.pbxproj').parseSync(),
-            xcConfigurationList = myProj.addXCConfigurationList(
-                [debugConfiguration, releaseConfiguration],
-                'Release',
-                'XCConfigurationList Comment'
-            );
+        const myProj = new pbx('test/parser/projects/full.pbxproj').parseSync();
+        const xcConfigurationList = myProj.addXCConfigurationList(
+            [debugConfiguration, releaseConfiguration],
+            'Release',
+            'XCConfigurationList Comment'
+        );
 
         test.ok(typeof xcConfigurationList === 'object');
         test.done();
     },
     'should set a uuid on the XCConfigurationList': function (test) {
-        var myProj = new pbx('test/parser/projects/full.pbxproj').parseSync(),
-            xcConfigurationList = myProj.addXCConfigurationList(
-                [debugConfiguration, releaseConfiguration],
-                'Release',
-                'XCConfigurationList Comment'
-            );
+        const myProj = new pbx('test/parser/projects/full.pbxproj').parseSync();
+        const xcConfigurationList = myProj.addXCConfigurationList(
+            [debugConfiguration, releaseConfiguration],
+            'Release',
+            'XCConfigurationList Comment'
+        );
 
         test.ok(xcConfigurationList.uuid);
         test.done();
@@ -78,22 +78,22 @@ exports.addXCConfigurationList = {
     'should add configurations to pbxBuildConfigurationSection': function (
         test
     ) {
-        var myProj = new pbx('test/parser/projects/full.pbxproj').parseSync(),
-            pbxBuildConfigurationSection = myProj.pbxXCBuildConfigurationSection(),
-            xcConfigurationList = myProj.addXCConfigurationList(
-                [debugConfiguration, releaseConfiguration],
-                'Release',
-                'XCConfigurationList Comment'
-            ),
-            xcConfigurationListConfigurations =
+        const myProj = new pbx('test/parser/projects/full.pbxproj').parseSync();
+        const pbxBuildConfigurationSection = myProj.pbxXCBuildConfigurationSection();
+        const xcConfigurationList = myProj.addXCConfigurationList(
+            [debugConfiguration, releaseConfiguration],
+            'Release',
+            'XCConfigurationList Comment'
+        );
+        const xcConfigurationListConfigurations =
                 xcConfigurationList.xcConfigurationList.buildConfigurations;
 
         for (
-            var index = 0;
+            let index = 0;
             index < xcConfigurationListConfigurations.length;
             index++
         ) {
-            var configuration = xcConfigurationListConfigurations[index];
+            const configuration = xcConfigurationListConfigurations[index];
             test.ok(pbxBuildConfigurationSection[configuration.value]);
         }
 
@@ -102,8 +102,8 @@ exports.addXCConfigurationList = {
     'should add XCConfigurationList to pbxXCConfigurationListSection': function (
         test
     ) {
-        var myProj = new pbx('test/parser/projects/full.pbxproj').parseSync(),
-            pbxXCConfigurationListSection = myProj.pbxXCConfigurationList();
+        const myProj = new pbx('test/parser/projects/full.pbxproj').parseSync();
+        const pbxXCConfigurationListSection = myProj.pbxXCConfigurationList();
         xcConfigurationList = myProj.addXCConfigurationList(
             [debugConfiguration, releaseConfiguration],
             'Release',
@@ -114,8 +114,8 @@ exports.addXCConfigurationList = {
         test.done();
     },
     'should add XCConfigurationList object correctly': function (test) {
-        var myProj = new pbx('test/parser/projects/full.pbxproj').parseSync(),
-            pbxXCConfigurationListSection = myProj.pbxXCConfigurationList();
+        const myProj = new pbx('test/parser/projects/full.pbxproj').parseSync();
+        const pbxXCConfigurationListSection = myProj.pbxXCConfigurationList();
         (xcConfigurationList = myProj.addXCConfigurationList(
             [debugConfiguration, releaseConfiguration],
             'Release',
@@ -133,8 +133,8 @@ exports.addXCConfigurationList = {
     'should add correct configurations to XCConfigurationList and to pbxBuildConfigurationSection': function (
         test
     ) {
-        var myProj = new pbx('test/parser/projects/full.pbxproj').parseSync(),
-            pbxXCConfigurationListSection = myProj.pbxXCConfigurationList();
+        const myProj = new pbx('test/parser/projects/full.pbxproj').parseSync();
+        const pbxXCConfigurationListSection = myProj.pbxXCConfigurationList();
         (pbxBuildConfigurationSection = myProj.pbxXCBuildConfigurationSection()),
         (xcConfigurationList = myProj.addXCConfigurationList(
             [debugConfiguration, releaseConfiguration],
@@ -148,11 +148,11 @@ exports.addXCConfigurationList = {
                 pbxXCConfigurationListSection[xcConfigurationList.uuid]);
 
         for (
-            var index = 0;
+            let index = 0;
             index < xcConfigurationListConfigurations.length;
             index++
         ) {
-            var configuration = xcConfigurationListConfigurations[index];
+            const configuration = xcConfigurationListConfigurations[index];
             expectedConfigurations.push(
                 pbxBuildConfigurationSection[configuration.value]
             );
@@ -169,22 +169,22 @@ exports.addXCConfigurationList = {
         test.done();
     },
     'should set comments for pbxBuildConfigurations': function (test) {
-        var myProj = new pbx('test/parser/projects/full.pbxproj').parseSync(),
-            pbxBuildConfigurationSection = myProj.pbxXCBuildConfigurationSection(),
-            xcConfigurationList = myProj.addXCConfigurationList(
-                [debugConfiguration, releaseConfiguration],
-                'Release',
-                'XCConfigurationList Comment'
-            ),
-            xcConfigurationListConfigurations =
+        const myProj = new pbx('test/parser/projects/full.pbxproj').parseSync();
+        const pbxBuildConfigurationSection = myProj.pbxXCBuildConfigurationSection();
+        const xcConfigurationList = myProj.addXCConfigurationList(
+            [debugConfiguration, releaseConfiguration],
+            'Release',
+            'XCConfigurationList Comment'
+        );
+        const xcConfigurationListConfigurations =
                 xcConfigurationList.xcConfigurationList.buildConfigurations;
 
         for (
-            var index = 0;
+            let index = 0;
             index < xcConfigurationListConfigurations.length;
             index++
         ) {
-            var configuration = xcConfigurationListConfigurations[index];
+            const configuration = xcConfigurationListConfigurations[index];
             test.ok(
                 pbxBuildConfigurationSection[configuration.value + '_comment']
             );

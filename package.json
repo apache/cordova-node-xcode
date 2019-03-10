@@ -2,17 +2,17 @@
   "author": "Apache Software Foundation",
   "name": "xcode",
   "description": "parser for xcodeproj/project.pbxproj files",
-  "version": "1.0.1-dev",
+  "version": "2.0.1-dev",
   "main": "index.js",
   "repository": {
     "url": "https://github.com/apache/cordova-node-xcode.git"
   },
   "engines": {
-    "node": ">=0.6.7"
+    "node": ">=6.0.0"
   },
   "dependencies": {
-    "simple-plist": "^0.2.1",
-    "uuid": "3.0.1"
+    "simple-plist": "^1.0.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "eslint": "^5.10.0",

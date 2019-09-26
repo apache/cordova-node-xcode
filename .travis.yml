@@ -10,6 +10,10 @@ node_js:
   - 10
   - 12
 
+os:
+  - linux
+  - osx
+
 install:
   - nvm --version
   - node --version

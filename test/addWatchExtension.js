@@ -139,5 +139,28 @@ exports.addWatchExtension = {
         test.equal(nativeTargets[watchApp.uuid].dependencies.length, 1);
 
         test.done();
+    },
+    'should create a new watch extension with appropriate target extension': function (test) {
+        proj.addTarget('TestWatchApp', 'watch2_app');
+        var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
+
+        var buildPhase = proj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed App Extensions', target.uuid)
+
+        var buildPhaseFile = buildPhase.files[0];
+        test.ok(buildPhaseFile.value);
+        var buildPhaseFileSection = proj.pbxBuildFileSection()[buildPhaseFile.value];
+        test.ok(buildPhaseFileSection);
+        test.ok(buildPhaseFileSection.fileRef);
+
+        var buildPhaseFileRef = proj.pbxFileReferenceSection()[buildPhaseFileSection.fileRef];
+        test.ok(buildPhaseFileRef);
+        test.ok(buildPhaseFileRef.name);
+        test.ok(buildPhaseFileRef.path);
+
+        var quotedTargetPath = "\"" + TARGET_NAME + ".appex\"";
+        test.equal(buildPhaseFileRef.name, quotedTargetPath);
+        test.equal(buildPhaseFileRef.path, quotedTargetPath);
+
+        test.done();
     }
 }

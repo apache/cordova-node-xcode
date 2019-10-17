@@ -140,6 +140,26 @@ exports.addWatchExtension = {
 
         test.done();
     },
+    'should not modify watch2 target unless adding watch2 extension': function (test) {
+        var watchApp = proj.addTarget('TestWatchApp', 'watch2_app');
+
+        var nativeTargets = proj.pbxNativeTargetSection();
+
+        test.equal(nativeTargets[watchApp.uuid].buildPhases.length, 0);
+        test.equal(nativeTargets[watchApp.uuid].dependencies.length, 0);
+
+        proj.addTarget(TARGET_NAME, "app_extension");
+
+        test.equal(nativeTargets[watchApp.uuid].buildPhases.length, 0);
+        test.equal(nativeTargets[watchApp.uuid].dependencies.length, 0);
+
+        proj.addTarget(TARGET_NAME, "watch_extension");
+
+        test.equal(nativeTargets[watchApp.uuid].buildPhases.length, 0);
+        test.equal(nativeTargets[watchApp.uuid].dependencies.length, 0);
+
+        test.done();
+    },
     'should create a new watch extension with appropriate target extension': function (test) {
         proj.addTarget('TestWatchApp', 'watch2_app');
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);

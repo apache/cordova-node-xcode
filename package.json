@@ -15,11 +15,15 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@stryker-mutator/core": "^2.1.0",
+    "@stryker-mutator/html-reporter": "^2.1.0",
+    "@stryker-mutator/javascript-mutator": "^2.1.0",
     "nodeunit": "^0.11.3",
     "pegjs": "^0.10.0"
   },
   "scripts": {
     "pegjs": "node_modules/.bin/pegjs lib/parser/pbxproj.pegjs",
+    "stryker": "stryker run",
     "test": "node_modules/.bin/nodeunit test/parser test"
   },
   "license": "Apache-2.0",

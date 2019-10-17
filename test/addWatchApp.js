@@ -26,7 +26,7 @@ function cleanHash() {
 }
 
 var TARGET_NAME = 'TestWatchApp',
-    TARGET_TYPE = 'watch2_app',
+    TARGET_TYPE = 'watch_app',
     TARGET_SUBFOLDER_NAME = 'TestWatchAppFiles';
 
 exports.setUp = function (callback) {
@@ -107,7 +107,8 @@ exports.addWatchApp = {
 
         test.done();
     },
-    'should create a new watch app target and add watch build phase': function (test) {
+    'should create a new watch app target that has the correct product type': function (test) {
+        // (with no subfolder name)
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
 
         test.ok(typeof target == 'object');
@@ -123,16 +124,7 @@ exports.addWatchApp = {
         test.ok(target.pbxNativeTarget.buildRules);
         test.ok(target.pbxNativeTarget.dependencies);
 
-        test.equal(target.pbxNativeTarget.productType, '"com.apple.product-type.application.watchapp2"');
-
-        var buildPhase = proj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed Watch Content', target.uuid);
-
-        test.ok(buildPhase);
-        test.ok(buildPhase.files);
-        test.equal(buildPhase.files.length, 1);
-        test.ok(buildPhase.dstPath);
-        test.equal(buildPhase.dstPath, '"$(CONTENTS_FOLDER_PATH)/Watch"');
-        test.equal(buildPhase.dstSubfolderSpec, 16);
+        test.equal(target.pbxNativeTarget.productType, '"com.apple.product-type.application.watchapp"');
 
         test.done();
     }

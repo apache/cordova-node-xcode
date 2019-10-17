@@ -122,5 +122,5 @@ exports.addTarget = {
         test.ok(!phases);
 
         test.done();
-    },
+    }
 }

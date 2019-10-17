@@ -102,5 +102,25 @@ exports.addTarget = {
         test.ok(target.pbxNativeTarget.dependencies);
 
         test.done();
+    },
+    'should add build phase for extension target': function (test) {
+        var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
+        test.ok(target.uuid);
+
+        var phases = proj.pbxCopyfilesBuildPhaseObj(target.uuid);
+        test.ok(phases);
+        test.ok(phases.files);
+        test.equal(phases.files.length, 1);
+
+        test.done();
+    },
+    'should not add build phase for non-extension target': function (test) {
+        var target = proj.addTarget(TARGET_NAME, 'application');
+        test.ok(target.uuid);
+
+        var phases = proj.pbxCopyfilesBuildPhaseObj(target.uuid);
+        test.ok(!phases);
+
+        test.done();
     }
 }

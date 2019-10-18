@@ -123,7 +123,7 @@ exports.addTarget = {
 
         test.done();
     },
-    'should have \'wrapper.application\' filetype for application product': function (test) {
+    'should have "wrapper.application" filetype for application product': function (test) {
         var target = proj.addTarget(TARGET_NAME, 'application');
         test.ok(target);
         test.ok(target.pbxNativeTarget);
@@ -136,7 +136,7 @@ exports.addTarget = {
 
         test.done();
     },
-    'should have \'wrapper.app-extension\' filetype for app_extension product': function (test) {
+    'should have "wrapper.app-extension" filetype for app_extension product': function (test) {
         var target = proj.addTarget(TARGET_NAME, 'app_extension');
         test.ok(target);
         test.ok(target.pbxNativeTarget);
@@ -149,7 +149,7 @@ exports.addTarget = {
 
         test.done();
     },
-    'should have \'wrapper.plug-in\' filetype for bundle product': function (test) {
+    'should have "wrapper.plug-in" filetype for bundle product': function (test) {
         var target = proj.addTarget(TARGET_NAME, 'bundle');
         test.ok(target);
         test.ok(target.pbxNativeTarget);
@@ -162,7 +162,7 @@ exports.addTarget = {
 
         test.done();
     },
-    'should have \'compiled.mach-o.dylib\' filetype for command_line_tool product': function (test) {
+    'should have "compiled.mach-o.dylib" filetype for command_line_tool product': function (test) {
         var target = proj.addTarget(TARGET_NAME, 'command_line_tool');
         test.ok(target);
         test.ok(target.pbxNativeTarget);
@@ -175,7 +175,7 @@ exports.addTarget = {
 
         test.done();
     },
-    'should have \'compiled.mach-o.dylib\' filetype for dynamic_library product': function (test) {
+    'should have "compiled.mach-o.dylib" filetype for dynamic_library product': function (test) {
         var target = proj.addTarget(TARGET_NAME, 'dynamic_library');
         test.ok(target);
         test.ok(target.pbxNativeTarget);
@@ -188,7 +188,7 @@ exports.addTarget = {
 
         test.done();
     },
-    'should have \'wrapper.framework\' filetype for framework product': function (test) {
+    'should have "wrapper.framework" filetype for framework product': function (test) {
         var target = proj.addTarget(TARGET_NAME, 'framework');
         test.ok(target);
         test.ok(target.pbxNativeTarget);
@@ -201,7 +201,7 @@ exports.addTarget = {
 
         test.done();
     },
-    'should have \'archive.ar\' filetype for static_library product': function (test) {
+    'should have "archive.ar" filetype for static_library product': function (test) {
         var target = proj.addTarget(TARGET_NAME, 'static_library');
         test.ok(target);
         test.ok(target.pbxNativeTarget);
@@ -214,7 +214,7 @@ exports.addTarget = {
 
         test.done();
     },
-    'should have \'wrapper.cfbundle\' filetype for unit_test_bundle product': function (test) {
+    'should have "wrapper.cfbundle" filetype for unit_test_bundle product': function (test) {
         var target = proj.addTarget(TARGET_NAME, 'unit_test_bundle');
         test.ok(target);
         test.ok(target.pbxNativeTarget);
@@ -227,7 +227,7 @@ exports.addTarget = {
 
         test.done();
     },
-    'should have \'wrapper.application\' filetype for watch_app product': function (test) {
+    'should have "wrapper.application" filetype for watch_app product': function (test) {
         var target = proj.addTarget(TARGET_NAME, 'watch_app');
         test.ok(target);
         test.ok(target.pbxNativeTarget);
@@ -240,7 +240,7 @@ exports.addTarget = {
 
         test.done();
     },
-    'should have \'wrapper.app-extension\' filetype for watch_extension product': function (test) {
+    'should have "wrapper.app-extension" filetype for watch_extension product': function (test) {
         var target = proj.addTarget(TARGET_NAME, 'watch_extension');
         test.ok(target);
         test.ok(target.pbxNativeTarget);

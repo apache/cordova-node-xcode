@@ -26,7 +26,7 @@ function cleanHash() {
 }
 
 var TARGET_NAME = 'TestWatchApp',
-    TARGET_TYPE = 'watch2_app',
+    TARGET_TYPE = 'watch_app',
     TARGET_SUBFOLDER_NAME = 'TestWatchAppFiles';
 
 exports.setUp = function (callback) {
@@ -35,7 +35,7 @@ exports.setUp = function (callback) {
 }
 
 exports.addWatchApp = {
-    'should create a new watch app target': function (test) {
+    'should create a new watch app target with the correct product type': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
 
         test.ok(typeof target == 'object');
@@ -51,9 +51,11 @@ exports.addWatchApp = {
         test.ok(target.pbxNativeTarget.buildRules);
         test.ok(target.pbxNativeTarget.dependencies);
 
+        test.equal(target.pbxNativeTarget.productType, '"com.apple.product-type.application.watchapp"');
+
         test.done();
     },
-    'should create a new watch app target without needing a subfolder name': function (test) {
+    'should create a new watch app target with the correct product type, without needing a subfolder name': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
 
         test.ok(typeof target == 'object');
@@ -68,6 +70,8 @@ exports.addWatchApp = {
         test.ok(target.pbxNativeTarget.buildPhases);
         test.ok(target.pbxNativeTarget.buildRules);
         test.ok(target.pbxNativeTarget.dependencies);
+
+        test.equal(target.pbxNativeTarget.productType, '"com.apple.product-type.application.watchapp"');
 
         test.done();
     },
@@ -104,35 +108,6 @@ exports.addWatchApp = {
         test.ok(target.pbxNativeTarget.buildPhases);
         test.ok(target.pbxNativeTarget.buildRules);
         test.ok(target.pbxNativeTarget.dependencies);
-
-        test.done();
-    },
-    'should create a new watch app target and add watch build phase': function (test) {
-        var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
-
-        test.ok(typeof target == 'object');
-        test.ok(target.uuid);
-        test.ok(target.pbxNativeTarget);
-        test.ok(target.pbxNativeTarget.isa);
-        test.ok(target.pbxNativeTarget.name);
-        test.ok(target.pbxNativeTarget.productName);
-        test.ok(target.pbxNativeTarget.productReference);
-        test.ok(target.pbxNativeTarget.productType);
-        test.ok(target.pbxNativeTarget.buildConfigurationList);
-        test.ok(target.pbxNativeTarget.buildPhases);
-        test.ok(target.pbxNativeTarget.buildRules);
-        test.ok(target.pbxNativeTarget.dependencies);
-
-        test.equal(target.pbxNativeTarget.productType, '"com.apple.product-type.application.watchapp2"');
-
-        var buildPhase = proj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed Watch Content', target.uuid);
-
-        test.ok(buildPhase);
-        test.ok(buildPhase.files);
-        test.equal(buildPhase.files.length, 1);
-        test.ok(buildPhase.dstPath);
-        test.equal(buildPhase.dstPath, '"$(CONTENTS_FOLDER_PATH)/Watch"');
-        test.equal(buildPhase.dstSubfolderSpec, 16);
 
         test.done();
     }

@@ -25,17 +25,17 @@ function cleanHash() {
     return JSON.parse(fullProjectStr);
 }
 
-var TARGET_NAME = 'TestWatchExtension',
-    TARGET_TYPE = 'watch_extension',
-    TARGET_SUBFOLDER_NAME = 'TestWatchExtensionFiles';
+var TARGET_NAME = 'TestWatchApp',
+    TARGET_TYPE = 'watch2_app',
+    TARGET_SUBFOLDER_NAME = 'TestWatchAppFiles';
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
     callback();
 }
 
-exports.addWatchExtension = {
-    'should create a new watch extension target': function (test) {
+exports.addWatchApp = {
+    'should create a new watch app target': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
 
         test.ok(typeof target == 'object');
@@ -53,7 +53,25 @@ exports.addWatchExtension = {
 
         test.done();
     },
-    'should create a new watch extension target and add source, framework, resource and header files and the corresponding build phases': function (test) {
+    'should create a new watch app target without needing a subfolder name': function (test) {
+        var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
+
+        test.ok(typeof target == 'object');
+        test.ok(target.uuid);
+        test.ok(target.pbxNativeTarget);
+        test.ok(target.pbxNativeTarget.isa);
+        test.ok(target.pbxNativeTarget.name);
+        test.ok(target.pbxNativeTarget.productName);
+        test.ok(target.pbxNativeTarget.productReference);
+        test.ok(target.pbxNativeTarget.productType);
+        test.ok(target.pbxNativeTarget.buildConfigurationList);
+        test.ok(target.pbxNativeTarget.buildPhases);
+        test.ok(target.pbxNativeTarget.buildRules);
+        test.ok(target.pbxNativeTarget.dependencies);
+
+        test.done();
+    },
+    'should create a new watch app target and add source, framework, resource and header files and the corresponding build phases': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME),
             options = { 'target' : target.uuid };
 
@@ -89,7 +107,7 @@ exports.addWatchExtension = {
 
         test.done();
     },
-    'should not create a new watch extension build phase if no watch app exists': function (test) {
+    'should create a new watch app target and add watch build phase': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
 
         test.ok(typeof target == 'object');
@@ -105,9 +123,16 @@ exports.addWatchExtension = {
         test.ok(target.pbxNativeTarget.buildRules);
         test.ok(target.pbxNativeTarget.dependencies);
 
-        var buildPhase = proj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed App Extensions', target.uuid)
+        test.equal(target.pbxNativeTarget.productType, '"com.apple.product-type.application.watchapp2"');
 
-        test.ok(!buildPhase);
+        var buildPhase = proj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed Watch Content', target.uuid);
+
+        test.ok(buildPhase);
+        test.ok(buildPhase.files);
+        test.equal(buildPhase.files.length, 1);
+        test.ok(buildPhase.dstPath);
+        test.equal(buildPhase.dstPath, '"$(CONTENTS_FOLDER_PATH)/Watch"');
+        test.equal(buildPhase.dstSubfolderSpec, 16);
 
         test.done();
     }

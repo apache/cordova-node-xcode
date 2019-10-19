@@ -35,7 +35,7 @@ exports.setUp = function (callback) {
 }
 
 exports.addWatchApp = {
-    'should create a new watch app target with the correct product type': function (test) {
+    'should create a new watch2 app target with the correct product type': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
 
         test.ok(typeof target == 'object');
@@ -55,7 +55,7 @@ exports.addWatchApp = {
 
         test.done();
     },
-    'should create a new watch app target with the correct product type, without needing a subfolder name': function (test) {
+    'should create a new watch2 app target with the correct product type, without needing a subfolder name': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
 
         test.ok(typeof target == 'object');
@@ -75,7 +75,7 @@ exports.addWatchApp = {
 
         test.done();
     },
-    'should create a new watch app target and add source, framework, resource and header files and the corresponding build phases': function (test) {
+    'should create a new watch2 app target and add source, framework, resource and header files and the corresponding build phases': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME),
             options = { 'target' : target.uuid };
 
@@ -111,7 +111,7 @@ exports.addWatchApp = {
 
         test.done();
     },
-    'should create a new watch app target and add watch build phase': function (test) {
+    'should create a new watch2 app target and add watch build phase': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
 
         test.ok(typeof target == 'object');
@@ -140,7 +140,7 @@ exports.addWatchApp = {
 
         test.done();
     },
-    'should create a new watch app with appropriate target extension': function (test) {
+    'should create a new watch2 app with appropriate target extension': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
 
         var buildPhase = proj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed Watch Content', target.uuid)

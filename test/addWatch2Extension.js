@@ -35,7 +35,7 @@ exports.setUp = function (callback) {
 }
 
 exports.addWatchExtension = {
-    'should create a new watch extension target with the correct product type': function (test) {
+    'should create a new watch2 extension target with the correct product type': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
 
         test.ok(typeof target == 'object');
@@ -54,7 +54,7 @@ exports.addWatchExtension = {
 
         test.done();
     },
-    'should create a new watch extension target and add source, framework, resource and header files and the corresponding build phases': function (test) {
+    'should create a new watch2 extension target and add source, framework, resource and header files and the corresponding build phases': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME),
             options = { 'target' : target.uuid };
 
@@ -90,7 +90,7 @@ exports.addWatchExtension = {
 
         test.done();
     },
-    'should not create a new watch extension build phase if no watch app exists': function (test) {
+    'should not create a new watch2 extension build phase if no watch2 app exists': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
 
         test.ok(typeof target == 'object');
@@ -112,7 +112,7 @@ exports.addWatchExtension = {
 
         test.done();
     },
-    'should create a new watch extension build phase if watch app exists': function (test) {
+    'should create a new watch2 extension build phase if watch2 app exists': function (test) {
         proj.addTarget('TestWatchApp', 'watch2_app');
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
 
@@ -126,7 +126,7 @@ exports.addWatchExtension = {
 
         test.done();
     },
-    'should create a new watch extension and add to existing watch app build phase and dependency': function (test) {
+    'should create a new watch2 extension and add to existing watch2 app build phase and dependency': function (test) {
         var watchApp = proj.addTarget('TestWatchApp', 'watch2_app');
 
         var nativeTargets = proj.pbxNativeTargetSection();
@@ -161,7 +161,7 @@ exports.addWatchExtension = {
 
         test.done();
     },
-    'should create a new watch extension with appropriate target extension': function (test) {
+    'should create a new watch2 extension with appropriate target extension': function (test) {
         proj.addTarget('TestWatchApp', 'watch2_app');
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
 

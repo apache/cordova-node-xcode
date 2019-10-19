@@ -139,5 +139,27 @@ exports.addWatchApp = {
         test.equal(buildPhase.dstSubfolderSpec, 16);
 
         test.done();
+    },
+    'should create a new watch app with appropriate target extension': function (test) {
+        var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
+
+        var buildPhase = proj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed Watch Content', target.uuid)
+
+        var buildPhaseFile = buildPhase.files[0];
+        test.ok(buildPhaseFile.value);
+        var buildPhaseFileSection = proj.pbxBuildFileSection()[buildPhaseFile.value];
+        test.ok(buildPhaseFileSection);
+        test.ok(buildPhaseFileSection.fileRef);
+
+        var buildPhaseFileRef = proj.pbxFileReferenceSection()[buildPhaseFileSection.fileRef];
+        test.ok(buildPhaseFileRef);
+        test.ok(buildPhaseFileRef.name);
+        test.ok(buildPhaseFileRef.path);
+
+        var quotedTargetPath = "\"" + TARGET_NAME + ".app\"";
+        test.equal(buildPhaseFileRef.name, quotedTargetPath);
+        test.equal(buildPhaseFileRef.path, quotedTargetPath);
+
+        test.done();
     }
 }

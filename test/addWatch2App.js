@@ -35,7 +35,7 @@ exports.setUp = function (callback) {
 }
 
 exports.addWatchApp = {
-    'should create a new watch app target': function (test) {
+    'should create a new watch app target with the correct product type': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
 
         test.ok(typeof target == 'object');
@@ -51,9 +51,11 @@ exports.addWatchApp = {
         test.ok(target.pbxNativeTarget.buildRules);
         test.ok(target.pbxNativeTarget.dependencies);
 
+        test.equal(target.pbxNativeTarget.productType, '"com.apple.product-type.application.watchapp2"');
+
         test.done();
     },
-    'should create a new watch app target without needing a subfolder name': function (test) {
+    'should create a new watch app target with the correct product type, without needing a subfolder name': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
 
         test.ok(typeof target == 'object');
@@ -68,6 +70,8 @@ exports.addWatchApp = {
         test.ok(target.pbxNativeTarget.buildPhases);
         test.ok(target.pbxNativeTarget.buildRules);
         test.ok(target.pbxNativeTarget.dependencies);
+
+        test.equal(target.pbxNativeTarget.productType, '"com.apple.product-type.application.watchapp2"');
 
         test.done();
     },

@@ -35,7 +35,7 @@ exports.setUp = function (callback) {
 }
 
 exports.addWatchExtension = {
-    'should create a new watch extension target': function (test) {
+    'should create a new watch extension target with the correct product type': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
 
         test.ok(typeof target == 'object');
@@ -50,6 +50,7 @@ exports.addWatchExtension = {
         test.ok(target.pbxNativeTarget.buildPhases);
         test.ok(target.pbxNativeTarget.buildRules);
         test.ok(target.pbxNativeTarget.dependencies);
+        test.equal(target.pbxNativeTarget.productType, '"com.apple.product-type.watchkit2-extension"');
 
         test.done();
     },

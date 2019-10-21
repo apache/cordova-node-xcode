@@ -172,8 +172,18 @@ exports.addBuildPhase = {
         test.equal(buildPhase.dstSubfolderSpec, 1);
         test.done();
     },
+    'should set target to Products Directory given \'watch2_app\' as target': function (test) {
+        var buildPhase = proj.addBuildPhase(['file.m'], 'PBXCopyFilesBuildPhase', 'Copy Files', proj.getFirstTarget().uuid, 'watch2_app').buildPhase;
+        test.equal(buildPhase.dstSubfolderSpec, 16);
+        test.done();
+    },
     'should set target to Plugins given \'watch_extension\' as target': function (test) {
         var buildPhase = proj.addBuildPhase(['file.m'], 'PBXCopyFilesBuildPhase', 'Copy Files', proj.getFirstTarget().uuid, 'watch_extension').buildPhase;
+        test.equal(buildPhase.dstSubfolderSpec, 13);
+        test.done();
+    },
+    'should set target to Plugins given \'watch2_extension\' as target': function (test) {
+        var buildPhase = proj.addBuildPhase(['file.m'], 'PBXCopyFilesBuildPhase', 'Copy Files', proj.getFirstTarget().uuid, 'watch2_extension').buildPhase;
         test.equal(buildPhase.dstSubfolderSpec, 13);
         test.done();
     },

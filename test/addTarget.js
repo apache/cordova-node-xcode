@@ -260,8 +260,34 @@ exports.addTarget = {
 
         test.done();
     },
+    'should have "wrapper.application" filetype for watch2_app product': function (test) {
+        var target = proj.addTarget(TARGET_NAME, 'watch2_app');
+        test.ok(target);
+        test.ok(target.pbxNativeTarget);
+        test.ok(target.pbxNativeTarget.productReference);
+
+        var productFile = proj.pbxFileReferenceSection()[target.pbxNativeTarget.productReference];
+        test.ok(productFile);
+        test.ok(productFile.explicitFileType);
+        test.equal(productFile.explicitFileType, '"wrapper.application"');
+
+        test.done();
+    },
     'should have "wrapper.app-extension" filetype for watch_extension product': function (test) {
         var target = proj.addTarget(TARGET_NAME, 'watch_extension');
+        test.ok(target);
+        test.ok(target.pbxNativeTarget);
+        test.ok(target.pbxNativeTarget.productReference);
+
+        var productFile = proj.pbxFileReferenceSection()[target.pbxNativeTarget.productReference];
+        test.ok(productFile);
+        test.ok(productFile.explicitFileType);
+        test.equal(productFile.explicitFileType, '"wrapper.app-extension"');
+
+        test.done();
+    },
+    'should have "wrapper.app-extension" filetype for watch2_extension product': function (test) {
+        var target = proj.addTarget(TARGET_NAME, 'watch2_extension');
         test.ok(target);
         test.ok(target.pbxNativeTarget);
         test.ok(target.pbxNativeTarget.productReference);

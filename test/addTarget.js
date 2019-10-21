@@ -123,6 +123,30 @@ exports.addTarget = {
 
         test.done();
     },
+    'should add target as a target dependency to the main target': function (test) {
+        var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
+        test.ok(target);
+        test.ok(target.uuid);
+
+        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'];
+
+        var targetDependency = Object.entries(pbxTargetDependencySection).find( ([key, value]) => value.target === target.uuid);
+        test.ok(targetDependency);
+        test.ok(targetDependency.length);
+        test.ok(targetDependency[0]);
+
+        var targetDependencyUuid = targetDependency[0];
+
+        var firstTarget = proj.getFirstTarget();
+        test.ok(firstTarget);
+        test.ok(firstTarget.firstTarget);
+        test.ok(firstTarget.firstTarget.dependencies);
+
+        var firstTargetMatchingDependency = firstTarget.firstTarget.dependencies.find( (elem) => elem.value === targetDependencyUuid);
+        test.ok(firstTargetMatchingDependency);
+
+        test.done();
+    },
     'should have "wrapper.application" filetype for application product': function (test) {
         var target = proj.addTarget(TARGET_NAME, 'application');
         test.ok(target);

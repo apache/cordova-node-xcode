@@ -130,12 +130,8 @@ exports.addTarget = {
 
         var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'];
 
-        var targetDependency = Object.entries(pbxTargetDependencySection).find( ([key, value]) => value.target === target.uuid);
-        test.ok(targetDependency);
-        test.ok(targetDependency.length);
-        test.ok(targetDependency[0]);
-
-        var targetDependencyUuid = targetDependency[0];
+        var targetDependencyUuid = Object.keys(pbxTargetDependencySection).find( (key) => pbxTargetDependencySection[key].target === target.uuid);
+        test.ok(targetDependencyUuid);
 
         var firstTarget = proj.getFirstTarget();
         test.ok(firstTarget);

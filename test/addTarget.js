@@ -27,7 +27,8 @@ function cleanHash() {
 
 var TARGET_NAME = 'TestExtension',
     TARGET_TYPE = 'app_extension',
-    TARGET_SUBFOLDER_NAME = 'TestExtensionFiles';
+    TARGET_SUBFOLDER_NAME = 'TestExtensionFiles',
+    TARGET_BUNDLE_ID ="com.cordova.test.appextension";
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
@@ -51,6 +52,24 @@ exports.addTarget = {
     },
     'should create a new target': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
+
+        test.ok(typeof target == 'object');
+        test.ok(target.uuid);
+        test.ok(target.pbxNativeTarget);
+        test.ok(target.pbxNativeTarget.isa);
+        test.ok(target.pbxNativeTarget.name);
+        test.ok(target.pbxNativeTarget.productName);
+        test.ok(target.pbxNativeTarget.productReference);
+        test.ok(target.pbxNativeTarget.productType);
+        test.ok(target.pbxNativeTarget.buildConfigurationList);
+        test.ok(target.pbxNativeTarget.buildPhases);
+        test.ok(target.pbxNativeTarget.buildRules);
+        test.ok(target.pbxNativeTarget.dependencies);
+
+        test.done();
+    },
+    'should create a new target with bundleid': function (test) {
+        var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME, TARGET_BUNDLE_ID);
 
         test.ok(typeof target == 'object');
         test.ok(target.uuid);

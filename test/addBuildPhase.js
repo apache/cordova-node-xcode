@@ -191,4 +191,10 @@ describe('addBuildPhase', () => {
         assert.equal(buildPhase.shellPath, '/bin/sh');
         assert.equal(buildPhase.shellScript, '"echo \\"hello world!\\""');
     });
+
+    it('should add runOnlyForDeploymentPostprocessing option to run scripts', () => {
+        const options = { shellPath: '/bin/sh', shellScript: 'echo "hello world!"', runOnlyForDeploymentPostprocessing: 1 };
+        const buildPhase = proj.addBuildPhase([], 'PBXShellScriptBuildPhase', 'Run a script', proj.getFirstTarget().uuid, options).buildPhase;
+        assert.equal(buildPhase.runOnlyForDeploymentPostprocessing, 1);
+    });
 });

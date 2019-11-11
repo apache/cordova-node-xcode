@@ -68,6 +68,28 @@ exports.addTargetDependency = {
         test.deepEqual(targetInPbxProj.dependencies, target.dependencies)
         test.done()
     },
+    'should not modify native target dependencies if PBXTargetDependency object does not exist': function (test) {
+        delete proj.hash.project.objects['PBXTargetDependency'];
+
+        var numDependenciesBefore = proj.pbxNativeTargetSection()['1D6058900D05DD3D006BFB54'].dependencies.length;
+        proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54']);
+        var numDependenciesAfter = proj.pbxNativeTargetSection()['1D6058900D05DD3D006BFB54'].dependencies.length;
+
+        test.equal(numDependenciesBefore, numDependenciesAfter);
+
+        test.done();
+    },
+    'should not modify native target dependencies if PBXContainerItemProxy object does not exist': function (test) {
+        delete proj.hash.project.objects['PBXContainerItemProxy'];
+
+        var numDependenciesBefore = proj.pbxNativeTargetSection()['1D6058900D05DD3D006BFB54'].dependencies.length;
+        proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54']);
+        var numDependenciesAfter = proj.pbxNativeTargetSection()['1D6058900D05DD3D006BFB54'].dependencies.length;
+
+        test.equal(numDependenciesBefore, numDependenciesAfter);
+
+        test.done();
+    },
     'should create a PBXTargetDependency for each dependency target': function (test) {
         var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
             target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;

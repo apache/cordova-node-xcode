@@ -208,6 +208,20 @@ exports.addTargetDependency = {
 
         test.done()
     },
+    'should set each PBXContainerItemProxy`s containerPortal_comment correctly': function (test) {
+        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
+            pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'],
+            target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+
+        for (var index = 0; index < target.dependencies.length; index++) {
+            var dependency = target.dependencies[index].value,
+                targetProxy = pbxTargetDependencySection[dependency]['targetProxy'];
+
+            test.equal(pbxContainerItemProxySection[targetProxy]['containerPortal_comment'], proj.hash.project['rootObject_comment']);
+        }
+
+        test.done()
+    },
     'should set each PBXContainerItemProxy`s proxyType correctly': function (test) {
         var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
             pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'],

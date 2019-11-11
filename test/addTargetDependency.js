@@ -142,6 +142,26 @@ exports.addTargetDependency = {
 
         test.done()
     },
+    'should set right comment for each container item proxy': function (test) {
+        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
+            pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'],
+            target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+
+        for (var index = 0; index < target.dependencies.length; index++) {
+            var dependencyTargetUuid = target.dependencies[index].value;
+
+            var proxyUuid = pbxTargetDependencySection[dependencyTargetUuid].targetProxy;
+
+            if (proxyUuid) {
+                test.ok(pbxTargetDependencySection[dependencyTargetUuid].targetProxy_comment, 'PBXContainerItemProxy');
+                test.ok(pbxContainerItemProxySection[proxyUuid]);
+                var proxyCommentKey = proxyUuid + '_comment';
+                test.ok(pbxContainerItemProxySection[proxyCommentKey]);
+            }
+        }
+
+        test.done();
+    },
     'should set each PBXContainerItemProxy`s remoteGlobalIDString correctly': function (test) {
         var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
             pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'],

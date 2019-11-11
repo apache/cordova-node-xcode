@@ -101,7 +101,7 @@ exports.addTargetDependency = {
 
         test.done()
     },
-    'should set right comment for each dependency target': function (test) {
+    'should set right comment for each target dependency': function (test) {
         var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
             target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
 
@@ -111,6 +111,22 @@ exports.addTargetDependency = {
         }
 
         test.done()
+    },
+    'should set right comment for each dependency target': function (test) {
+        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
+            target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+
+        for (var index = 0; index < target.dependencies.length; index++) {
+            var dependencyTargetUuid = target.dependencies[index].value;
+            var targetDependencyUuid = pbxTargetDependencySection[dependencyTargetUuid].target;
+
+            if (pbxTargetDependencySection[dependencyTargetUuid].target) {
+                var targetCommentKey = targetDependencyUuid + '_comment';
+                test.equal(pbxTargetDependencySection[dependencyTargetUuid].target_comment, proj.pbxNativeTargetSection()[targetCommentKey]);
+            }
+        }
+
+        test.done();
     },
     'should create a PBXContainerItemProxy for each PBXTargetDependency': function (test) {
         var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],

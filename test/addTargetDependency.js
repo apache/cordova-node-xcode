@@ -39,12 +39,16 @@ exports.addTargetDependency = {
     'should throw when target not found in nativeTargetsSection': function (test) {
         test.throws(function() {
             proj.addTargetDependency('invalidTarget');
+        }, function (error) {
+            return (error instanceof Error) && /Invalid target/i.test(error);
         });
         test.done()
     },
     'should throw when any dependency target not found in nativeTargetsSection': function (test) {
         test.throws(function() {
             proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['invalidTarget']);
+        }, function (error) {
+            return (error instanceof Error) && /Invalid target/i.test(error);
         });
         test.done()
     },

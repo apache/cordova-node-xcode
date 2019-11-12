@@ -42,6 +42,17 @@ exports.addTarget = {
 
         test.done();
     },
+    'should throw when provided blank or empty target name': function (test) {
+        test.throws(function() {
+            proj.addTarget('', TARGET_TYPE);
+        });
+
+        test.throws(function() {
+            proj.addTarget('   ', TARGET_TYPE);
+        });
+
+        test.done();
+    },
     'should throw when target type missing': function (test) {
         test.throws(function() {
             proj.addTarget(TARGET_NAME, null);

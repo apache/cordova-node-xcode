@@ -152,6 +152,15 @@ exports.addTarget = {
 
         test.done();
     },
+    'should create target with correct pbxNativeTarget name': function (test) {
+        var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
+
+        var quotedTargetName = '"' + TARGET_NAME + '"';
+        test.equals(target.pbxNativeTarget.name, quotedTargetName);
+        test.equals(target.pbxNativeTarget.productName, quotedTargetName);
+
+        test.done();
+    },
     'should add build phase for extension target': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
         test.ok(target.uuid);

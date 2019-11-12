@@ -122,9 +122,69 @@ exports.addBuildPhase = {
         test.deepEqual(initialFileReferenceSectionItemsCount.length, afterAdditionBuildFileSectionItemsCount.length - 2);
         test.done();
     },
+    'should set target to Wrapper given \'application\' as target': function (test) {
+        var buildPhase = proj.addBuildPhase(['file.m'], 'PBXCopyFilesBuildPhase', 'Copy Files', proj.getFirstTarget().uuid, 'application').buildPhase;
+        test.equal(buildPhase.dstSubfolderSpec, 1);
+        test.done();
+    },
+    'should set target to Plugins given \'app_extension\' as target': function (test) {
+        var buildPhase = proj.addBuildPhase(['file.m'], 'PBXCopyFilesBuildPhase', 'Copy Files', proj.getFirstTarget().uuid, 'app_extension').buildPhase;
+        test.equal(buildPhase.dstSubfolderSpec, 13);
+        test.done();
+    },
+    'should set target to Wapper given \'bundle\' as target': function (test) {
+        var buildPhase = proj.addBuildPhase(['file.m'], 'PBXCopyFilesBuildPhase', 'Copy Files', proj.getFirstTarget().uuid, 'bundle').buildPhase;
+        test.equal(buildPhase.dstSubfolderSpec, 1);
+        test.done();
+    },
+    'should set target to Wapper given \'command_line_tool\' as target': function (test) {
+        var buildPhase = proj.addBuildPhase(['file.m'], 'PBXCopyFilesBuildPhase', 'Copy Files', proj.getFirstTarget().uuid, 'command_line_tool').buildPhase;
+        test.equal(buildPhase.dstSubfolderSpec, 1);
+        test.done();
+    },
+    'should set target to Products Directory given \'dynamic_library\' as target': function (test) {
+        var buildPhase = proj.addBuildPhase(['file.m'], 'PBXCopyFilesBuildPhase', 'Copy Files', proj.getFirstTarget().uuid, 'dynamic_library').buildPhase;
+        test.equal(buildPhase.dstSubfolderSpec, 16);
+        test.done();
+    },
+    'should set target to Shared Framework given \'framework\' as target': function (test) {
+        var buildPhase = proj.addBuildPhase(['file.m'], 'PBXCopyFilesBuildPhase', 'Copy Files', proj.getFirstTarget().uuid, 'framework').buildPhase;
+        test.equal(buildPhase.dstSubfolderSpec, 11);
+        test.done();
+    },
     'should set target to Frameworks given \'frameworks\' as target': function (test) {
         var buildPhase = proj.addBuildPhase(['file.m'], 'PBXCopyFilesBuildPhase', 'Copy Files', proj.getFirstTarget().uuid, 'frameworks').buildPhase;
         test.equal(buildPhase.dstSubfolderSpec, 10);
+        test.done();
+    },
+    'should set target to Products Directory given \'static_library\' as target': function (test) {
+        var buildPhase = proj.addBuildPhase(['file.m'], 'PBXCopyFilesBuildPhase', 'Copy Files', proj.getFirstTarget().uuid, 'static_library').buildPhase;
+        test.equal(buildPhase.dstSubfolderSpec, 16);
+        test.done();
+    },
+    'should set target to Wrapper given \'unit_test_bundle\' as target': function (test) {
+        var buildPhase = proj.addBuildPhase(['file.m'], 'PBXCopyFilesBuildPhase', 'Copy Files', proj.getFirstTarget().uuid, 'unit_test_bundle').buildPhase;
+        test.equal(buildPhase.dstSubfolderSpec, 1);
+        test.done();
+    },
+    'should set target to Wrapper given \'watch_app\' as target': function (test) {
+        var buildPhase = proj.addBuildPhase(['file.m'], 'PBXCopyFilesBuildPhase', 'Copy Files', proj.getFirstTarget().uuid, 'watch_app').buildPhase;
+        test.equal(buildPhase.dstSubfolderSpec, 1);
+        test.done();
+    },
+    'should set target to Products Directory given \'watch2_app\' as target': function (test) {
+        var buildPhase = proj.addBuildPhase(['file.m'], 'PBXCopyFilesBuildPhase', 'Copy Files', proj.getFirstTarget().uuid, 'watch2_app').buildPhase;
+        test.equal(buildPhase.dstSubfolderSpec, 16);
+        test.done();
+    },
+    'should set target to Plugins given \'watch_extension\' as target': function (test) {
+        var buildPhase = proj.addBuildPhase(['file.m'], 'PBXCopyFilesBuildPhase', 'Copy Files', proj.getFirstTarget().uuid, 'watch_extension').buildPhase;
+        test.equal(buildPhase.dstSubfolderSpec, 13);
+        test.done();
+    },
+    'should set target to Plugins given \'watch2_extension\' as target': function (test) {
+        var buildPhase = proj.addBuildPhase(['file.m'], 'PBXCopyFilesBuildPhase', 'Copy Files', proj.getFirstTarget().uuid, 'watch2_extension').buildPhase;
+        test.equal(buildPhase.dstSubfolderSpec, 13);
         test.done();
     },
     'should add a script build phase to echo "hello world!"': function(test) {

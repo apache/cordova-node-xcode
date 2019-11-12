@@ -45,10 +45,14 @@ exports.addTarget = {
     'should throw when provided blank or empty target name': function (test) {
         test.throws(function() {
             proj.addTarget('', TARGET_TYPE);
+        }, function (error) {
+            return (error instanceof Error) && /Target name missing/i.test(error);
         });
 
         test.throws(function() {
             proj.addTarget('   ', TARGET_TYPE);
+        }, function (error) {
+            return (error instanceof Error) && /Target name missing/i.test(error);
         });
 
         test.done();
@@ -56,6 +60,8 @@ exports.addTarget = {
     'should throw when target type missing': function (test) {
         test.throws(function() {
             proj.addTarget(TARGET_NAME, null);
+        }, function (error) {
+            return (error instanceof Error) && /Target type missing/i.test(error);
         });
 
         test.done();
@@ -63,6 +69,8 @@ exports.addTarget = {
     'should throw when invalid target type': function (test) {
         test.throws(function() {
             proj.addTarget(TARGET_NAME, 'invalid_target_type');
+        }, function (error) {
+            return (error instanceof Error) && /Target type invalid/i.test(error);
         });
 
         test.done();

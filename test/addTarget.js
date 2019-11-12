@@ -60,6 +60,13 @@ exports.addTarget = {
 
         test.done();
     },
+    'should throw when invalid target type': function (test) {
+        test.throws(function() {
+            proj.addTarget(TARGET_NAME, 'invalid_target_type');
+        });
+
+        test.done();
+    },
     'should create a new target': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
 

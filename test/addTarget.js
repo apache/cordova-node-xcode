@@ -120,7 +120,7 @@ exports.addTarget = {
 
         var buildCommentKey = target.pbxNativeTarget.buildConfigurationList + '_comment';
         test.ok(pbxXCConfigurationList[buildCommentKey]);
-        test.ok(pbxXCConfigurationList[buildCommentKey].indexOf(TARGET_NAME) > -1);
+        test.equals(pbxXCConfigurationList[buildCommentKey], 'Build configuration list for PBXNativeTarget "' + TARGET_NAME + '"');
 
         test.done();
     },

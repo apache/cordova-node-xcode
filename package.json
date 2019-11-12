@@ -15,9 +15,9 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@stryker-mutator/core": "^2.1.0",
-    "@stryker-mutator/html-reporter": "^2.1.0",
-    "@stryker-mutator/javascript-mutator": "^2.1.0",
+    "@stryker-mutator/core": "^2.2.1",
+    "@stryker-mutator/html-reporter": "^2.2.1",
+    "@stryker-mutator/javascript-mutator": "^2.2.1",
     "nodeunit": "^0.11.3",
     "pegjs": "^0.10.0"
   },

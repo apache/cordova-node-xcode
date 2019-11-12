@@ -85,6 +85,37 @@ exports.addTarget = {
 
         test.done();
     },
+    'should add to build configuration list': function (test) {
+        var pbxXCConfigurationList = proj.pbxXCConfigurationList(),
+            target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
+
+        test.ok(target.pbxNativeTarget.buildConfigurationList);
+        test.ok(pbxXCConfigurationList[target.pbxNativeTarget.buildConfigurationList]);
+        test.ok(pbxXCConfigurationList[target.pbxNativeTarget.buildConfigurationList].buildConfigurations);
+        test.ok(pbxXCConfigurationList[target.pbxNativeTarget.buildConfigurationList].buildConfigurations.length);
+
+        test.done();
+    },
+    'should add to build configuration list with default configuration name': function (test) {
+        var pbxXCConfigurationList = proj.pbxXCConfigurationList(),
+            target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
+
+        test.ok(target.pbxNativeTarget.buildConfigurationList);
+        test.ok(pbxXCConfigurationList[target.pbxNativeTarget.buildConfigurationList]);
+        test.equal(pbxXCConfigurationList[target.pbxNativeTarget.buildConfigurationList].defaultConfigurationName, 'Release');
+
+        test.done();
+    },
+    'should add to build configuration list with comment': function (test) {
+        var pbxXCConfigurationList = proj.pbxXCConfigurationList(),
+            target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
+
+        var buildCommentKey = target.pbxNativeTarget.buildConfigurationList + '_comment';
+        test.ok(pbxXCConfigurationList[buildCommentKey]);
+        test.ok(pbxXCConfigurationList[buildCommentKey].indexOf(TARGET_NAME) > -1);
+
+        test.done();
+    },
     'should create a new target and add source, framework, resource and header files and the corresponding build phases': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME),
             options = { 'target' : target.uuid };

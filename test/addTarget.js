@@ -93,14 +93,37 @@ exports.addTarget = {
 
         test.done();
     },
-    'should add to build configuration list': function (test) {
-        var pbxXCConfigurationList = proj.pbxXCConfigurationList(),
+    'should add debug and release configurations to build configuration list': function (test) {
+        var pbxXCBuildConfigurationSection = proj.pbxXCBuildConfigurationSection(),
+            pbxXCConfigurationList = proj.pbxXCConfigurationList(),
             target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
 
         test.ok(target.pbxNativeTarget.buildConfigurationList);
         test.ok(pbxXCConfigurationList[target.pbxNativeTarget.buildConfigurationList]);
-        test.ok(pbxXCConfigurationList[target.pbxNativeTarget.buildConfigurationList].buildConfigurations);
-        test.ok(pbxXCConfigurationList[target.pbxNativeTarget.buildConfigurationList].buildConfigurations.length);
+        var buildConfigurations = pbxXCConfigurationList[target.pbxNativeTarget.buildConfigurationList].buildConfigurations;
+        test.ok(buildConfigurations);
+        test.equal(buildConfigurations.length, 2);
+
+        buildConfigurations.forEach((config, index) => {
+            var configUuid = config.value;
+            test.ok(configUuid);
+            var pbxConfig = pbxXCBuildConfigurationSection[configUuid];
+            test.ok(pbxConfig);
+            test.equal(pbxConfig.name, index === 0 ? 'Debug' : 'Release');
+            test.equal(pbxConfig.isa, 'XCBuildConfiguration');
+            test.ok(pbxConfig.buildSettings);
+            if (index === 0) {
+                var debugConfig = pbxConfig.buildSettings['GCC_PREPROCESSOR_DEFINITIONS'];
+                test.ok(debugConfig);
+                test.equal(debugConfig.length, 2);
+                test.equal(debugConfig[0], '"DEBUG=1"');
+                test.equal(debugConfig[1], '"$(inherited)"');
+            }
+            test.equal(pbxConfig.buildSettings['INFOPLIST_FILE'], '"' + TARGET_SUBFOLDER_NAME + '/' + TARGET_SUBFOLDER_NAME + '-Info.plist"');
+            test.equal(pbxConfig.buildSettings['LD_RUNPATH_SEARCH_PATHS'], '"$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"');
+            test.equal(pbxConfig.buildSettings['PRODUCT_NAME'], '"' + TARGET_NAME + '"');
+            test.equal(pbxConfig.buildSettings['SKIP_INSTALL'], 'YES');
+        });
 
         test.done();
     },

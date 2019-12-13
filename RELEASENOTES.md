@@ -20,6 +20,20 @@
 -->
 # Cordova-node-xcode Release Notes
 
+### 2.1.0 (December 12, 2019)
+* Add target test coverage ([#82](https://github.com/apache/cordova-node-xcode/pull/82))
+* ensure coverage for addTargetDependency with invalid input ([#81](https://github.com/apache/cordova-node-xcode/pull/81))
+* Support watch2 apps/extensions ([#56](https://github.com/apache/cordova-node-xcode/pull/56))
+* Test coverage: `addTarget` add to main project as dependency ([#76](https://github.com/apache/cordova-node-xcode/pull/76))
+* remove internal propReplace function not needed ([#69](https://github.com/apache/cordova-node-xcode/pull/69))
+* Add proper `filetypeForProducttype` test coverage ([#72](https://github.com/apache/cordova-node-xcode/pull/72))
+* Test existing WatchKit support ([#71](https://github.com/apache/cordova-node-xcode/pull/71))
+* fix a comment in lib/pbxProject.js ([#68](https://github.com/apache/cordova-node-xcode/pull/68))
+* Test coverage for `app_extension` target types ([#66](https://github.com/apache/cordova-node-xcode/pull/66))
+* add dependencies for per-file testing ([#67](https://github.com/apache/cordova-node-xcode/pull/67))
+* Add Node.js 12 to CI Services ([#51](https://github.com/apache/cordova-node-xcode/pull/51))
+* Update writeObjectsSections to match current Xcode format ([#46](https://github.com/apache/cordova-node-xcode/pull/46))
+
 ### 2.0.0 (Jan 15, 2019)
 * Updated to use ECMAScript 2015 Object.assign. ([#14](https://github.com/apache/cordova-node-xcode/pull/14))
 * fix: simple-plist@1 update in dependencies ([#30](https://github.com/apache/cordova-node-xcode/pull/30))

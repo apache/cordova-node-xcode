@@ -43,9 +43,35 @@ exports.addTarget = {
 
         test.done();
     },
+    'should throw when provided blank or empty target name': function (test) {
+        test.throws(function() {
+            proj.addTarget('', TARGET_TYPE);
+        }, function (error) {
+            return (error instanceof Error) && /Target name missing/i.test(error);
+        });
+
+        test.throws(function() {
+            proj.addTarget('   ', TARGET_TYPE);
+        }, function (error) {
+            return (error instanceof Error) && /Target name missing/i.test(error);
+        });
+
+        test.done();
+    },
     'should throw when target type missing': function (test) {
         test.throws(function() {
             proj.addTarget(TARGET_NAME, null);
+        }, function (error) {
+            return (error instanceof Error) && /Target type missing/i.test(error);
+        });
+
+        test.done();
+    },
+    'should throw when invalid target type': function (test) {
+        test.throws(function() {
+            proj.addTarget(TARGET_NAME, 'invalid_target_type');
+        }, function (error) {
+            return (error instanceof Error) && /Target type invalid/i.test(error);
         });
 
         test.done();
@@ -68,6 +94,7 @@ exports.addTarget = {
 
         test.done();
     },
+
     'should create a new target with bundleid': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME, TARGET_BUNDLE_ID);
 
@@ -83,6 +110,60 @@ exports.addTarget = {
         test.ok(target.pbxNativeTarget.buildPhases);
         test.ok(target.pbxNativeTarget.buildRules);
         test.ok(target.pbxNativeTarget.dependencies);
+  
+        test.done();
+    }
+    'should add debug and release configurations to build configuration list': function (test) {
+        var pbxXCBuildConfigurationSection = proj.pbxXCBuildConfigurationSection(),
+            pbxXCConfigurationList = proj.pbxXCConfigurationList(),
+            target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
+
+        test.ok(target.pbxNativeTarget.buildConfigurationList);
+        test.ok(pbxXCConfigurationList[target.pbxNativeTarget.buildConfigurationList]);
+        var buildConfigurations = pbxXCConfigurationList[target.pbxNativeTarget.buildConfigurationList].buildConfigurations;
+        test.ok(buildConfigurations);
+        test.equal(buildConfigurations.length, 2);
+
+        buildConfigurations.forEach((config, index) => {
+            var configUuid = config.value;
+            test.ok(configUuid);
+            var pbxConfig = pbxXCBuildConfigurationSection[configUuid];
+            test.ok(pbxConfig);
+            test.equal(pbxConfig.name, index === 0 ? 'Debug' : 'Release');
+            test.equal(pbxConfig.isa, 'XCBuildConfiguration');
+            test.ok(pbxConfig.buildSettings);
+            if (index === 0) {
+                var debugConfig = pbxConfig.buildSettings['GCC_PREPROCESSOR_DEFINITIONS'];
+                test.ok(debugConfig);
+                test.equal(debugConfig.length, 2);
+                test.equal(debugConfig[0], '"DEBUG=1"');
+                test.equal(debugConfig[1], '"$(inherited)"');
+            }
+            test.equal(pbxConfig.buildSettings['INFOPLIST_FILE'], '"' + TARGET_SUBFOLDER_NAME + '/' + TARGET_SUBFOLDER_NAME + '-Info.plist"');
+            test.equal(pbxConfig.buildSettings['LD_RUNPATH_SEARCH_PATHS'], '"$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"');
+            test.equal(pbxConfig.buildSettings['PRODUCT_NAME'], '"' + TARGET_NAME + '"');
+            test.equal(pbxConfig.buildSettings['SKIP_INSTALL'], 'YES');
+        });
+
+        test.done();
+    },
+    'should add to build configuration list with default configuration name': function (test) {
+        var pbxXCConfigurationList = proj.pbxXCConfigurationList(),
+            target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
+
+        test.ok(target.pbxNativeTarget.buildConfigurationList);
+        test.ok(pbxXCConfigurationList[target.pbxNativeTarget.buildConfigurationList]);
+        test.equal(pbxXCConfigurationList[target.pbxNativeTarget.buildConfigurationList].defaultConfigurationName, 'Release');
+
+        test.done();
+    },
+    'should add to build configuration list with comment': function (test) {
+        var pbxXCConfigurationList = proj.pbxXCConfigurationList(),
+            target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
+
+        var buildCommentKey = target.pbxNativeTarget.buildConfigurationList + '_comment';
+        test.ok(pbxXCConfigurationList[buildCommentKey]);
+        test.equals(pbxXCConfigurationList[buildCommentKey], 'Build configuration list for PBXNativeTarget "' + TARGET_NAME + '"');
 
         test.done();
     },
@@ -119,6 +200,15 @@ exports.addTarget = {
         test.ok(target.pbxNativeTarget.buildPhases);
         test.ok(target.pbxNativeTarget.buildRules);
         test.ok(target.pbxNativeTarget.dependencies);
+
+        test.done();
+    },
+    'should create target with correct pbxNativeTarget name': function (test) {
+        var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
+
+        var quotedTargetName = '"' + TARGET_NAME + '"';
+        test.equals(target.pbxNativeTarget.name, quotedTargetName);
+        test.equals(target.pbxNativeTarget.productName, quotedTargetName);
 
         test.done();
     },

@@ -94,7 +94,6 @@ exports.addTarget = {
 
         test.done();
     },
-
     'should create a new target with bundleid': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME, TARGET_BUNDLE_ID);
 
@@ -112,7 +111,7 @@ exports.addTarget = {
         test.ok(target.pbxNativeTarget.dependencies);
   
         test.done();
-    }
+    },
     'should add debug and release configurations to build configuration list': function (test) {
         var pbxXCBuildConfigurationSection = proj.pbxXCBuildConfigurationSection(),
             pbxXCConfigurationList = proj.pbxXCConfigurationList(),

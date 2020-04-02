@@ -51,7 +51,7 @@ exports.addAndRemoveToFromBuildSettings = {
         var config = proj.pbxXCBuildConfigurationSection();
         for (var ref in config) {
             if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
-            test.ok(!config[ref].buildSettings.hasOwnProperty(buildSetting));
+            test.ok(!Object.prototype.hasOwnProperty.call(config[ref].buildSettings, buildSetting));
         }
         test.done();
     }

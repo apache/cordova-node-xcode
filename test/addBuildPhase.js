@@ -193,5 +193,5 @@ exports.addBuildPhase = {
         test.equal(buildPhase.shellPath, '/bin/sh');
         test.equal(buildPhase.shellScript, '"echo \\"hello world!\\""');
         test.done();
-    },
+    }
 };

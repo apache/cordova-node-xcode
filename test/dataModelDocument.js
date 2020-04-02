@@ -22,8 +22,8 @@ var path = require('path');
 var pbx = require('../lib/pbxProject');
 var pbxFile = require('../lib/pbxFile');
 var proj = new pbx('.');
-var singleDataModelFilePath = __dirname + '/fixtures/single-data-model.xcdatamodeld';
-var multipleDataModelFilePath = __dirname + '/fixtures/multiple-data-model.xcdatamodeld';
+var singleDataModelFilePath = path.join(`${__dirname}/fixtures/single-data-model.xcdatamodeld`);
+var multipleDataModelFilePath = path.join(`${__dirname}/fixtures/multiple-data-model.xcdatamodeld`);
 
 function cleanHash () {
     return JSON.parse(fullProjectStr);

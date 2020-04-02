@@ -54,7 +54,7 @@ exports.addRemovePbxGroup = {
     },
     'should add the PBXGroup object correctly': function (test) {
         var pbxGroup = proj.addPbxGroup(['file.m'], 'MyGroup', 'Application', '"<group>"');
-        pbxGroupInPbx = proj.pbxGroupByName('MyGroup');
+        var pbxGroupInPbx = proj.pbxGroupByName('MyGroup');
 
         test.equal(pbxGroupInPbx.children, pbxGroup.pbxGroup.children);
         test.equal(pbxGroupInPbx.isa, 'PBXGroup');
@@ -64,7 +64,7 @@ exports.addRemovePbxGroup = {
     },
     'should add <group> sourceTree if no other specified': function (test) {
         proj.addPbxGroup(['file.m'], 'MyGroup', 'Application');
-        pbxGroupInPbx = proj.pbxGroupByName('MyGroup');
+        var pbxGroupInPbx = proj.pbxGroupByName('MyGroup');
 
         test.equal(pbxGroupInPbx.sourceTree, '"<group>"');
         test.done();

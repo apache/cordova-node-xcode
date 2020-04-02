@@ -97,8 +97,8 @@ exports.dataModelDocument = {
     },
     'should add to resources group by default': function (test) {
         proj.addDataModelDocument(singleDataModelFilePath);
-        groupChildren = proj.pbxGroupByName('Resources').children,
-        found = false;
+        var groupChildren = proj.pbxGroupByName('Resources').children;
+        var found = false;
 
         for (var index in groupChildren) {
             if (groupChildren[index].comment === 'single-data-model.xcdatamodeld') {
@@ -112,7 +112,7 @@ exports.dataModelDocument = {
     'should add to group specified by key': function (test) {
         var group = 'Frameworks';
         proj.addDataModelDocument(singleDataModelFilePath, proj.findPBXGroupKey({ name: group }));
-        groupChildren = proj.pbxGroupByName(group).children;
+        var groupChildren = proj.pbxGroupByName(group).children;
 
         var found = false;
         for (var index in groupChildren) {
@@ -127,7 +127,7 @@ exports.dataModelDocument = {
     'should add to group specified by name': function (test) {
         var group = 'Frameworks';
         proj.addDataModelDocument(singleDataModelFilePath, group);
-        groupChildren = proj.pbxGroupByName(group).children;
+        var groupChildren = proj.pbxGroupByName(group).children;
 
         var found = false;
         for (var index in groupChildren) {

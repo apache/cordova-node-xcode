@@ -87,7 +87,7 @@ exports.addXCConfigurationList = {
     'should add XCConfigurationList to pbxXCConfigurationListSection': function (test) {
         var myProj = new pbx('test/parser/projects/full.pbxproj').parseSync();
         var pbxXCConfigurationListSection = myProj.pbxXCConfigurationList();
-        xcConfigurationList = myProj.addXCConfigurationList([debugConfiguration, releaseConfiguration], 'Release', 'XCConfigurationList Comment');
+        var xcConfigurationList = myProj.addXCConfigurationList([debugConfiguration, releaseConfiguration], 'Release', 'XCConfigurationList Comment');
 
         test.ok(pbxXCConfigurationListSection[xcConfigurationList.uuid]);
         test.done();
@@ -95,8 +95,8 @@ exports.addXCConfigurationList = {
     'should add XCConfigurationList object correctly': function (test) {
         var myProj = new pbx('test/parser/projects/full.pbxproj').parseSync();
         var pbxXCConfigurationListSection = myProj.pbxXCConfigurationList();
-        xcConfigurationList = myProj.addXCConfigurationList([debugConfiguration, releaseConfiguration], 'Release', 'XCConfigurationList Comment'),
-        xcConfigurationListInPbx = pbxXCConfigurationListSection[xcConfigurationList.uuid];
+        var xcConfigurationList = myProj.addXCConfigurationList([debugConfiguration, releaseConfiguration], 'Release', 'XCConfigurationList Comment');
+        var xcConfigurationListInPbx = pbxXCConfigurationListSection[xcConfigurationList.uuid];
 
         test.deepEqual(xcConfigurationListInPbx, xcConfigurationList.xcConfigurationList);
         test.done();
@@ -104,11 +104,11 @@ exports.addXCConfigurationList = {
     'should add correct configurations to XCConfigurationList and to pbxBuildConfigurationSection': function (test) {
         var myProj = new pbx('test/parser/projects/full.pbxproj').parseSync();
         var pbxXCConfigurationListSection = myProj.pbxXCConfigurationList();
-        pbxBuildConfigurationSection = myProj.pbxXCBuildConfigurationSection(),
-        xcConfigurationList = myProj.addXCConfigurationList([debugConfiguration, releaseConfiguration], 'Release', 'XCConfigurationList Comment'),
-        xcConfigurationListConfigurations = xcConfigurationList.xcConfigurationList.buildConfigurations,
-        expectedConfigurations = [],
-        xcConfigurationListInPbx = pbxXCConfigurationListSection[xcConfigurationList.uuid];
+        var pbxBuildConfigurationSection = myProj.pbxXCBuildConfigurationSection();
+        var xcConfigurationList = myProj.addXCConfigurationList([debugConfiguration, releaseConfiguration], 'Release', 'XCConfigurationList Comment');
+        var xcConfigurationListConfigurations = xcConfigurationList.xcConfigurationList.buildConfigurations;
+        var expectedConfigurations = [];
+        var xcConfigurationListInPbx = pbxXCConfigurationListSection[xcConfigurationList.uuid];
 
         for (var index = 0; index < xcConfigurationListConfigurations.length; index++) {
             var configuration = xcConfigurationListConfigurations[index];

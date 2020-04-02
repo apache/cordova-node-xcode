@@ -34,9 +34,8 @@ exports.setUp = function (callback) {
 function nonComments (obj) {
     var keys = Object.keys(obj);
     var newObj = {};
-    var i = 0;
 
-    for (i; i < keys.length; i++) {
+    for (var i = 0; i < keys.length; i++) {
         if (!/_comment$/.test(keys[i])) {
             newObj[keys[i]] = obj[keys[i]];
         }
@@ -49,10 +48,9 @@ function frameworkSearchPaths (proj) {
     var configs = nonComments(proj.pbxXCBuildConfigurationSection());
     var allPaths = [];
     var ids = Object.keys(configs);
-    var i;
     var buildSettings;
 
-    for (i = 0; i < ids.length; i++) {
+    for (var i = 0; i < ids.length; i++) {
         buildSettings = configs[ids[i]].buildSettings;
 
         if (buildSettings.FRAMEWORK_SEARCH_PATHS) {
@@ -88,8 +86,8 @@ exports.removeFramework = {
     },
     'should remove 2 fields from the PBXFileReference section': function (test) {
         var newFile = proj.addFramework('libsqlite3.dylib');
-        fileRefSection = proj.pbxFileReferenceSection(),
-        frsLength = Object.keys(fileRefSection).length;
+        var fileRefSection = proj.pbxFileReferenceSection();
+        var frsLength = Object.keys(fileRefSection).length;
 
         test.equal(68, frsLength);
         test.ok(fileRefSection[newFile.fileRef]);
@@ -162,9 +160,9 @@ exports.removeFramework = {
         test.equal(frameworks.files.length, 15);
 
         var frameworkPaths = frameworkSearchPaths(proj);
-        expectedPath = '"/path/to"';
+        var expectedPath = '"/path/to"';
 
-        for (i = 0; i < frameworkPaths.length; i++) {
+        for (var i = 0; i < frameworkPaths.length; i++) {
             var current = frameworkPaths[i];
             test.ok(current.indexOf(expectedPath) === -1);
         }
@@ -189,9 +187,9 @@ exports.removeFramework = {
         test.equal(58, bfsLength);
 
         var frameworkPaths = frameworkSearchPaths(proj);
-        expectedPath = '"/path/to"';
+        var expectedPath = '"/path/to"';
 
-        for (i = 0; i < frameworkPaths.length; i++) {
+        for (var i = 0; i < frameworkPaths.length; i++) {
             var current = frameworkPaths[i];
             test.ok(current.indexOf(expectedPath) === -1);
         }

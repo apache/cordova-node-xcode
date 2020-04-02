@@ -156,8 +156,8 @@ exports.addTarget = {
         var resourceFile = proj.addResourceFile('assets.bundle', options);
         var resourcePhase = proj.addBuildPhase([], 'PBXResourcesBuildPhase', 'Resources', target.uuid);
         var frameworkFile = proj.addFramework('libsqlite3.dylib', options);
-        frameworkPhase = proj.addBuildPhase([], 'PBXFrameworkBuildPhase', 'Frameworks', target.uuid),
-        headerFile = proj.addHeaderFile('file.h', options);
+        var frameworkPhase = proj.addBuildPhase([], 'PBXFrameworkBuildPhase', 'Frameworks', target.uuid);
+        var headerFile = proj.addHeaderFile('file.h', options);
 
         test.ok(sourcePhase);
         test.ok(resourcePhase);

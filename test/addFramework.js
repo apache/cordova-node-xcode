@@ -78,8 +78,8 @@ exports.addFramework = {
     },
     'should populate the PBXFileReference section with 2 fields': function (test) {
         var newFile = proj.addFramework('libsqlite3.dylib');
-        fileRefSection = proj.pbxFileReferenceSection(),
-        frsLength = Object.keys(fileRefSection).length;
+        var fileRefSection = proj.pbxFileReferenceSection();
+        var frsLength = Object.keys(fileRefSection).length;
 
         test.equal(68, frsLength);
         test.ok(fileRefSection[newFile.fileRef]);
@@ -89,8 +89,8 @@ exports.addFramework = {
     },
     'should populate the PBXFileReference comment correctly': function (test) {
         var newFile = proj.addFramework('libsqlite3.dylib');
-        fileRefSection = proj.pbxFileReferenceSection(),
-        commentKey = newFile.fileRef + '_comment';
+        var fileRefSection = proj.pbxFileReferenceSection();
+        var commentKey = newFile.fileRef + '_comment';
 
         test.equal(fileRefSection[commentKey], 'libsqlite3.dylib');
         test.done();
@@ -213,9 +213,9 @@ exports.addFramework = {
 
         // should add path to framework search path
         var frameworkPaths = frameworkSearchPaths(proj);
-        expectedPath = '"\\"/path/to\\""';
+        var expectedPath = '"\\"/path/to\\""';
 
-        for (i = 0; i < frameworkPaths.length; i++) {
+        for (var i = 0; i < frameworkPaths.length; i++) {
             var current = frameworkPaths[i];
             test.ok(current.indexOf('"$(inherited)"') >= 0);
             test.ok(current.indexOf(expectedPath) >= 0);

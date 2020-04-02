@@ -78,8 +78,8 @@ exports.addStaticLibrary = {
     },
     'should populate the PBXBuildFile section with 2 fields': function (test) {
         var newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
-        buildFileSection = proj.pbxBuildFileSection(),
-        bfsLength = Object.keys(buildFileSection).length;
+        var buildFileSection = proj.pbxBuildFileSection();
+        var bfsLength = Object.keys(buildFileSection).length;
 
         test.equal(60, bfsLength);
         test.ok(buildFileSection[newFile.uuid]);
@@ -90,8 +90,8 @@ exports.addStaticLibrary = {
     'should populate the PBXBuildFile section with 2 fields as plugin': function (test) {
         var newFile = proj.addStaticLibrary('libGoogleAnalytics.a',
             { plugin: true });
-        buildFileSection = proj.pbxBuildFileSection(),
-        bfsLength = Object.keys(buildFileSection).length;
+        var buildFileSection = proj.pbxBuildFileSection();
+        var bfsLength = Object.keys(buildFileSection).length;
 
         test.equal(60, bfsLength);
         test.ok(buildFileSection[newFile.uuid]);
@@ -101,16 +101,16 @@ exports.addStaticLibrary = {
     },
     'should add the PBXBuildFile comment correctly': function (test) {
         var newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
-        commentKey = newFile.uuid + '_comment',
-        buildFileSection = proj.pbxBuildFileSection();
+        var commentKey = newFile.uuid + '_comment';
+        var buildFileSection = proj.pbxBuildFileSection();
 
         test.equal(buildFileSection[commentKey], 'libGoogleAnalytics.a in Frameworks');
         test.done();
     },
     'should add the PBXBuildFile object correctly': function (test) {
         var newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
-        buildFileSection = proj.pbxBuildFileSection(),
-        buildFileEntry = buildFileSection[newFile.uuid];
+        var buildFileSection = proj.pbxBuildFileSection();
+        var buildFileEntry = buildFileSection[newFile.uuid];
 
         test.equal(buildFileEntry.isa, 'PBXBuildFile');
         test.equal(buildFileEntry.fileRef, newFile.fileRef);
@@ -120,8 +120,8 @@ exports.addStaticLibrary = {
     },
     'should populate the PBXFileReference section with 2 fields': function (test) {
         var newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
-        fileRefSection = proj.pbxFileReferenceSection(),
-        frsLength = Object.keys(fileRefSection).length;
+        var fileRefSection = proj.pbxFileReferenceSection();
+        var frsLength = Object.keys(fileRefSection).length;
 
         test.equal(68, frsLength);
         test.ok(fileRefSection[newFile.fileRef]);
@@ -131,8 +131,8 @@ exports.addStaticLibrary = {
     },
     'should populate the PBXFileReference comment correctly': function (test) {
         var newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
-        fileRefSection = proj.pbxFileReferenceSection(),
-        commentKey = newFile.fileRef + '_comment';
+        var fileRefSection = proj.pbxFileReferenceSection();
+        var commentKey = newFile.fileRef + '_comment';
 
         test.equal(fileRefSection[commentKey], 'libGoogleAnalytics.a');
         test.done();
@@ -221,7 +221,7 @@ exports.addStaticLibrary = {
     },
     'should add the right LIBRARY_SEARCH_PATHS entry for plugins': {
         'with group set': function (test) {
-            plugins = proj.pbxGroupByName('Plugins');
+            var plugins = proj.pbxGroupByName('Plugins');
             plugins.path = '"Test200/Plugins"';
 
             proj.addStaticLibrary('Plugins/libGoogleAnalytics.a',
@@ -241,7 +241,7 @@ exports.addStaticLibrary = {
             test.done();
         },
         'without group set': function (test) {
-            plugins = proj.pbxGroupByName('Plugins');
+            var plugins = proj.pbxGroupByName('Plugins');
             delete plugins.path;
 
             proj.addStaticLibrary('Plugins/libGoogleAnalytics.a',

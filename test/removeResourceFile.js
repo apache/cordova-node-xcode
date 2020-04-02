@@ -75,8 +75,8 @@ exports.removeResourceFile = {
         test.ok(buildFileSection[newFile.uuid + '_comment']);
 
         var deletedFile = proj.removeResourceFile('assets.bundle');
-        var buildFileSection = proj.pbxBuildFileSection();
-        var bfsLength = Object.keys(buildFileSection).length;
+        buildFileSection = proj.pbxBuildFileSection();
+        bfsLength = Object.keys(buildFileSection).length;
 
         test.equal(58, bfsLength);
         test.ok(!buildFileSection[deletedFile.uuid]);
@@ -92,8 +92,8 @@ exports.removeResourceFile = {
         test.equal(buildFileSection[commentKey], 'assets.bundle in Resources');
 
         var deletedFile = proj.removeResourceFile('assets.bundle');
-        var commentKey = deletedFile.uuid + '_comment';
-        var buildFileSection = proj.pbxBuildFileSection();
+        commentKey = deletedFile.uuid + '_comment';
+        buildFileSection = proj.pbxBuildFileSection();
 
         test.ok(!buildFileSection[commentKey]);
 
@@ -109,8 +109,8 @@ exports.removeResourceFile = {
         test.equal(buildFileEntry.fileRef_comment, 'assets.bundle');
 
         var deletedFile = proj.removeResourceFile('assets.bundle');
-        var buildFileSection = proj.pbxBuildFileSection();
-        var buildFileEntry = buildFileSection[deletedFile.uuid];
+        buildFileSection = proj.pbxBuildFileSection();
+        buildFileEntry = buildFileSection[deletedFile.uuid];
 
         test.ok(!buildFileEntry);
 
@@ -126,8 +126,8 @@ exports.removeResourceFile = {
         test.ok(fileRefSection[newFile.fileRef + '_comment']);
 
         var deletedFile = proj.removeResourceFile('assets.bundle');
-        var fileRefSection = proj.pbxFileReferenceSection();
-        var frsLength = Object.keys(fileRefSection).length;
+        fileRefSection = proj.pbxFileReferenceSection();
+        frsLength = Object.keys(fileRefSection).length;
 
         test.equal(66, frsLength);
         test.ok(!fileRefSection[deletedFile.fileRef]);
@@ -143,8 +143,8 @@ exports.removeResourceFile = {
         test.equal(fileRefSection[commentKey], 'assets.bundle');
 
         var deletedFile = proj.removeResourceFile('assets.bundle');
-        var fileRefSection = proj.pbxFileReferenceSection();
-        var commentKey = deletedFile.fileRef + '_comment';
+        fileRefSection = proj.pbxFileReferenceSection();
+        commentKey = deletedFile.fileRef + '_comment';
 
         test.ok(!fileRefSection[commentKey]);
         test.done();
@@ -164,8 +164,8 @@ exports.removeResourceFile = {
         test.equal(fileRefEntry.sourceTree, '"<group>"');
 
         var deletedFile = proj.removeResourceFile('Resources/assets.bundle');
-        var fileRefSection = proj.pbxFileReferenceSection();
-        var fileRefEntry = fileRefSection[deletedFile.fileRef];
+        fileRefSection = proj.pbxFileReferenceSection();
+        fileRefEntry = fileRefSection[deletedFile.fileRef];
 
         test.ok(!fileRefEntry);
 
@@ -178,7 +178,7 @@ exports.removeResourceFile = {
         test.equal(resources.children.length, 10);
 
         proj.removeResourceFile('Resources/assets.bundle');
-        var resources = proj.pbxGroupByName('Resources');
+        resources = proj.pbxGroupByName('Resources');
 
         test.equal(resources.children.length, 9);
         test.done();
@@ -190,7 +190,7 @@ exports.removeResourceFile = {
         test.equal(sources.files.length, 13);
 
         proj.removeResourceFile('Resources/assets.bundle');
-        var sources = proj.pbxResourcesBuildPhaseObj();
+        sources = proj.pbxResourcesBuildPhaseObj();
 
         test.equal(sources.files.length, 12);
         test.done();

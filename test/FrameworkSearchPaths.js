@@ -19,7 +19,6 @@ var fullProject = require('./fixtures/full-project');
 
 var fullProjectStr = JSON.stringify(fullProject);
 var pbx = require('../lib/pbxProject');
-var pbxFile = require('../lib/pbxFile');
 var proj = new pbx('.');
 
 var pbxFile = {

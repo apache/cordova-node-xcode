@@ -100,7 +100,7 @@ exports.createGroup = {
         var found = false;
         var groups = project.getPBXObject('PBXGroup');
 
-        var found = findByName(groups, 'Test');
+        found = findByName(groups, 'Test');
         test.ok(found === false);
 
         var group = project.findPBXGroupKey({ name: 'Test' });
@@ -268,13 +268,13 @@ exports.removeSourceFileFromGroup = {
 
         project.removeSourceFile('Notifications.m', {}, testKey);
 
-        var foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey), file.fileRef);
+        foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey), file.fileRef);
         test.ok(!foundInGroup);
 
-        var foundInBuildFileSection = findByFileRef(project.pbxBuildFileSection(), file.fileRef);
+        foundInBuildFileSection = findByFileRef(project.pbxBuildFileSection(), file.fileRef);
         test.ok(!foundInBuildFileSection);
 
-        var foundInBuildPhase = findFileByUUID(project.pbxSourcesBuildPhaseObj(), file.uuid);
+        foundInBuildPhase = findFileByUUID(project.pbxSourcesBuildPhaseObj(), file.uuid);
         test.ok(!foundInBuildPhase);
 
         test.done();
@@ -303,7 +303,7 @@ exports.removeHeaderFileFromGroup = {
 
         project.removeHeaderFile('Notifications.h', {}, testKey);
 
-        var foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey), file.fileRef);
+        foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey), file.fileRef);
         test.ok(!foundInGroup);
 
         test.done();
@@ -332,7 +332,7 @@ exports.removeResourceFileFromGroup = {
 
         project.removeResourceFile('DefaultTest-667h.png', {}, testKey);
 
-        var foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey), file.fileRef);
+        foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey), file.fileRef);
         test.ok(!foundInGroup);
 
         test.done();
@@ -358,15 +358,15 @@ exports.retrieveBuildPropertyForBuild = {
 exports.retrieveBuildConfigByName = {
     'should retrieve valid build config': function (test) {
         var releaseBuildConfig = project.getBuildConfigByName('Release');
-        for (var property in releaseBuildConfig) {
-            var value = releaseBuildConfig[property];
-            test.ok(value.name === 'Release');
+        for (var releaseProperty in releaseBuildConfig) {
+            var releaseValue = releaseBuildConfig[releaseProperty];
+            test.ok(releaseValue.name === 'Release');
         }
 
         var debugBuildConfig = project.getBuildConfigByName('Debug');
-        for (var property in debugBuildConfig) {
-            var value = debugBuildConfig[property];
-            test.ok(value.name === 'Debug');
+        for (var debugProperty in debugBuildConfig) {
+            var debugValue = debugBuildConfig[debugProperty];
+            test.ok(debugValue.name === 'Debug');
         }
 
         var nonExistingBuildConfig = project.getBuildConfigByName('Foo');

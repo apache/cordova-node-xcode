@@ -68,7 +68,7 @@ exports.createVariantGroup = {
         var found = false;
         var groups = project.getPBXObject('PBXVariantGroup');
 
-        var found = findByName(groups, 'Test');
+        found = findByName(groups, 'Test');
         test.ok(found === false);
 
         var group = project.findPBXVariantGroupKey({ name: 'Test' });
@@ -159,7 +159,7 @@ exports.removeResourceFileFromGroup = {
 
         project.removeResourceFile('Resources/zh.lproj/Localization.strings', {}, testKey);
 
-        var foundInGroup = findChildInGroup(project.getPBXVariantGroupByKey(testKey), file.fileRef);
+        foundInGroup = findChildInGroup(project.getPBXVariantGroupByKey(testKey), file.fileRef);
         test.ok(!foundInGroup);
 
         test.done();

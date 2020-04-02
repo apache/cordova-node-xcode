@@ -64,8 +64,8 @@ exports.removeHeaderFile = {
         test.ok(fileRefSection[newFile.fileRef + '_comment']);
 
         var deletedFile = proj.removeHeaderFile('file.h');
-        var fileRefSection = proj.pbxFileReferenceSection();
-        var frsLength = Object.keys(fileRefSection).length;
+        fileRefSection = proj.pbxFileReferenceSection();
+        frsLength = Object.keys(fileRefSection).length;
 
         test.equal(66, frsLength);
         test.ok(!fileRefSection[deletedFile.fileRef]);
@@ -81,8 +81,8 @@ exports.removeHeaderFile = {
         test.equal(fileRefSection[commentKey], 'file.h');
 
         var deletedFile = proj.removeHeaderFile('file.h');
-        var fileRefSection = proj.pbxFileReferenceSection();
-        var commentKey = deletedFile.fileRef + '_comment';
+        fileRefSection = proj.pbxFileReferenceSection();
+        commentKey = deletedFile.fileRef + '_comment';
         test.ok(!fileRefSection[commentKey]);
 
         test.done();
@@ -100,8 +100,8 @@ exports.removeHeaderFile = {
         test.equal(fileRefEntry.sourceTree, '"<group>"');
 
         var deletedFile = proj.removeHeaderFile('Plugins/file.h');
-        var fileRefSection = proj.pbxFileReferenceSection();
-        var fileRefEntry = fileRefSection[deletedFile.fileRef];
+        fileRefSection = proj.pbxFileReferenceSection();
+        fileRefEntry = fileRefSection[deletedFile.fileRef];
 
         test.ok(!fileRefEntry);
 
@@ -114,7 +114,7 @@ exports.removeHeaderFile = {
         test.equal(plugins.children.length, 1);
 
         proj.removeHeaderFile('Plugins/file.h');
-        var plugins = proj.pbxGroupByName('Plugins');
+        plugins = proj.pbxGroupByName('Plugins');
 
         test.equal(plugins.children.length, 0);
 

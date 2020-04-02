@@ -131,7 +131,7 @@ exports.removeFramework = {
         test.equal(frameworks.children.length, newLength);
 
         proj.removeFramework('libsqlite3.dylib');
-        var newLength = newLength - 1;
+        newLength = newLength - 1;
 
         test.equal(frameworks.children.length, newLength);
 
@@ -144,7 +144,7 @@ exports.removeFramework = {
         test.equal(frameworks.files.length, 16);
 
         proj.removeFramework('libsqlite3.dylib');
-        var frameworks = proj.pbxFrameworksBuildPhaseObj();
+        frameworks = proj.pbxFrameworksBuildPhaseObj();
 
         test.equal(frameworks.files.length, 15);
 
@@ -157,7 +157,7 @@ exports.removeFramework = {
         test.equal(frameworks.files.length, 16);
 
         proj.removeFramework('/path/to/Custom.framework', { customFramework: true });
-        var frameworks = proj.pbxFrameworksBuildPhaseObj();
+        frameworks = proj.pbxFrameworksBuildPhaseObj();
 
         test.equal(frameworks.files.length, 15);
 
@@ -181,9 +181,9 @@ exports.removeFramework = {
         test.equal(62, bfsLength);
 
         proj.removeFramework('/path/to/Custom.framework', { customFramework: true, embed: true });
-        var frameworks = proj.pbxFrameworksBuildPhaseObj();
-        var buildFileSection = proj.pbxBuildFileSection();
-        var bfsLength = Object.keys(buildFileSection).length;
+        frameworks = proj.pbxFrameworksBuildPhaseObj();
+        buildFileSection = proj.pbxBuildFileSection();
+        bfsLength = Object.keys(buildFileSection).length;
 
         test.equal(frameworks.files.length, 15);
         test.equal(58, bfsLength);

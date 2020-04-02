@@ -60,7 +60,7 @@ exports.addFilesToTarget = {
         var l = sources.files.length;
 
         proj.removeSourceFile(filename, opt);
-        var sources = proj.pbxSourcesBuildPhaseObj(target);
+        sources = proj.pbxSourcesBuildPhaseObj(target);
         test.equal(sources.files.length, l - 1);
 
         test.done();
@@ -104,7 +104,7 @@ exports.addFilesToTarget = {
         var l = libraries.files.length;
 
         proj.removeFramework(filename, opt);
-        var libraries = proj.pbxFrameworksBuildPhaseObj(target);
+        libraries = proj.pbxFrameworksBuildPhaseObj(target);
         test.equal(libraries.files.length, l - 1);
 
         test.done();
@@ -152,7 +152,7 @@ exports.addFilesToTarget = {
         var l = resources.files.length;
 
         proj.removeResourceFile(filename, opt);
-        var resources = proj.pbxResourcesBuildPhaseObj(target);
+        resources = proj.pbxResourcesBuildPhaseObj(target);
         test.equal(resources.files.length, l - 1);
 
         test.done();

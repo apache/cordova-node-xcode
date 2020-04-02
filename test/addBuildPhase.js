@@ -28,20 +28,20 @@ function cleanHash() {
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
     callback();
-}
+};
 
 exports.addBuildPhase = {
     'should return a pbxBuildPhase': function (test) {
         var buildPhase = proj.addBuildPhase(['file.m'], 'PBXSourcesBuildPhase', 'My build phase');
 
         test.ok(typeof buildPhase === 'object');
-        test.done()
+        test.done();
     },
     'should set a uuid on the pbxBuildPhase': function (test) {
         var buildPhase = proj.addBuildPhase(['file.m'], 'PBXSourcesBuildPhase', 'My build phase');
 
         test.ok(buildPhase.uuid);
-        test.done()
+        test.done();
     },
     'should add all files to build phase': function (test) {
         var buildPhase = proj.addBuildPhase(['file.m', 'assets.bundle'], 'PBXResourcesBuildPhase', 'My build phase').buildPhase;
@@ -50,7 +50,7 @@ exports.addBuildPhase = {
             test.ok(file.value);
         }
 
-        test.done()
+        test.done();
     },
     'should add the PBXBuildPhase object correctly': function (test) {
         var buildPhase = proj.addBuildPhase(['file.m', 'assets.bundle'], 'PBXResourcesBuildPhase', 'My build phase').buildPhase;
@@ -194,4 +194,4 @@ exports.addBuildPhase = {
         test.equal(buildPhase.shellScript, '"echo \\"hello world!\\""');
         test.done();
     },
-}
+};

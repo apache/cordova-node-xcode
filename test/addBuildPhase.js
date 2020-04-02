@@ -90,7 +90,7 @@ exports.addBuildPhase = {
     'should not add files to PBXFileReference section if already added': function (test) {
         var fileRefSection = proj.pbxFileReferenceSection();
         var initialFileReferenceSectionItemsCount = Object.keys(fileRefSection);
-        proj.addBuildPhase(['AppDelegate.m', 'main.m'], 'PBXResourcesBuildPhase', 'My build phase').buildPhase;
+        proj.addBuildPhase(['AppDelegate.m', 'main.m'], 'PBXResourcesBuildPhase', 'My build phase');
         var afterAdditionBuildFileSectionItemsCount = Object.keys(fileRefSection);
 
         test.deepEqual(initialFileReferenceSectionItemsCount, afterAdditionBuildFileSectionItemsCount);
@@ -99,7 +99,7 @@ exports.addBuildPhase = {
     'should not add files to PBXBuildFile section if already added': function (test) {
         var buildFileSection = proj.pbxBuildFileSection();
         var initialBuildFileSectionItemsCount = Object.keys(buildFileSection);
-        proj.addBuildPhase(['AppDelegate.m', 'main.m'], 'PBXResourcesBuildPhase', 'My build phase').buildPhase;
+        proj.addBuildPhase(['AppDelegate.m', 'main.m'], 'PBXResourcesBuildPhase', 'My build phase');
         var afterAdditionBuildFileSectionItemsCount = Object.keys(buildFileSection);
 
         test.deepEqual(initialBuildFileSectionItemsCount, afterAdditionBuildFileSectionItemsCount);

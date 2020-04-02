@@ -22,7 +22,7 @@ var pbx = require('../lib/pbxProject');
 var pbxFile = require('../lib/pbxFile');
 var proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
@@ -33,13 +33,13 @@ var TARGET_SUBFOLDER_NAME = 'TestWatchAppFiles';
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
     callback();
-}
+};
 
 exports.addWatchApp = {
     'should create a new watch2 app target with the correct product type': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
 
-        test.ok(typeof target == 'object');
+        test.ok(typeof target === 'object');
         test.ok(target.uuid);
         test.ok(target.pbxNativeTarget);
         test.ok(target.pbxNativeTarget.isa);
@@ -59,7 +59,7 @@ exports.addWatchApp = {
     'should create a new watch2 app target with the correct product type, without needing a subfolder name': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
 
-        test.ok(typeof target == 'object');
+        test.ok(typeof target === 'object');
         test.ok(target.uuid);
         test.ok(target.pbxNativeTarget);
         test.ok(target.pbxNativeTarget.isa);
@@ -78,7 +78,7 @@ exports.addWatchApp = {
     },
     'should create a new watch2 app target and add source, framework, resource and header files and the corresponding build phases': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
-        var options = { 'target' : target.uuid };
+        var options = { target: target.uuid };
         var sourceFile = proj.addSourceFile('Plugins/file.m', options);
         var sourcePhase = proj.addBuildPhase([], 'PBXSourcesBuildPhase', 'Sources', target.uuid);
         var resourceFile = proj.addResourceFile('assets.bundle', options);
@@ -96,7 +96,7 @@ exports.addWatchApp = {
         test.equal(frameworkFile.constructor, pbxFile);
         test.equal(headerFile.constructor, pbxFile);
 
-        test.ok(typeof target == 'object');
+        test.ok(typeof target === 'object');
         test.ok(target.uuid);
         test.ok(target.pbxNativeTarget);
         test.ok(target.pbxNativeTarget.isa);
@@ -114,7 +114,7 @@ exports.addWatchApp = {
     'should create a new watch2 app target and add watch build phase': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
 
-        test.ok(typeof target == 'object');
+        test.ok(typeof target === 'object');
         test.ok(target.uuid);
         test.ok(target.pbxNativeTarget);
         test.ok(target.pbxNativeTarget.isa);
@@ -143,7 +143,7 @@ exports.addWatchApp = {
     'should create a new watch2 app with appropriate target extension': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
 
-        var buildPhase = proj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed Watch Content', target.uuid)
+        var buildPhase = proj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed Watch Content', target.uuid);
 
         var buildPhaseFile = buildPhase.files[0];
         test.ok(buildPhaseFile.value);
@@ -156,10 +156,10 @@ exports.addWatchApp = {
         test.ok(buildPhaseFileRef.name);
         test.ok(buildPhaseFileRef.path);
 
-        var quotedTargetPath = "\"" + TARGET_NAME + ".app\"";
+        var quotedTargetPath = '"' + TARGET_NAME + '.app"';
         test.equal(buildPhaseFileRef.name, quotedTargetPath);
         test.equal(buildPhaseFileRef.path, quotedTargetPath);
 
         test.done();
     }
-}
+};

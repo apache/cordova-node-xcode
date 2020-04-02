@@ -17,7 +17,7 @@
 
 var pbxFile = require('../lib/pbxFile');
 
-exports['lastKnownFileType'] = {
+exports.lastKnownFileType = {
     'should detect that a .m path means sourcecode.c.objc': function (test) {
         var sourceFile = new pbxFile('Plugins/ChildBrowser.m');
 
@@ -83,7 +83,7 @@ exports['lastKnownFileType'] = {
 
     'should allow lastKnownFileType to be overridden': function (test) {
         var sourceFile = new pbxFile('Plugins/ChildBrowser.m',
-                { lastKnownFileType: 'somestupidtype' });
+            { lastKnownFileType: 'somestupidtype' });
 
         test.equal('somestupidtype', sourceFile.lastKnownFileType);
         test.done();
@@ -95,9 +95,9 @@ exports['lastKnownFileType'] = {
         test.equal('unknown', sourceFile.lastKnownFileType);
         test.done();
     }
-}
+};
 
-exports['group'] = {
+exports.group = {
     'should be Sources for source files': function (test) {
         var sourceFile = new pbxFile('Plugins/ChildBrowser.m');
 
@@ -142,18 +142,18 @@ exports['group'] = {
         test.equal('Frameworks', archive.group);
         test.done();
     }
-}
+};
 
-exports['basename'] = {
+exports.basename = {
     'should be as expected': function (test) {
         var sourceFile = new pbxFile('Plugins/ChildBrowser.m');
 
         test.equal('ChildBrowser.m', sourceFile.basename);
         test.done();
     }
-}
+};
 
-exports['sourceTree'] = {
+exports.sourceTree = {
     'should be SDKROOT for dylibs': function (test) {
         var sourceFile = new pbxFile('libsqlite3.dylib');
 
@@ -184,7 +184,7 @@ exports['sourceTree'] = {
 
     'should be overridable either way': function (test) {
         var sourceFile = new pbxFile('Plugins/ChildBrowser.m',
-            { sourceTree: 'SOMETHING'});
+            { sourceTree: 'SOMETHING' });
 
         test.equal('SOMETHING', sourceFile.sourceTree);
         test.done();
@@ -196,9 +196,9 @@ exports['sourceTree'] = {
         test.equal('"<group>"', archive.sourceTree);
         test.done();
     }
-}
+};
 
-exports['path'] = {
+exports.path = {
     'should be "usr/lib" for dylibs (relative to SDKROOT)': function (test) {
         var sourceFile = new pbxFile('libsqlite3.dylib');
 
@@ -220,21 +220,20 @@ exports['path'] = {
         test.done();
     },
 
-
     'should default to the first argument otherwise': function (test) {
         var sourceFile = new pbxFile('Plugins/ChildBrowser.m');
 
         test.equal('Plugins/ChildBrowser.m', sourceFile.path);
         test.done();
     }
-}
+};
 
-exports['settings'] = {
-   'should not be defined by default': function (test) {
-      var sourceFile = new pbxFile('social.framework');
+exports.settings = {
+    'should not be defined by default': function (test) {
+        var sourceFile = new pbxFile('social.framework');
 
-      test.equal(undefined, sourceFile.settings);
-      test.done();
+        test.equal(undefined, sourceFile.settings);
+        test.done();
     },
 
     'should be undefined if weak is false or non-boolean': function (test) {
@@ -252,7 +251,7 @@ exports['settings'] = {
         var sourceFile = new pbxFile('social.framework',
             { weak: true });
 
-        test.deepEqual({ATTRIBUTES:["Weak"]}, sourceFile.settings);
+        test.deepEqual({ ATTRIBUTES: ['Weak'] }, sourceFile.settings);
         test.done();
     },
 
@@ -260,7 +259,7 @@ exports['settings'] = {
         var sourceFile = new pbxFile('signable.framework',
             { embed: true, sign: true });
 
-        test.deepEqual({ATTRIBUTES:["CodeSignOnCopy"]}, sourceFile.settings);
+        test.deepEqual({ ATTRIBUTES: ['CodeSignOnCopy'] }, sourceFile.settings);
         test.done();
     },
 
@@ -268,23 +267,23 @@ exports['settings'] = {
         var sourceFile = new pbxFile('signableWeak.framework',
             { embed: true, weak: true, sign: true });
 
-        test.deepEqual({ATTRIBUTES:["Weak", "CodeSignOnCopy"]}, sourceFile.settings);
+        test.deepEqual({ ATTRIBUTES: ['Weak', 'CodeSignOnCopy'] }, sourceFile.settings);
         test.done();
     },
 
     'should be {COMPILER_FLAGS:"blah"} if compiler flags specified': function (test) {
         var sourceFile = new pbxFile('Plugins/BarcodeScanner.m',
-            { compilerFlags: "-std=c++11 -fno-objc-arc" });
+            { compilerFlags: '-std=c++11 -fno-objc-arc' });
 
-        test.deepEqual({COMPILER_FLAGS:'"-std=c++11 -fno-objc-arc"'}, sourceFile.settings);
+        test.deepEqual({ COMPILER_FLAGS: '"-std=c++11 -fno-objc-arc"' }, sourceFile.settings);
         test.done();
     },
 
     'should be .appex if {explicitFileType:\'"wrapper.app-extension"\'} specified': function (test) {
         var sourceFile = new pbxFile('AppExtension',
-            { explicitFileType: '"wrapper.app-extension"'});
+            { explicitFileType: '"wrapper.app-extension"' });
 
         test.equal('AppExtension.appex', sourceFile.basename);
         test.done();
     }
-}
+};

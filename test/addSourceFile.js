@@ -22,33 +22,33 @@ var pbx = require('../lib/pbxProject');
 var pbxFile = require('../lib/pbxFile');
 var proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
     callback();
-}
+};
 
 exports.addSourceFile = {
     'should return a pbxFile': function (test) {
         var newFile = proj.addSourceFile('file.m');
 
         test.equal(newFile.constructor, pbxFile);
-        test.done()
+        test.done();
     },
     'should set a uuid on the pbxFile': function (test) {
         var newFile = proj.addSourceFile('file.m');
 
         test.ok(newFile.uuid);
-        test.done()
+        test.done();
     },
     'should set a fileRef on the pbxFile': function (test) {
         var newFile = proj.addSourceFile('file.m');
 
         test.ok(newFile.fileRef);
-        test.done()
+        test.done();
     },
     'should populate the PBXBuildFile section with 2 fields': function (test) {
         var newFile = proj.addSourceFile('file.m');
@@ -164,12 +164,11 @@ exports.addSourceFile = {
             // duplicate!
             proj.addSourceFile('Plugins/file.m');
 
-            test.equal(60, bfsLength);              // BuildFileSection
-            test.equal(68, frsLength);              // FileReferenceSection
+            test.equal(60, bfsLength); // BuildFileSection
+            test.equal(68, frsLength); // FileReferenceSection
             test.equal(plugins.children.length, 1); // Plugins pbxGroup
-            test.equal(sources.files.length, 3);    // SourcesBuildPhhase
+            test.equal(sources.files.length, 3); // SourcesBuildPhhase
             test.done();
         }
     }
-}
-
+};

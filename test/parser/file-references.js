@@ -25,6 +25,6 @@ var rawProj = parser.parse(pbx);
 var project = rawProj.project;
 
 exports['should have a PBXFileReference section'] = function (test) {
-    test.ok(project.objects['PBXFileReference']);
+    test.ok(project.objects.PBXFileReference);
     test.done();
-}
+};

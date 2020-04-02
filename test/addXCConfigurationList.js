@@ -26,9 +26,9 @@ var debugConfiguration = {
     buildSettings: {
         GCC_PREPROCESSOR_DEFINITIONS: [
             '"DEBUG=1"',
-            '"$(inherited)"',
+            '"$(inherited)"'
         ],
-        INFOPLIST_FILE: "Info.Plist",
+        INFOPLIST_FILE: 'Info.Plist',
         LD_RUNPATH_SEARCH_PATHS: '"$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"',
         PRODUCT_NAME: '"${TARGET_NAME}"',
         SKIP_INSTALL: 'YES'
@@ -39,7 +39,7 @@ var debugConfiguration = {
 var releaseConfiguration = {
     isa: 'XCBuildConfiguration',
     buildSettings: {
-        INFOPLIST_FILE: "Info.Plist",
+        INFOPLIST_FILE: 'Info.Plist',
         LD_RUNPATH_SEARCH_PATHS: '"$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"',
         PRODUCT_NAME: '"${TARGET_NAME}"',
         SKIP_INSTALL: 'YES'
@@ -47,14 +47,14 @@ var releaseConfiguration = {
     name: 'Release'
 };
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
     callback();
-}
+};
 
 exports.addXCConfigurationList = {
     'should return an XCConfigurationList': function (test) {
@@ -132,4 +132,4 @@ exports.addXCConfigurationList = {
 
         test.done();
     }
-}
+};

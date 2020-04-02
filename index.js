@@ -15,4 +15,4 @@
  under the License.
  */
 
-exports.project = require('./lib/pbxProject')
+exports.project = require('./lib/pbxProject');

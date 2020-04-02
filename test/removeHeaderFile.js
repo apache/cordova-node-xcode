@@ -22,14 +22,14 @@ var pbx = require('../lib/pbxProject');
 var pbxFile = require('../lib/pbxFile');
 var proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
     callback();
-}
+};
 
 exports.removeHeaderFile = {
     'should return a pbxFile': function (test) {
@@ -41,7 +41,7 @@ exports.removeHeaderFile = {
 
         test.equal(deletedFile.constructor, pbxFile);
 
-        test.done()
+        test.done();
     },
     'should set a fileRef on the pbxFile': function (test) {
         var newFile = proj.addHeaderFile('file.h');
@@ -52,7 +52,7 @@ exports.removeHeaderFile = {
 
         test.ok(deletedFile.fileRef);
 
-        test.done()
+        test.done();
     },
     'should remove 2 fields from the PBXFileReference section': function (test) {
         var newFile = proj.addHeaderFile('file.h');
@@ -120,4 +120,4 @@ exports.removeHeaderFile = {
 
         test.done();
     }
-}
+};

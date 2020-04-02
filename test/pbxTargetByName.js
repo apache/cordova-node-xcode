@@ -21,14 +21,14 @@ var fullProjectStr = JSON.stringify(fullProject);
 var pbx = require('../lib/pbxProject');
 var proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
     callback();
-}
+};
 
 exports.pbxTargetByName = {
     'should return PBXNativeTarget': function (test) {
@@ -36,12 +36,12 @@ exports.pbxTargetByName = {
 
         test.ok(pbxTarget);
         test.equals(pbxTarget.isa, 'PBXNativeTarget');
-        test.done()
+        test.done();
     },
     'should return null when PBXNativeTarget not found': function (test) {
         var pbxTarget = proj.pbxTargetByName('Invalid');
 
         test.equal(pbxTarget, null);
-        test.done()
+        test.done();
     }
-}
+};

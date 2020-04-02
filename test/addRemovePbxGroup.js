@@ -21,27 +21,27 @@ var fullProjectStr = JSON.stringify(fullProject);
 var pbx = require('../lib/pbxProject');
 var proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
     callback();
-}
+};
 
 exports.addRemovePbxGroup = {
     'should return a pbxGroup': function (test) {
         var pbxGroup = proj.addPbxGroup(['file.m'], 'MyGroup', 'Application', 'Application', '"<group>"');
 
         test.ok(typeof pbxGroup === 'object');
-        test.done()
+        test.done();
     },
     'should set a uuid on the pbxGroup': function (test) {
         var pbxGroup = proj.addPbxGroup(['file.m'], 'MyGroup', 'Application', 'Application', '"<group>"');
 
         test.ok(pbxGroup.uuid);
-        test.done()
+        test.done();
     },
     'should add all files to pbxGroup': function (test) {
         var pbxGroup = proj.addPbxGroup(['file.m'], 'MyGroup', 'Application', 'Application', '"<group>"');
@@ -50,11 +50,11 @@ exports.addRemovePbxGroup = {
             test.ok(file.value);
         }
 
-        test.done()
+        test.done();
     },
     'should add the PBXGroup object correctly': function (test) {
         var pbxGroup = proj.addPbxGroup(['file.m'], 'MyGroup', 'Application', '"<group>"');
-            pbxGroupInPbx = proj.pbxGroupByName('MyGroup');
+        pbxGroupInPbx = proj.pbxGroupByName('MyGroup');
 
         test.equal(pbxGroupInPbx.children, pbxGroup.pbxGroup.children);
         test.equal(pbxGroupInPbx.isa, 'PBXGroup');
@@ -64,7 +64,7 @@ exports.addRemovePbxGroup = {
     },
     'should add <group> sourceTree if no other specified': function (test) {
         var pbxGroup = proj.addPbxGroup(['file.m'], 'MyGroup', 'Application');
-            pbxGroupInPbx = proj.pbxGroupByName('MyGroup');
+        pbxGroupInPbx = proj.pbxGroupByName('MyGroup');
 
         test.equal(pbxGroupInPbx.sourceTree, '"<group>"');
         test.done();
@@ -132,7 +132,7 @@ exports.addRemovePbxGroup = {
         test.done();
     },
     'should not add any of the files to PBXFileReference section if already added': function (test) {
-        var fileReference = proj.pbxFileReferenceSection ();
+        var fileReference = proj.pbxFileReferenceSection();
         var initialBuildFileSectionItemsCount = Object.keys(fileReference);
         var pbxGroup = proj.addPbxGroup(['AppDelegate.m', 'AppDelegate.h'], 'MyGroup', 'Application', '"<group>"');
         var afterAdditionBuildFileSectionItemsCount = Object.keys(fileReference);
@@ -141,7 +141,7 @@ exports.addRemovePbxGroup = {
         test.done();
     },
     'should not add any of the files to PBXFileReference section when they contain special symbols and are already added': function (test) {
-        var fileReference = proj.pbxFileReferenceSection ();
+        var fileReference = proj.pbxFileReferenceSection();
         var initialBuildFileSectionItemsCount = Object.keys(fileReference);
         var pbxGroup = proj.addPbxGroup(['KitchenSinktablet.app'], 'MyGroup', 'Application', '"<group>"');
         var afterAdditionBuildFileSectionItemsCount = Object.keys(fileReference);
@@ -150,7 +150,7 @@ exports.addRemovePbxGroup = {
         test.done();
     },
     'should add all files which are not added and not add files already added to PBXFileReference section': function (test) {
-        var fileReference = proj.pbxFileReferenceSection ();
+        var fileReference = proj.pbxFileReferenceSection();
         for (var key in fileReference) {
             test.notEqual(fileReference[key].fileRef_comment, 'file.m');
             test.notEqual(fileReference[key].fileRef_comment, 'assets.bundle');
@@ -173,6 +173,6 @@ exports.addRemovePbxGroup = {
         console.log(pbxGroupInPbx);
 
         test.ok(!pbxGroupInPbx);
-        test.done()
+        test.done();
     }
-}
+};

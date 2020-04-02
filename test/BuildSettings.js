@@ -22,19 +22,19 @@ var pbx = require('../lib/pbxProject');
 var pbxFile = require('../lib/pbxFile');
 var proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
     callback();
-}
+};
 
 var PRODUCT_NAME = '"KitchenSinktablet"';
 
 exports.addAndRemoveToFromBuildSettings = {
-    'add should add the build setting to each configuration section':function(test) {
+    'add should add the build setting to each configuration section': function (test) {
         var buildSetting = 'some/buildSetting';
         var value = 'some/buildSetting';
         proj.addToBuildSettings(buildSetting, value);
@@ -45,7 +45,7 @@ exports.addAndRemoveToFromBuildSettings = {
         }
         test.done();
     },
-    'remove should remove from the build settings in each configuration section':function(test) {
+    'remove should remove from the build settings in each configuration section': function (test) {
         var buildSetting = 'some/buildSetting';
         proj.addToBuildSettings(buildSetting, 'some/buildSetting');
         proj.removeFromBuildSettings(buildSetting);
@@ -56,4 +56,4 @@ exports.addAndRemoveToFromBuildSettings = {
         }
         test.done();
     }
-}
+};

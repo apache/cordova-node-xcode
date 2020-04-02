@@ -28,6 +28,6 @@ exports['should parse com.apple.BackgroundModes'] = function (test) {
     var targets = project.attributes.TargetAttributes['1D6058900D05DD3D006BFB54'];
     var backgroundModes = targets.SystemCapabilities['com.apple.BackgroundModes'];
 
-    test.deepEqual(backgroundModes, {enabled: 1});
-    test.done()
-}
+    test.deepEqual(backgroundModes, { enabled: 1 });
+    test.done();
+};

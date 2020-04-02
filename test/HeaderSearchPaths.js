@@ -22,21 +22,21 @@ var pbx = require('../lib/pbxProject');
 var pbxFile = require('../lib/pbxFile');
 var proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
     callback();
-}
+};
 
 var PRODUCT_NAME = '"KitchenSinktablet"';
 
 exports.addAndRemoveToFromHeaderSearchPaths = {
-    'add should add the path to each configuration section':function(test) {
+    'add should add the path to each configuration section': function (test) {
         proj.addToHeaderSearchPaths({
-            path:'some/path/include'
+            path: 'some/path/include'
         });
         var config = proj.pbxXCBuildConfigurationSection();
         for (var ref in config) {
@@ -46,7 +46,7 @@ exports.addAndRemoveToFromHeaderSearchPaths = {
         }
         test.done();
     },
-    'add should not mangle string arguments and add to each config section':function(test) {
+    'add should not mangle string arguments and add to each config section': function (test) {
         var includePath = '../../some/path';
         proj.addToHeaderSearchPaths(includePath);
         var config = proj.pbxXCBuildConfigurationSection();
@@ -57,13 +57,13 @@ exports.addAndRemoveToFromHeaderSearchPaths = {
         }
         test.done();
     },
-    'remove should remove from the path to each configuration section':function(test) {
+    'remove should remove from the path to each configuration section': function (test) {
         var libPath = 'some/path/include';
         proj.addToHeaderSearchPaths({
-            path:libPath
+            path: libPath
         });
         proj.removeFromHeaderSearchPaths({
-            path:libPath
+            path: libPath
         });
         var config = proj.pbxXCBuildConfigurationSection();
         for (var ref in config) {
@@ -74,4 +74,4 @@ exports.addAndRemoveToFromHeaderSearchPaths = {
         }
         test.done();
     }
-}
+};

@@ -25,10 +25,10 @@ var rawProj = parser.parse(pbx);
 var project = rawProj.project;
 
 exports['should read a decimal value correctly'] = function (test) {
-    var debug = project.objects['XCBuildConfiguration']['C01FCF4F08A954540054247B'];
-    var hsPaths = debug.buildSettings['HEADER_SEARCH_PATHS'];
+    var debug = project.objects.XCBuildConfiguration.C01FCF4F08A954540054247B;
+    var hsPaths = debug.buildSettings.HEADER_SEARCH_PATHS;
     var expected = '"\\"$(TARGET_BUILD_DIR)/usr/local/lib/include\\""';
 
     test.equal(hsPaths[0], expected);
     test.done();
-}
+};

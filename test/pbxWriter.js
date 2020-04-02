@@ -20,7 +20,7 @@ var pbx = require('../lib/pbxProject');
 var fs = require('fs');
 var myProj;
 
-function testProjectContents(filename, test, expectedFilename) {
+function testProjectContents (filename, test, expectedFilename) {
     var myProj = new pbx(filename);
 
     var content;
@@ -30,7 +30,7 @@ function testProjectContents(filename, test, expectedFilename) {
         content = fs.readFileSync(filename, 'utf-8');
     }
     // normalize tabs vs strings
-    content = content.replace(/    /g, '\t');
+    content = content.replace(/ {4}/g, '\t');
 
     myProj.parse(function (err, projHash) {
         var written = myProj.writeSync();
@@ -41,23 +41,23 @@ function testProjectContents(filename, test, expectedFilename) {
 }
 
 // for debugging failing tests
-function testContentsInDepth(filename, test) {
+function testContentsInDepth (filename, test) {
     var myProj = new pbx(filename);
     var content = fs.readFileSync(filename, 'utf-8');
 
     // normalize tabs vs strings
-    content = content.replace(/    /g, '\t');
+    content = content.replace(/ {4}/g, '\t');
 
     myProj.parse(function (err, projHash) {
         var written = myProj.writeSync();
         var writtenLines = written.split('\n');
-        contentLines = content.split('\n')
+        contentLines = content.split('\n');
 
         test.equal(writtenLines.length, contentLines.length);
 
-        for (var i=0; i<writtenLines.length; i++) {
+        for (var i = 0; i < writtenLines.length; i++) {
             test.equal(writtenLines[i], contentLines[i],
-                'match failed on line ' + (i+1))
+                'match failed on line ' + (i + 1));
         }
 
         test.done();
@@ -99,25 +99,25 @@ exports.writeSync = {
         testProjectContents('test/parser/projects/file-references.pbxproj', test);
     },
     'should not null and undefined with the "omitEmptyValues" option set to false test': function (test) {
-        var filename = 'test/parser/projects/with_omit_empty_values_disabled.pbxproj'
-        var expectedFilename = 'test/parser/projects/expected/with_omit_empty_values_disabled_expected.pbxproj'
-        var content = fs.readFileSync(expectedFilename, 'utf-8').replace(/    /g, '\t');
+        var filename = 'test/parser/projects/with_omit_empty_values_disabled.pbxproj';
+        var expectedFilename = 'test/parser/projects/expected/with_omit_empty_values_disabled_expected.pbxproj';
+        var content = fs.readFileSync(expectedFilename, 'utf-8').replace(/ {4}/g, '\t');
         var project = new pbx(filename);
         project.parse(function (err) {
             if (err) {
                 return test.done(err);
             }
-            const group = project.addPbxGroup([], 'CustomGroup', undefined)
+            const group = project.addPbxGroup([], 'CustomGroup', undefined);
             var written = project.writeSync();
-            content = content.replace('CUSTOM_GROUP_UUID_REPLACED_BY_TEST', group.uuid)
+            content = content.replace('CUSTOM_GROUP_UUID_REPLACED_BY_TEST', group.uuid);
             test.equal(content, written);
             test.done();
         });
     },
     'should drop null and undefined with the "omitEmptyValues" option set to true test': function (test) {
-        var filename = 'test/parser/projects/with_omit_empty_values_enabled.pbxproj'
-        var expectedFilename = 'test/parser/projects/expected/with_omit_empty_values_enabled_expected.pbxproj'
-        var content = fs.readFileSync(expectedFilename, 'utf-8').replace(/    /g, '\t');
+        var filename = 'test/parser/projects/with_omit_empty_values_enabled.pbxproj';
+        var expectedFilename = 'test/parser/projects/expected/with_omit_empty_values_enabled_expected.pbxproj';
+        var content = fs.readFileSync(expectedFilename, 'utf-8').replace(/ {4}/g, '\t');
         var project = new pbx(filename);
         project.parse(function (err) {
             if (err) {
@@ -125,9 +125,9 @@ exports.writeSync = {
             }
             var group = project.addPbxGroup([], 'CustomGroup', undefined);
             var written = project.writeSync({ omitEmptyValues: true });
-            content = content.replace('CUSTOM_GROUP_UUID_REPLACED_BY_TEST', group.uuid)
+            content = content.replace('CUSTOM_GROUP_UUID_REPLACED_BY_TEST', group.uuid);
             test.equal(content, written);
             test.done();
         });
     }
-}
+};

@@ -23,23 +23,23 @@ var pbxFile = require('../lib/pbxFile');
 var proj = new pbx('.');
 
 var pbxFile = {
-  path:'some/path/include',
-  dirname: 'some/path',
-  customFramework: true
-}
-function cleanHash() {
+    path: 'some/path/include',
+    dirname: 'some/path',
+    customFramework: true
+};
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
     callback();
-}
+};
 
 var PRODUCT_NAME = '"KitchenSinktablet"';
 
 exports.addAndRemoveToFromFrameworkSearchPaths = {
-    'add should add the path to each configuration section':function(test) {
+    'add should add the path to each configuration section': function (test) {
         proj.addToFrameworkSearchPaths(pbxFile);
         var config = proj.pbxXCBuildConfigurationSection();
         for (var ref in config) {
@@ -49,7 +49,7 @@ exports.addAndRemoveToFromFrameworkSearchPaths = {
         }
         test.done();
     },
-    'remove should remove from the path to each configuration section':function(test) {
+    'remove should remove from the path to each configuration section': function (test) {
         proj.addToFrameworkSearchPaths(pbxFile);
         proj.removeFromFrameworkSearchPaths(pbxFile);
         var config = proj.pbxXCBuildConfigurationSection();
@@ -61,4 +61,4 @@ exports.addAndRemoveToFromFrameworkSearchPaths = {
         }
         test.done();
     }
-}
+};

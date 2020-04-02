@@ -22,14 +22,14 @@ var pbx = require('../lib/pbxProject');
 var pbxFile = require('../lib/pbxFile');
 var proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
     callback();
-}
+};
 
 exports.removeSourceFile = {
     'should return a pbxFile': function (test) {
@@ -37,21 +37,21 @@ exports.removeSourceFile = {
         var newFile = proj.removeSourceFile('file.m');
 
         test.equal(newFile.constructor, pbxFile);
-        test.done()
+        test.done();
     },
     'should set a uuid on the pbxFile': function (test) {
         proj.addSourceFile('file.m');
         var newFile = proj.removeSourceFile('file.m');
 
         test.ok(newFile.uuid);
-        test.done()
+        test.done();
     },
     'should set a fileRef on the pbxFile': function (test) {
         proj.addSourceFile('file.m');
         var newFile = proj.removeSourceFile('file.m');
 
         test.ok(newFile.fileRef);
-        test.done()
+        test.done();
     },
     'should remove 2 fields from the PBXBuildFile section': function (test) {
         proj.addSourceFile('file.m');
@@ -145,14 +145,14 @@ exports.removeSourceFile = {
         test.ok(!sourceObj);
         test.done();
     },
-    'should remove file from PBXFileReference after modified by Xcode': function(test) {
+    'should remove file from PBXFileReference after modified by Xcode': function (test) {
         var fileRef = proj.addSourceFile('Plugins/file.m').fileRef;
 
         // Simulate Xcode's behaviour of stripping quotes around path and name
         // properties.
         var entry = proj.pbxFileReferenceSection()[fileRef];
-        entry.name = entry.name.replace(/^"(.*)"$/, "$1");
-        entry.path = entry.path.replace(/^"(.*)"$/, "$1");
+        entry.name = entry.name.replace(/^"(.*)"$/, '$1');
+        entry.path = entry.path.replace(/^"(.*)"$/, '$1');
 
         var newFile = proj.removeSourceFile('Plugins/file.m');
 
@@ -160,5 +160,4 @@ exports.removeSourceFile = {
         test.ok(!proj.pbxFileReferenceSection()[fileRef]);
         test.done();
     }
-}
-
+};

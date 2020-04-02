@@ -22,33 +22,33 @@ var pbx = require('../lib/pbxProject');
 var pbxFile = require('../lib/pbxFile');
 var proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
     callback();
-}
+};
 
 exports.addResourceFile = {
     'should return a pbxFile': function (test) {
         var newFile = proj.addResourceFile('assets.bundle');
 
         test.equal(newFile.constructor, pbxFile);
-        test.done()
+        test.done();
     },
     'should set a uuid on the pbxFile': function (test) {
         var newFile = proj.addResourceFile('assets.bundle');
 
         test.ok(newFile.uuid);
-        test.done()
+        test.done();
     },
     'should set a fileRef on the pbxFile': function (test) {
         var newFile = proj.addResourceFile('assets.bundle');
 
         test.ok(newFile.fileRef);
-        test.done()
+        test.done();
     },
     'should populate the PBXBuildFile section with 2 fields': function (test) {
         var newFile = proj.addResourceFile('assets.bundle');
@@ -163,7 +163,7 @@ exports.addResourceFile = {
             delete proj.pbxGroupByName('Plugins').path;
 
             var newFile = proj.addResourceFile('Plugins/assets.bundle',
-                                                { plugin: true });
+                { plugin: true });
 
             var fileRefSection = proj.pbxFileReferenceSection();
             var fileRefEntry = fileRefSection[newFile.fileRef];
@@ -179,7 +179,7 @@ exports.addResourceFile = {
 
         'should add to the Plugins PBXGroup group': function (test) {
             var newFile = proj.addResourceFile('Plugins/assets.bundle',
-                                                { plugin: true });
+                { plugin: true });
 
             var plugins = proj.pbxGroupByName('Plugins');
 
@@ -189,7 +189,7 @@ exports.addResourceFile = {
 
         'should have the Plugins values for the PBXGroup entry': function (test) {
             var newFile = proj.addResourceFile('Plugins/assets.bundle',
-                                                { plugin: true });
+                { plugin: true });
 
             var plugins = proj.pbxGroupByName('Plugins');
             var pluginObj = plugins.children[0];
@@ -201,7 +201,7 @@ exports.addResourceFile = {
 
         'should add to the PBXSourcesBuildPhase': function (test) {
             var newFile = proj.addResourceFile('Plugins/assets.bundle',
-                                                { plugin: true });
+                { plugin: true });
 
             var sources = proj.pbxResourcesBuildPhaseObj();
 
@@ -211,7 +211,7 @@ exports.addResourceFile = {
 
         'should have the right values for the Sources entry': function (test) {
             var newFile = proj.addResourceFile('Plugins/assets.bundle',
-                                                { plugin: true });
+                { plugin: true });
 
             var sources = proj.pbxResourcesBuildPhaseObj();
             var sourceObj = sources.files[12];
@@ -227,7 +227,7 @@ exports.addResourceFile = {
 
             plugins.path = '"Test200/Plugins"';
             newFile = proj.addResourceFile('Plugins/assets.bundle',
-                                            { plugin: true });
+                { plugin: true });
 
             test.equal(newFile.path, 'assets.bundle');
             test.done();
@@ -246,7 +246,7 @@ exports.addResourceFile = {
             test.ok(buildFileSection[newFile.uuid] === undefined);
 
             test.done();
-        },
+        }
 
     },
     'duplicate entries': {
@@ -258,10 +258,10 @@ exports.addResourceFile = {
         },
         'should return false (plugin entries)': function (test) {
             var newFile = proj.addResourceFile('Plugins/assets.bundle',
-                                                { plugin: true });
+                { plugin: true });
 
             test.ok(!proj.addResourceFile('Plugins/assets.bundle',
-                                                { plugin: true }));
+                { plugin: true }));
             test.done();
         },
         'should not add another entry anywhere': function (test) {
@@ -287,4 +287,4 @@ exports.addResourceFile = {
         delete proj.pbxGroupByName('Resources').path;
         callback();
     }
-}
+};

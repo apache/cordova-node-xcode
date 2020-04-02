@@ -22,14 +22,14 @@ var pbx = require('../lib/pbxProject');
 var pbxFile = require('../lib/pbxFile');
 var proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
     callback();
-}
+};
 
 exports.removeResourceFile = {
     'should return a pbxFile': function (test) {
@@ -41,7 +41,7 @@ exports.removeResourceFile = {
 
         test.equal(deletedFile.constructor, pbxFile);
 
-        test.done()
+        test.done();
     },
     'should set a uuid on the pbxFile': function (test) {
         var newFile = proj.addResourceFile('assets.bundle');
@@ -52,7 +52,7 @@ exports.removeResourceFile = {
 
         test.ok(deletedFile.uuid);
 
-        test.done()
+        test.done();
     },
     'should set a fileRef on the pbxFile': function (test) {
         var newFile = proj.addResourceFile('assets.bundle');
@@ -63,7 +63,7 @@ exports.removeResourceFile = {
 
         test.ok(deletedFile.fileRef);
 
-        test.done()
+        test.done();
     },
     'should remove 2 fields from the PBXBuildFile section': function (test) {
         var newFile = proj.addResourceFile('assets.bundle');
@@ -199,4 +199,4 @@ exports.removeResourceFile = {
         delete proj.pbxGroupByName('Resources').path;
         callback();
     }
-}
+};

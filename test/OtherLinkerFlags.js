@@ -22,19 +22,19 @@ var pbx = require('../lib/pbxProject');
 var pbxFile = require('../lib/pbxFile');
 var proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
     callback();
-}
+};
 
 var PRODUCT_NAME = '"KitchenSinktablet"';
 
 exports.addAndRemoveToFromOtherLinkerFlags = {
-    'add should add the flag to each configuration section':function(test) {
+    'add should add the flag to each configuration section': function (test) {
         var flag = 'some/flag';
         proj.addToOtherLinkerFlags(flag);
         var config = proj.pbxXCBuildConfigurationSection();
@@ -45,7 +45,7 @@ exports.addAndRemoveToFromOtherLinkerFlags = {
         }
         test.done();
     },
-    'remove should remove from the path to each configuration section':function(test) {
+    'remove should remove from the path to each configuration section': function (test) {
         var flag = 'some/flag';
         proj.addToOtherLinkerFlags(flag);
         proj.removeFromOtherLinkerFlags(flag);
@@ -58,4 +58,4 @@ exports.addAndRemoveToFromOtherLinkerFlags = {
         }
         test.done();
     }
-}
+};

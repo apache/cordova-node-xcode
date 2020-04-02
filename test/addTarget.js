@@ -22,7 +22,7 @@ var pbx = require('../lib/pbxProject');
 var pbxFile = require('../lib/pbxFile');
 var proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
@@ -33,24 +33,24 @@ var TARGET_SUBFOLDER_NAME = 'TestExtensionFiles';
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
     callback();
-}
+};
 
 exports.addTarget = {
     'should throw when target name is missing': function (test) {
-        test.throws(function() {
+        test.throws(function () {
             proj.addTarget(null, TARGET_TYPE);
         });
 
         test.done();
     },
     'should throw when provided blank or empty target name': function (test) {
-        test.throws(function() {
+        test.throws(function () {
             proj.addTarget('', TARGET_TYPE);
         }, function (error) {
             return (error instanceof Error) && /Target name missing/i.test(error);
         });
 
-        test.throws(function() {
+        test.throws(function () {
             proj.addTarget('   ', TARGET_TYPE);
         }, function (error) {
             return (error instanceof Error) && /Target name missing/i.test(error);
@@ -59,7 +59,7 @@ exports.addTarget = {
         test.done();
     },
     'should throw when target type missing': function (test) {
-        test.throws(function() {
+        test.throws(function () {
             proj.addTarget(TARGET_NAME, null);
         }, function (error) {
             return (error instanceof Error) && /Target type missing/i.test(error);
@@ -68,7 +68,7 @@ exports.addTarget = {
         test.done();
     },
     'should throw when invalid target type': function (test) {
-        test.throws(function() {
+        test.throws(function () {
             proj.addTarget(TARGET_NAME, 'invalid_target_type');
         }, function (error) {
             return (error instanceof Error) && /Target type invalid/i.test(error);
@@ -79,7 +79,7 @@ exports.addTarget = {
     'should create a new target': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
 
-        test.ok(typeof target == 'object');
+        test.ok(typeof target === 'object');
         test.ok(target.uuid);
         test.ok(target.pbxNativeTarget);
         test.ok(target.pbxNativeTarget.isa);
@@ -114,16 +114,16 @@ exports.addTarget = {
             test.equal(pbxConfig.isa, 'XCBuildConfiguration');
             test.ok(pbxConfig.buildSettings);
             if (index === 0) {
-                var debugConfig = pbxConfig.buildSettings['GCC_PREPROCESSOR_DEFINITIONS'];
+                var debugConfig = pbxConfig.buildSettings.GCC_PREPROCESSOR_DEFINITIONS;
                 test.ok(debugConfig);
                 test.equal(debugConfig.length, 2);
                 test.equal(debugConfig[0], '"DEBUG=1"');
                 test.equal(debugConfig[1], '"$(inherited)"');
             }
-            test.equal(pbxConfig.buildSettings['INFOPLIST_FILE'], '"' + TARGET_SUBFOLDER_NAME + '/' + TARGET_SUBFOLDER_NAME + '-Info.plist"');
-            test.equal(pbxConfig.buildSettings['LD_RUNPATH_SEARCH_PATHS'], '"$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"');
-            test.equal(pbxConfig.buildSettings['PRODUCT_NAME'], '"' + TARGET_NAME + '"');
-            test.equal(pbxConfig.buildSettings['SKIP_INSTALL'], 'YES');
+            test.equal(pbxConfig.buildSettings.INFOPLIST_FILE, '"' + TARGET_SUBFOLDER_NAME + '/' + TARGET_SUBFOLDER_NAME + '-Info.plist"');
+            test.equal(pbxConfig.buildSettings.LD_RUNPATH_SEARCH_PATHS, '"$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"');
+            test.equal(pbxConfig.buildSettings.PRODUCT_NAME, '"' + TARGET_NAME + '"');
+            test.equal(pbxConfig.buildSettings.SKIP_INSTALL, 'YES');
         });
 
         test.done();
@@ -150,7 +150,7 @@ exports.addTarget = {
     },
     'should create a new target and add source, framework, resource and header files and the corresponding build phases': function (test) {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
-        var options = { 'target' : target.uuid };
+        var options = { target: target.uuid };
         var sourceFile = proj.addSourceFile('Plugins/file.m', options);
         var sourcePhase = proj.addBuildPhase([], 'PBXSourcesBuildPhase', 'Sources', target.uuid);
         var resourceFile = proj.addResourceFile('assets.bundle', options);
@@ -168,7 +168,7 @@ exports.addTarget = {
         test.equal(frameworkFile.constructor, pbxFile);
         test.equal(headerFile.constructor, pbxFile);
 
-        test.ok(typeof target == 'object');
+        test.ok(typeof target === 'object');
         test.ok(target.uuid);
         test.ok(target.pbxNativeTarget);
         test.ok(target.pbxNativeTarget.isa);
@@ -217,9 +217,9 @@ exports.addTarget = {
         test.ok(target);
         test.ok(target.uuid);
 
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'];
+        var pbxTargetDependencySection = proj.hash.project.objects.PBXTargetDependency;
 
-        var targetDependencyUuid = Object.keys(pbxTargetDependencySection).find( (key) => pbxTargetDependencySection[key].target === target.uuid);
+        var targetDependencyUuid = Object.keys(pbxTargetDependencySection).find((key) => pbxTargetDependencySection[key].target === target.uuid);
         test.ok(targetDependencyUuid);
 
         var firstTarget = proj.getFirstTarget();
@@ -227,7 +227,7 @@ exports.addTarget = {
         test.ok(firstTarget.firstTarget);
         test.ok(firstTarget.firstTarget.dependencies);
 
-        var firstTargetMatchingDependency = firstTarget.firstTarget.dependencies.find( (elem) => elem.value === targetDependencyUuid);
+        var firstTargetMatchingDependency = firstTarget.firstTarget.dependencies.find((elem) => elem.value === targetDependencyUuid);
         test.ok(firstTargetMatchingDependency);
 
         test.done();
@@ -388,4 +388,4 @@ exports.addTarget = {
 
         test.done();
     }
-}
+};

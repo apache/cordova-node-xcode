@@ -116,7 +116,7 @@ exports.addResourceFile = {
         test.done();
     },
     'should add to the Resources PBXGroup group': function (test) {
-        var newFile = proj.addResourceFile('Resources/assets.bundle');
+        proj.addResourceFile('Resources/assets.bundle');
         var resources = proj.pbxGroupByName('Resources');
 
         test.equal(resources.children.length, 10);
@@ -132,7 +132,7 @@ exports.addResourceFile = {
         test.done();
     },
     'should add to the PBXSourcesBuildPhase': function (test) {
-        var newFile = proj.addResourceFile('Resources/assets.bundle');
+        proj.addResourceFile('Resources/assets.bundle');
         var sources = proj.pbxResourcesBuildPhaseObj();
 
         test.equal(sources.files.length, 13);
@@ -178,7 +178,7 @@ exports.addResourceFile = {
         },
 
         'should add to the Plugins PBXGroup group': function (test) {
-            var newFile = proj.addResourceFile('Plugins/assets.bundle',
+            proj.addResourceFile('Plugins/assets.bundle',
                 { plugin: true });
 
             var plugins = proj.pbxGroupByName('Plugins');
@@ -200,7 +200,7 @@ exports.addResourceFile = {
         },
 
         'should add to the PBXSourcesBuildPhase': function (test) {
-            var newFile = proj.addResourceFile('Plugins/assets.bundle',
+            proj.addResourceFile('Plugins/assets.bundle',
                 { plugin: true });
 
             var sources = proj.pbxResourcesBuildPhaseObj();
@@ -251,13 +251,13 @@ exports.addResourceFile = {
     },
     'duplicate entries': {
         'should return false': function (test) {
-            var newFile = proj.addResourceFile('Plugins/assets.bundle');
+            proj.addResourceFile('Plugins/assets.bundle');
 
             test.ok(!proj.addResourceFile('Plugins/assets.bundle'));
             test.done();
         },
         'should return false (plugin entries)': function (test) {
-            var newFile = proj.addResourceFile('Plugins/assets.bundle',
+            proj.addResourceFile('Plugins/assets.bundle',
                 { plugin: true });
 
             test.ok(!proj.addResourceFile('Plugins/assets.bundle',
@@ -265,7 +265,7 @@ exports.addResourceFile = {
             test.done();
         },
         'should not add another entry anywhere': function (test) {
-            var newFile = proj.addResourceFile('Plugins/assets.bundle');
+            proj.addResourceFile('Plugins/assets.bundle');
             var buildFileSection = proj.pbxBuildFileSection();
             var bfsLength = Object.keys(buildFileSection).length;
             var fileRefSection = proj.pbxFileReferenceSection();

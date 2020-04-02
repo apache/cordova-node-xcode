@@ -108,12 +108,12 @@ exports.removeHeaderFile = {
         test.done();
     },
     'should remove from the Plugins PBXGroup group': function (test) {
-        var newFile = proj.addHeaderFile('Plugins/file.h');
+        proj.addHeaderFile('Plugins/file.h');
         var plugins = proj.pbxGroupByName('Plugins');
 
         test.equal(plugins.children.length, 1);
 
-        var deletedFile = proj.removeHeaderFile('Plugins/file.h');
+        proj.removeHeaderFile('Plugins/file.h');
         var plugins = proj.pbxGroupByName('Plugins');
 
         test.equal(plugins.children.length, 0);

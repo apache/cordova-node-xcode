@@ -22,7 +22,6 @@ var pbx = fs.readFileSync('test/parser/projects/build-config.pbxproj', 'utf-8');
 var grammar = fs.readFileSync('lib/parser/pbxproj.pegjs', 'utf-8');
 var parser = PEG.generate(grammar);
 var rawProj = parser.parse(pbx);
-var util = require('util');
 var project = rawProj.project;
 
 exports['should parse the build config section'] = function (test) {

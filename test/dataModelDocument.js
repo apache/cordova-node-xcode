@@ -96,7 +96,7 @@ exports.dataModelDocument = {
         test.done();
     },
     'should add to resources group by default': function (test) {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath);
+        proj.addDataModelDocument(singleDataModelFilePath);
         groupChildren = proj.pbxGroupByName('Resources').children,
         found = false;
 
@@ -111,7 +111,7 @@ exports.dataModelDocument = {
     },
     'should add to group specified by key': function (test) {
         var group = 'Frameworks';
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath, proj.findPBXGroupKey({ name: group }));
+        proj.addDataModelDocument(singleDataModelFilePath, proj.findPBXGroupKey({ name: group }));
         groupChildren = proj.pbxGroupByName(group).children;
 
         var found = false;
@@ -126,7 +126,7 @@ exports.dataModelDocument = {
     },
     'should add to group specified by name': function (test) {
         var group = 'Frameworks';
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath, group);
+        proj.addDataModelDocument(singleDataModelFilePath, group);
         groupChildren = proj.pbxGroupByName(group).children;
 
         var found = false;
@@ -140,7 +140,7 @@ exports.dataModelDocument = {
         test.done();
     },
     'should add to the PBXSourcesBuildPhase': function (test) {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath);
+        proj.addDataModelDocument(singleDataModelFilePath);
         var sources = proj.pbxSourcesBuildPhaseObj();
 
         test.equal(sources.files.length, 2 + 1);

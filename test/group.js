@@ -19,7 +19,7 @@ var pbx = require('../lib/pbxProject');
 
 var pbxFile = require('../lib/pbxFile');
 var project;
-var projectHash;
+var projectHash; // eslint-disable-line
 
 var findChildInGroup = function (obj, target) {
     var found = false;
@@ -417,7 +417,6 @@ exports.testWritingPBXProject = {
         }
 
         var target;
-        var projectTargets = pbxProject.targets;
         for (var i = 0, j = pbxProject.targets.length; i < j; i++) {
             target = pbxProject.targets[i].value;
         }
@@ -438,7 +437,7 @@ exports.testWritingPBXProject = {
             }
         };
 
-        var output = project.writeSync();
+        project.writeSync();
 
         test.done();
     },

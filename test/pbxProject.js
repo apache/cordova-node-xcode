@@ -20,7 +20,6 @@ var pbx = require('../lib/pbxProject');
 var buildConfig = require('./fixtures/buildFiles');
 var jsonProject = require('./fixtures/full-project');
 var fs = require('fs');
-var project;
 
 exports.creation = {
     'should create a pbxProject with the new operator': function (test) {

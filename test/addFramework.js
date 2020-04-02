@@ -153,7 +153,7 @@ exports.addFramework = {
     },
     'should add to the Frameworks PBXGroup': function (test) {
         var newLength = proj.pbxGroupByName('Frameworks').children.length + 1;
-        var newFile = proj.addFramework('libsqlite3.dylib');
+        proj.addFramework('libsqlite3.dylib');
         var frameworks = proj.pbxGroupByName('Frameworks');
 
         test.equal(frameworks.children.length, newLength);
@@ -169,14 +169,14 @@ exports.addFramework = {
         test.done();
     },
     'should add to the PBXFrameworksBuildPhase': function (test) {
-        var newFile = proj.addFramework('libsqlite3.dylib');
+        proj.addFramework('libsqlite3.dylib');
         var frameworks = proj.pbxFrameworksBuildPhaseObj();
 
         test.equal(frameworks.files.length, 16);
         test.done();
     },
     'should not add to the PBXFrameworksBuildPhase': function (test) {
-        var newFile = proj.addFramework('Private.framework', { link: false });
+        proj.addFramework('Private.framework', { link: false });
         var frameworks = proj.pbxFrameworksBuildPhaseObj();
 
         test.equal(frameworks.files.length, 15);
@@ -193,7 +193,7 @@ exports.addFramework = {
     },
     'duplicate entries': {
         'should return false': function (test) {
-            var newFile = proj.addFramework('libsqlite3.dylib');
+            proj.addFramework('libsqlite3.dylib');
 
             test.ok(!proj.addFramework('libsqlite3.dylib'));
             test.done();
@@ -223,7 +223,7 @@ exports.addFramework = {
         test.done();
     },
     'should add to the Embed Frameworks PBXCopyFilesBuildPhase': function (test) {
-        var newFile = proj.addFramework('/path/to/SomeEmbeddableCustom.framework', { customFramework: true, embed: true });
+        proj.addFramework('/path/to/SomeEmbeddableCustom.framework', { customFramework: true, embed: true });
         var frameworks = proj.pbxEmbedFrameworksBuildPhaseObj();
 
         var buildPhaseInPbx = proj.pbxEmbedFrameworksBuildPhaseObj();
@@ -233,7 +233,7 @@ exports.addFramework = {
         test.done();
     },
     'should not add to the Embed Frameworks PBXCopyFilesBuildPhase by default': function (test) {
-        var newFile = proj.addFramework('/path/to/Custom.framework', { customFramework: true });
+        proj.addFramework('/path/to/Custom.framework', { customFramework: true });
         var frameworks = proj.pbxEmbedFrameworksBuildPhaseObj();
 
         test.equal(frameworks.files.length, 0);

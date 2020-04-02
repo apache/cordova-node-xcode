@@ -114,7 +114,7 @@ exports.addSourceFile = {
         test.done();
     },
     'should add to the Plugins PBXGroup group': function (test) {
-        var newFile = proj.addSourceFile('Plugins/file.m');
+        proj.addSourceFile('Plugins/file.m');
         var plugins = proj.pbxGroupByName('Plugins');
 
         test.equal(plugins.children.length, 1);
@@ -130,7 +130,7 @@ exports.addSourceFile = {
         test.done();
     },
     'should add to the PBXSourcesBuildPhase': function (test) {
-        var newFile = proj.addSourceFile('Plugins/file.m');
+        proj.addSourceFile('Plugins/file.m');
         var sources = proj.pbxSourcesBuildPhaseObj();
 
         test.equal(sources.files.length, 3);
@@ -147,13 +147,13 @@ exports.addSourceFile = {
     },
     'duplicate entries': {
         'should return false': function (test) {
-            var newFile = proj.addSourceFile('Plugins/file.m');
+            proj.addSourceFile('Plugins/file.m');
 
             test.ok(!proj.addSourceFile('Plugins/file.m'));
             test.done();
         },
         'should not add another entry anywhere': function (test) {
-            var newFile = proj.addSourceFile('Plugins/file.m');
+            proj.addSourceFile('Plugins/file.m');
             var buildFileSection = proj.pbxBuildFileSection();
             var bfsLength = Object.keys(buildFileSection).length;
             var fileRefSection = proj.pbxFileReferenceSection();

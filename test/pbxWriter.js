@@ -18,7 +18,6 @@
 var pbx = require('../lib/pbxProject');
 
 var fs = require('fs');
-var myProj;
 
 function testProjectContents (filename, test, expectedFilename) {
     var myProj = new pbx(filename);
@@ -35,30 +34,21 @@ function testProjectContents (filename, test, expectedFilename) {
     myProj.parse(function (err, projHash) {
         var written = myProj.writeSync();
 
+        // for debugging failing tests start
+        // var writtenLines = written.split('\n');
+        // contentLines = content.split('\n');
+
+        // test.equal(writtenLines.length, contentLines.length);
+
+        // for (var i = 0; i < writtenLines.length; i++) {
+        //     test.equal(writtenLines[i], contentLines[i],
+        //         'match failed on line ' + (i + 1));
+        // }
+        // for debugging failing tests end
+
+        // for normal tests start
         test.equal(content, written);
-        test.done();
-    });
-}
-
-// for debugging failing tests
-function testContentsInDepth (filename, test) {
-    var myProj = new pbx(filename);
-    var content = fs.readFileSync(filename, 'utf-8');
-
-    // normalize tabs vs strings
-    content = content.replace(/ {4}/g, '\t');
-
-    myProj.parse(function (err, projHash) {
-        var written = myProj.writeSync();
-        var writtenLines = written.split('\n');
-        contentLines = content.split('\n');
-
-        test.equal(writtenLines.length, contentLines.length);
-
-        for (var i = 0; i < writtenLines.length; i++) {
-            test.equal(writtenLines[i], contentLines[i],
-                'match failed on line ' + (i + 1));
-        }
+        // for normal tests end
 
         test.done();
     });

@@ -19,7 +19,6 @@ var xcode5proj = require('./fixtures/library-search-paths');
 
 var xcode5projStr = JSON.stringify(xcode5proj);
 var pbx = require('../lib/pbxProject');
-var pbxFile = require('../lib/pbxFile');
 var proj = new pbx('.');
 var libPoop = { path: 'some/path/poop.a' };
 

@@ -18,7 +18,7 @@
 var pbx = require('../lib/pbxProject');
 
 var project;
-var projectHash;
+var projectHash; // eslint-disable-line
 
 var findChildInGroup = function (obj, target) {
     var found = false;
@@ -30,33 +30,6 @@ var findChildInGroup = function (obj, target) {
         }
     }
 
-    return found;
-};
-
-var findFileByUUID = function (obj, target) {
-    var found = false;
-
-    for (var k = 0, l = obj.files.length; k < l; k++) {
-        if (obj.files[k].value === target) {
-            found = true;
-            break;
-        }
-    }
-
-    return found;
-};
-
-var findByFileRef = function (obj, target) {
-    var found = false;
-
-    for (var property in obj) {
-        if (!/comment/.test(property)) {
-            if (obj[property].fileRef === target) {
-                found = true;
-                break;
-            }
-        }
-    }
     return found;
 };
 

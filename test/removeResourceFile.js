@@ -172,24 +172,24 @@ exports.removeResourceFile = {
         test.done();
     },
     'should remove from the Resources PBXGroup group': function (test) {
-        var newFile = proj.addResourceFile('Resources/assets.bundle');
+        proj.addResourceFile('Resources/assets.bundle');
         var resources = proj.pbxGroupByName('Resources');
 
         test.equal(resources.children.length, 10);
 
-        var deletedFile = proj.removeResourceFile('Resources/assets.bundle');
+        proj.removeResourceFile('Resources/assets.bundle');
         var resources = proj.pbxGroupByName('Resources');
 
         test.equal(resources.children.length, 9);
         test.done();
     },
     'should remove from the PBXSourcesBuildPhase': function (test) {
-        var newFile = proj.addResourceFile('Resources/assets.bundle');
+        proj.addResourceFile('Resources/assets.bundle');
         var sources = proj.pbxResourcesBuildPhaseObj();
 
         test.equal(sources.files.length, 13);
 
-        var deletedFile = proj.removeResourceFile('Resources/assets.bundle');
+        proj.removeResourceFile('Resources/assets.bundle');
         var sources = proj.pbxResourcesBuildPhaseObj();
 
         test.equal(sources.files.length, 12);

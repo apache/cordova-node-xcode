@@ -63,7 +63,7 @@ exports.addRemovePbxGroup = {
         test.done();
     },
     'should add <group> sourceTree if no other specified': function (test) {
-        var pbxGroup = proj.addPbxGroup(['file.m'], 'MyGroup', 'Application');
+        proj.addPbxGroup(['file.m'], 'MyGroup', 'Application');
         pbxGroupInPbx = proj.pbxGroupByName('MyGroup');
 
         test.equal(pbxGroupInPbx.sourceTree, '"<group>"');
@@ -77,7 +77,7 @@ exports.addRemovePbxGroup = {
         }
 
         var initialBuildFileSectionItemsCount = Object.keys(buildFileSection);
-        var pbxGroup = proj.addPbxGroup(['file.m', 'assets.bundle'], 'MyGroup', 'Application', '"<group>"');
+        proj.addPbxGroup(['file.m', 'assets.bundle'], 'MyGroup', 'Application', '"<group>"');
         var afterAdditionBuildFileSectionItemsCount = Object.keys(buildFileSection);
 
         // for each file added in the build file section two keyes are added - one for the object and one for the comment
@@ -87,7 +87,7 @@ exports.addRemovePbxGroup = {
     'should not add any of the files to PBXBuildFile section if already added': function (test) {
         var buildFileSection = proj.pbxBuildFileSection();
         var initialBuildFileSectionItemsCount = Object.keys(buildFileSection);
-        var pbxGroup = proj.addPbxGroup(['AppDelegate.m', 'AppDelegate.h'], 'MyGroup', 'Application', '"<group>"');
+        proj.addPbxGroup(['AppDelegate.m', 'AppDelegate.h'], 'MyGroup', 'Application', '"<group>"');
         var afterAdditionBuildFileSectionItemsCount = Object.keys(buildFileSection);
 
         test.deepEqual(initialBuildFileSectionItemsCount, afterAdditionBuildFileSectionItemsCount);
@@ -96,7 +96,7 @@ exports.addRemovePbxGroup = {
     'should not add any of the files to PBXBuildFile section when they contain special symbols and are already added': function (test) {
         var buildFileSection = proj.pbxBuildFileSection();
         var initialBuildFileSectionItemsCount = Object.keys(buildFileSection);
-        var pbxGroup = proj.addPbxGroup(['KitchenSinktablet.app'], 'MyGroup', 'Application', '"<group>"');
+        proj.addPbxGroup(['KitchenSinktablet.app'], 'MyGroup', 'Application', '"<group>"');
         var afterAdditionBuildFileSectionItemsCount = Object.keys(buildFileSection);
 
         test.deepEqual(initialBuildFileSectionItemsCount, afterAdditionBuildFileSectionItemsCount);
@@ -110,7 +110,7 @@ exports.addRemovePbxGroup = {
         }
 
         var initialBuildFileSectionItemsCount = Object.keys(buildFileSection);
-        var pbxGroup = proj.addPbxGroup(['AppDelegate.m', 'AppDelegate.h', 'file.m', 'assets.bundle'], 'MyGroup', 'Application', '"<group>"');
+        proj.addPbxGroup(['AppDelegate.m', 'AppDelegate.h', 'file.m', 'assets.bundle'], 'MyGroup', 'Application', '"<group>"');
         var afterAdditionBuildFileSectionItemsCount = Object.keys(buildFileSection);
 
         // for each file added in the build file section two keyes are added - one for the object and one for the comment
@@ -134,7 +134,7 @@ exports.addRemovePbxGroup = {
     'should not add any of the files to PBXFileReference section if already added': function (test) {
         var fileReference = proj.pbxFileReferenceSection();
         var initialBuildFileSectionItemsCount = Object.keys(fileReference);
-        var pbxGroup = proj.addPbxGroup(['AppDelegate.m', 'AppDelegate.h'], 'MyGroup', 'Application', '"<group>"');
+        proj.addPbxGroup(['AppDelegate.m', 'AppDelegate.h'], 'MyGroup', 'Application', '"<group>"');
         var afterAdditionBuildFileSectionItemsCount = Object.keys(fileReference);
 
         test.deepEqual(initialBuildFileSectionItemsCount, afterAdditionBuildFileSectionItemsCount);
@@ -143,7 +143,7 @@ exports.addRemovePbxGroup = {
     'should not add any of the files to PBXFileReference section when they contain special symbols and are already added': function (test) {
         var fileReference = proj.pbxFileReferenceSection();
         var initialBuildFileSectionItemsCount = Object.keys(fileReference);
-        var pbxGroup = proj.addPbxGroup(['KitchenSinktablet.app'], 'MyGroup', 'Application', '"<group>"');
+        proj.addPbxGroup(['KitchenSinktablet.app'], 'MyGroup', 'Application', '"<group>"');
         var afterAdditionBuildFileSectionItemsCount = Object.keys(fileReference);
 
         test.deepEqual(initialBuildFileSectionItemsCount, afterAdditionBuildFileSectionItemsCount);
@@ -157,7 +157,7 @@ exports.addRemovePbxGroup = {
         }
 
         var initialBuildFileSectionItemsCount = Object.keys(fileReference);
-        var pbxGroup = proj.addPbxGroup(['AppDelegate.m', 'AppDelegate.h', 'file.m', 'assets.bundle'], 'MyGroup', 'Application', '"<group>"');
+        proj.addPbxGroup(['AppDelegate.m', 'AppDelegate.h', 'file.m', 'assets.bundle'], 'MyGroup', 'Application', '"<group>"');
         var afterAdditionBuildFileSectionItemsCount = Object.keys(fileReference);
 
         // for each file added in the file reference section two keyes are added - one for the object and one for the comment

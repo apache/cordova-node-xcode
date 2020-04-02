@@ -23,3 +23,8 @@ ignorePatterns: ['lib/parser/']
 
 rules:
   new-cap: off
+
+overrides:
+  - files: [test/**/*.js]
+    rules:
+      handle-callback-err: off

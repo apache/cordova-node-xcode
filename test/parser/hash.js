@@ -15,13 +15,14 @@
  under the License.
  */
 
-var PEG = require('pegjs'),
-    fs = require('fs'),
-    pbx = fs.readFileSync('test/parser/projects/hash.pbxproj', 'utf-8'),
-    grammar = fs.readFileSync('lib/parser/pbxproj.pegjs', 'utf-8'),
-    parser = PEG.generate(grammar),
-    rawProj = parser.parse(pbx),
-    project = rawProj.project;
+var PEG = require('pegjs');
+
+var fs = require('fs');
+var pbx = fs.readFileSync('test/parser/projects/hash.pbxproj', 'utf-8');
+var grammar = fs.readFileSync('lib/parser/pbxproj.pegjs', 'utf-8');
+var parser = PEG.generate(grammar);
+var rawProj = parser.parse(pbx);
+var project = rawProj.project;
 
 exports['should have the top-line comment in place'] = function (test) {
     test.equals(rawProj.headComment, '!$*UTF8*$!');

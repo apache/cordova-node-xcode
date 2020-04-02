@@ -15,19 +15,20 @@
  under the License.
  */
 
-var fullProject = require('./fixtures/full-project')
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    proj = new pbx('.');
+var fullProject = require('./fixtures/full-project');
+
+var fullProjectStr = JSON.stringify(fullProject);
+var pbx = require('../lib/pbxProject');
+var pbxFile = require('../lib/pbxFile');
+var proj = new pbx('.');
 
 function cleanHash() {
     return JSON.parse(fullProjectStr);
 }
 
-var TARGET_NAME = 'TestWatchApp',
-    TARGET_TYPE = 'watch_app',
-    TARGET_SUBFOLDER_NAME = 'TestWatchAppFiles';
+var TARGET_NAME = 'TestWatchApp';
+var TARGET_TYPE = 'watch_app';
+var TARGET_SUBFOLDER_NAME = 'TestWatchAppFiles';
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
@@ -76,16 +77,15 @@ exports.addWatchApp = {
         test.done();
     },
     'should create a new watch app target and add source, framework, resource and header files and the corresponding build phases': function (test) {
-        var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME),
-            options = { 'target' : target.uuid };
-
-        var sourceFile = proj.addSourceFile('Plugins/file.m', options),
-            sourcePhase = proj.addBuildPhase([], 'PBXSourcesBuildPhase', 'Sources', target.uuid),
-            resourceFile = proj.addResourceFile('assets.bundle', options),
-            resourcePhase = proj.addBuildPhase([], 'PBXResourcesBuildPhase', 'Resources', target.uuid),
-            frameworkFile = proj.addFramework('libsqlite3.dylib', options);
-            frameworkPhase = proj.addBuildPhase([], 'PBXFrameworkBuildPhase', 'Frameworks', target.uuid),
-            headerFile = proj.addHeaderFile('file.h', options);
+        var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
+        var options = { 'target' : target.uuid };
+        var sourceFile = proj.addSourceFile('Plugins/file.m', options);
+        var sourcePhase = proj.addBuildPhase([], 'PBXSourcesBuildPhase', 'Sources', target.uuid);
+        var resourceFile = proj.addResourceFile('assets.bundle', options);
+        var resourcePhase = proj.addBuildPhase([], 'PBXResourcesBuildPhase', 'Resources', target.uuid);
+        var frameworkFile = proj.addFramework('libsqlite3.dylib', options);
+        frameworkPhase = proj.addBuildPhase([], 'PBXFrameworkBuildPhase', 'Frameworks', target.uuid),
+        headerFile = proj.addHeaderFile('file.h', options);
 
         test.ok(sourcePhase);
         test.ok(resourcePhase);

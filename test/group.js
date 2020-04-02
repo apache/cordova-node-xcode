@@ -15,10 +15,11 @@
  under the License.
  */
 
-var pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    project,
-    projectHash;
+var pbx = require('../lib/pbxProject');
+
+var pbxFile = require('../lib/pbxFile');
+var project;
+var projectHash;
 
 var findChildInGroup = function(obj, target) {
     var found = false;

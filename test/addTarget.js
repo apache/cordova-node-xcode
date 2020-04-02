@@ -15,19 +15,20 @@
  under the License.
  */
 
-var fullProject = require('./fixtures/full-project')
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    proj = new pbx('.');
+var fullProject = require('./fixtures/full-project');
+
+var fullProjectStr = JSON.stringify(fullProject);
+var pbx = require('../lib/pbxProject');
+var pbxFile = require('../lib/pbxFile');
+var proj = new pbx('.');
 
 function cleanHash() {
     return JSON.parse(fullProjectStr);
 }
 
-var TARGET_NAME = 'TestExtension',
-    TARGET_TYPE = 'app_extension',
-    TARGET_SUBFOLDER_NAME = 'TestExtensionFiles';
+var TARGET_NAME = 'TestExtension';
+var TARGET_TYPE = 'app_extension';
+var TARGET_SUBFOLDER_NAME = 'TestExtensionFiles';
 
 exports.setUp = function (callback) {
     proj.hash = cleanHash();
@@ -94,9 +95,9 @@ exports.addTarget = {
         test.done();
     },
     'should add debug and release configurations to build configuration list': function (test) {
-        var pbxXCBuildConfigurationSection = proj.pbxXCBuildConfigurationSection(),
-            pbxXCConfigurationList = proj.pbxXCConfigurationList(),
-            target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
+        var pbxXCBuildConfigurationSection = proj.pbxXCBuildConfigurationSection();
+        var pbxXCConfigurationList = proj.pbxXCConfigurationList();
+        var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
 
         test.ok(target.pbxNativeTarget.buildConfigurationList);
         test.ok(pbxXCConfigurationList[target.pbxNativeTarget.buildConfigurationList]);
@@ -128,8 +129,8 @@ exports.addTarget = {
         test.done();
     },
     'should add to build configuration list with default configuration name': function (test) {
-        var pbxXCConfigurationList = proj.pbxXCConfigurationList(),
-            target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
+        var pbxXCConfigurationList = proj.pbxXCConfigurationList();
+        var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
 
         test.ok(target.pbxNativeTarget.buildConfigurationList);
         test.ok(pbxXCConfigurationList[target.pbxNativeTarget.buildConfigurationList]);
@@ -138,8 +139,8 @@ exports.addTarget = {
         test.done();
     },
     'should add to build configuration list with comment': function (test) {
-        var pbxXCConfigurationList = proj.pbxXCConfigurationList(),
-            target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
+        var pbxXCConfigurationList = proj.pbxXCConfigurationList();
+        var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
 
         var buildCommentKey = target.pbxNativeTarget.buildConfigurationList + '_comment';
         test.ok(pbxXCConfigurationList[buildCommentKey]);
@@ -148,16 +149,15 @@ exports.addTarget = {
         test.done();
     },
     'should create a new target and add source, framework, resource and header files and the corresponding build phases': function (test) {
-        var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME),
-            options = { 'target' : target.uuid };
-
-        var sourceFile = proj.addSourceFile('Plugins/file.m', options),
-            sourcePhase = proj.addBuildPhase([], 'PBXSourcesBuildPhase', 'Sources', target.uuid),
-            resourceFile = proj.addResourceFile('assets.bundle', options),
-            resourcePhase = proj.addBuildPhase([], 'PBXResourcesBuildPhase', 'Resources', target.uuid),
-            frameworkFile = proj.addFramework('libsqlite3.dylib', options);
-            frameworkPhase = proj.addBuildPhase([], 'PBXFrameworkBuildPhase', 'Frameworks', target.uuid),
-            headerFile = proj.addHeaderFile('file.h', options);
+        var target = proj.addTarget(TARGET_NAME, TARGET_TYPE, TARGET_SUBFOLDER_NAME);
+        var options = { 'target' : target.uuid };
+        var sourceFile = proj.addSourceFile('Plugins/file.m', options);
+        var sourcePhase = proj.addBuildPhase([], 'PBXSourcesBuildPhase', 'Sources', target.uuid);
+        var resourceFile = proj.addResourceFile('assets.bundle', options);
+        var resourcePhase = proj.addBuildPhase([], 'PBXResourcesBuildPhase', 'Resources', target.uuid);
+        var frameworkFile = proj.addFramework('libsqlite3.dylib', options);
+        frameworkPhase = proj.addBuildPhase([], 'PBXFrameworkBuildPhase', 'Frameworks', target.uuid),
+        headerFile = proj.addHeaderFile('file.h', options);
 
         test.ok(sourcePhase);
         test.ok(resourcePhase);

@@ -15,10 +15,11 @@
  under the License.
  */
 
-var fullProject = require('./fixtures/full-project')
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    proj = new pbx('.');
+var fullProject = require('./fixtures/full-project');
+
+var fullProjectStr = JSON.stringify(fullProject);
+var pbx = require('../lib/pbxProject');
+var proj = new pbx('.');
 
 function cleanHash() {
     return JSON.parse(fullProjectStr);
@@ -91,8 +92,8 @@ exports.addTargetDependency = {
         test.done();
     },
     'should create a PBXTargetDependency for each dependency target': function (test) {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'];
+        var target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
 
         for (var index = 0; index < target.dependencies.length; index++) {
             var dependency = target.dependencies[index].value;
@@ -102,8 +103,8 @@ exports.addTargetDependency = {
         test.done()
     },
     'should set right comment for each target dependency': function (test) {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'];
+        var target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
 
         for (var index = 0; index < target.dependencies.length; index++) {
             var dependencyCommentKey = target.dependencies[index].value + '_comment';
@@ -113,8 +114,8 @@ exports.addTargetDependency = {
         test.done()
     },
     'should set right comment for each dependency target': function (test) {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'];
+        var target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
 
         for (var index = 0; index < target.dependencies.length; index++) {
             var dependencyTargetUuid = target.dependencies[index].value;
@@ -129,13 +130,13 @@ exports.addTargetDependency = {
         test.done();
     },
     'should create a PBXContainerItemProxy for each PBXTargetDependency': function (test) {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'];
+        var pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'];
+        var target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
 
         for (var index = 0; index < target.dependencies.length; index++) {
-            var dependency = target.dependencies[index].value,
-                targetProxy = pbxTargetDependencySection[dependency]['targetProxy'];
+            var dependency = target.dependencies[index].value;
+            var targetProxy = pbxTargetDependencySection[dependency]['targetProxy'];
 
             test.ok(pbxContainerItemProxySection[targetProxy]);
         }
@@ -143,9 +144,9 @@ exports.addTargetDependency = {
         test.done()
     },
     'should set right comment for each container item proxy': function (test) {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'];
+        var pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'];
+        var target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
 
         for (var index = 0; index < target.dependencies.length; index++) {
             var dependencyTargetUuid = target.dependencies[index].value;
@@ -163,14 +164,14 @@ exports.addTargetDependency = {
         test.done();
     },
     'should set each PBXContainerItemProxy`s remoteGlobalIDString correctly': function (test) {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target,
-            remoteGlobalIDStrings = [];
+        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'];
+        var pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'];
+        var target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        var remoteGlobalIDStrings = [];
 
         for (var index = 0; index < target.dependencies.length; index++) {
-            var dependency = target.dependencies[index].value,
-                targetProxy = pbxTargetDependencySection[dependency]['targetProxy'];
+            var dependency = target.dependencies[index].value;
+            var targetProxy = pbxTargetDependencySection[dependency]['targetProxy'];
 
             remoteGlobalIDStrings.push(pbxContainerItemProxySection[targetProxy]['remoteGlobalIDString']);
         }
@@ -179,14 +180,14 @@ exports.addTargetDependency = {
         test.done()
     },
     'should set each PBXContainerItemProxy`s remoteInfo correctly': function (test) {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target,
-            remoteInfoArray = [];
+        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'];
+        var pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'];
+        var target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        var remoteInfoArray = [];
 
         for (var index = 0; index < target.dependencies.length; index++) {
-            var dependency = target.dependencies[index].value,
-                targetProxy = pbxTargetDependencySection[dependency]['targetProxy'];
+            var dependency = target.dependencies[index].value;
+            var targetProxy = pbxTargetDependencySection[dependency]['targetProxy'];
 
             remoteInfoArray.push(pbxContainerItemProxySection[targetProxy]['remoteInfo']);
         }
@@ -195,13 +196,13 @@ exports.addTargetDependency = {
         test.done()
     },
     'should set each PBXContainerItemProxy`s containerPortal correctly': function (test) {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'];
+        var pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'];
+        var target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
 
         for (var index = 0; index < target.dependencies.length; index++) {
-            var dependency = target.dependencies[index].value,
-                targetProxy = pbxTargetDependencySection[dependency]['targetProxy'];
+            var dependency = target.dependencies[index].value;
+            var targetProxy = pbxTargetDependencySection[dependency]['targetProxy'];
 
             test.equal(pbxContainerItemProxySection[targetProxy]['containerPortal'], proj.hash.project['rootObject']);
         }
@@ -209,13 +210,13 @@ exports.addTargetDependency = {
         test.done()
     },
     'should set each PBXContainerItemProxy`s containerPortal_comment correctly': function (test) {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'];
+        var pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'];
+        var target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
 
         for (var index = 0; index < target.dependencies.length; index++) {
-            var dependency = target.dependencies[index].value,
-                targetProxy = pbxTargetDependencySection[dependency]['targetProxy'];
+            var dependency = target.dependencies[index].value;
+            var targetProxy = pbxTargetDependencySection[dependency]['targetProxy'];
 
             test.equal(pbxContainerItemProxySection[targetProxy]['containerPortal_comment'], proj.hash.project['rootObject_comment']);
         }
@@ -223,13 +224,13 @@ exports.addTargetDependency = {
         test.done()
     },
     'should set each PBXContainerItemProxy`s proxyType correctly': function (test) {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'];
+        var pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'];
+        var target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
 
         for (var index = 0; index < target.dependencies.length; index++) {
-            var dependency = target.dependencies[index].value,
-                targetProxy = pbxTargetDependencySection[dependency]['targetProxy'];
+            var dependency = target.dependencies[index].value;
+            var targetProxy = pbxTargetDependencySection[dependency]['targetProxy'];
 
             test.equal(pbxContainerItemProxySection[targetProxy]['proxyType'], 1);
         }

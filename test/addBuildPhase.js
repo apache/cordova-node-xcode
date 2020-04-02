@@ -15,10 +15,11 @@
  under the License.
  */
 
-var fullProject = require('./fixtures/full-project')
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    proj = new pbx('.');
+var fullProject = require('./fixtures/full-project');
+
+var fullProjectStr = JSON.stringify(fullProject);
+var pbx = require('../lib/pbxProject');
+var proj = new pbx('.');
 
 function cleanHash() {
     return JSON.parse(fullProjectStr);
@@ -52,8 +53,8 @@ exports.addBuildPhase = {
         test.done()
     },
     'should add the PBXBuildPhase object correctly': function (test) {
-        var buildPhase = proj.addBuildPhase(['file.m', 'assets.bundle'], 'PBXResourcesBuildPhase', 'My build phase').buildPhase,
-            buildPhaseInPbx = proj.buildPhaseObject('PBXResourcesBuildPhase', 'My build phase');
+        var buildPhase = proj.addBuildPhase(['file.m', 'assets.bundle'], 'PBXResourcesBuildPhase', 'My build phase').buildPhase;
+        var buildPhaseInPbx = proj.buildPhaseObject('PBXResourcesBuildPhase', 'My build phase');
 
         test.equal(buildPhaseInPbx, buildPhase);
         test.equal(buildPhaseInPbx.isa, 'PBXResourcesBuildPhase');
@@ -62,8 +63,8 @@ exports.addBuildPhase = {
         test.done();
     },
     'should add each of the files to PBXBuildFile section': function (test) {
-        var buildPhase = proj.addBuildPhase(['file.m', 'assets.bundle'], 'PBXResourcesBuildPhase', 'My build phase').buildPhase,
-            buildFileSection = proj.pbxBuildFileSection();
+        var buildPhase = proj.addBuildPhase(['file.m', 'assets.bundle'], 'PBXResourcesBuildPhase', 'My build phase').buildPhase;
+        var buildFileSection = proj.pbxBuildFileSection();
 
         for (var index = 0; index < buildPhase.files.length; index++) {
             var file = buildPhase.files[index];
@@ -73,14 +74,14 @@ exports.addBuildPhase = {
         test.done();
     },
     'should add each of the files to PBXFileReference section': function (test) {
-        var buildPhase = proj.addBuildPhase(['file.m', 'assets.bundle'], 'PBXResourcesBuildPhase', 'My build phase').buildPhase,
-            fileRefSection = proj.pbxFileReferenceSection(),
-            buildFileSection = proj.pbxBuildFileSection(),
-            fileRefs = [];
+        var buildPhase = proj.addBuildPhase(['file.m', 'assets.bundle'], 'PBXResourcesBuildPhase', 'My build phase').buildPhase;
+        var fileRefSection = proj.pbxFileReferenceSection();
+        var buildFileSection = proj.pbxBuildFileSection();
+        var fileRefs = [];
 
         for (var index = 0; index < buildPhase.files.length; index++) {
-            var file = buildPhase.files[index],
-                fileRef = buildFileSection[file.value].fileRef;
+            var file = buildPhase.files[index];
+            var fileRef = buildFileSection[file.value].fileRef;
 
             test.ok(fileRefSection[fileRef]);
         }
@@ -88,33 +89,33 @@ exports.addBuildPhase = {
         test.done();
     },
     'should not add files to PBXFileReference section if already added': function (test) {
-        var fileRefSection = proj.pbxFileReferenceSection(),
-            initialFileReferenceSectionItemsCount = Object.keys(fileRefSection),
-            buildPhase = proj.addBuildPhase(['AppDelegate.m', 'main.m'], 'PBXResourcesBuildPhase', 'My build phase').buildPhase,
-            afterAdditionBuildFileSectionItemsCount = Object.keys(fileRefSection);
+        var fileRefSection = proj.pbxFileReferenceSection();
+        var initialFileReferenceSectionItemsCount = Object.keys(fileRefSection);
+        var buildPhase = proj.addBuildPhase(['AppDelegate.m', 'main.m'], 'PBXResourcesBuildPhase', 'My build phase').buildPhase;
+        var afterAdditionBuildFileSectionItemsCount = Object.keys(fileRefSection);
 
         test.deepEqual(initialFileReferenceSectionItemsCount, afterAdditionBuildFileSectionItemsCount);
         test.done();
     },
     'should not add files to PBXBuildFile section if already added': function (test) {
-        var buildFileSection  = proj.pbxBuildFileSection(),
-            initialBuildFileSectionItemsCount  = Object.keys(buildFileSection),
-            buildPhase = proj.addBuildPhase(['AppDelegate.m', 'main.m'], 'PBXResourcesBuildPhase', 'My build phase').buildPhase,
-            afterAdditionBuildFileSectionItemsCount = Object.keys(buildFileSection);
+        var buildFileSection  = proj.pbxBuildFileSection();
+        var initialBuildFileSectionItemsCount  = Object.keys(buildFileSection);
+        var buildPhase = proj.addBuildPhase(['AppDelegate.m', 'main.m'], 'PBXResourcesBuildPhase', 'My build phase').buildPhase;
+        var afterAdditionBuildFileSectionItemsCount = Object.keys(buildFileSection);
 
         test.deepEqual(initialBuildFileSectionItemsCount, afterAdditionBuildFileSectionItemsCount);
         test.done();
     },
     'should add only missing files to PBXFileReference section': function (test) {
-        var fileRefSection = proj.pbxFileReferenceSection(),
-            buildFileSection = proj.pbxBuildFileSection(),
-            initialFileReferenceSectionItemsCount = Object.keys(fileRefSection),
-            buildPhase = proj.addBuildPhase(['file.m', 'AppDelegate.m'], 'PBXResourcesBuildPhase', 'My build phase').buildPhase,
-            afterAdditionBuildFileSectionItemsCount = Object.keys(fileRefSection);
+        var fileRefSection = proj.pbxFileReferenceSection();
+        var buildFileSection = proj.pbxBuildFileSection();
+        var initialFileReferenceSectionItemsCount = Object.keys(fileRefSection);
+        var buildPhase = proj.addBuildPhase(['file.m', 'AppDelegate.m'], 'PBXResourcesBuildPhase', 'My build phase').buildPhase;
+        var afterAdditionBuildFileSectionItemsCount = Object.keys(fileRefSection);
 
         for (var index = 0; index < buildPhase.files.length; index++) {
-            var file = buildPhase.files[index],
-                fileRef = buildFileSection[file.value].fileRef;
+            var file = buildPhase.files[index];
+            var fileRef = buildFileSection[file.value].fileRef;
 
             test.ok(fileRefSection[fileRef]);
         }

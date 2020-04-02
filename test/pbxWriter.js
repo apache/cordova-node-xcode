@@ -15,9 +15,10 @@
  under the License.
  */
 
-var pbx = require('../lib/pbxProject'),
-    fs = require('fs'),
-    myProj;
+var pbx = require('../lib/pbxProject');
+
+var fs = require('fs');
+var myProj;
 
 function testProjectContents(filename, test, expectedFilename) {
     var myProj = new pbx(filename);
@@ -41,16 +42,16 @@ function testProjectContents(filename, test, expectedFilename) {
 
 // for debugging failing tests
 function testContentsInDepth(filename, test) {
-    var myProj = new pbx(filename),
-        content = fs.readFileSync(filename, 'utf-8');
+    var myProj = new pbx(filename);
+    var content = fs.readFileSync(filename, 'utf-8');
 
     // normalize tabs vs strings
     content = content.replace(/    /g, '\t');
 
     myProj.parse(function (err, projHash) {
-        var written = myProj.writeSync(),
-            writtenLines = written.split('\n')
-            contentLines = content.split('\n')
+        var written = myProj.writeSync();
+        var writtenLines = written.split('\n');
+        contentLines = content.split('\n')
 
         test.equal(writtenLines.length, contentLines.length);
 

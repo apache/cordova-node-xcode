@@ -15,11 +15,12 @@
  under the License.
  */
 
-var fullProject = require('./fixtures/full-project')
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    proj = new pbx('.');
+var fullProject = require('./fixtures/full-project');
+
+var fullProjectStr = JSON.stringify(fullProject);
+var pbx = require('../lib/pbxProject');
+var pbxFile = require('../lib/pbxFile');
+var proj = new pbx('.');
 
 function cleanHash() {
     return JSON.parse(fullProjectStr);
@@ -50,9 +51,9 @@ exports.addSourceFile = {
         test.done()
     },
     'should populate the PBXBuildFile section with 2 fields': function (test) {
-        var newFile = proj.addSourceFile('file.m'),
-            buildFileSection = proj.pbxBuildFileSection(),
-            bfsLength = Object.keys(buildFileSection).length;
+        var newFile = proj.addSourceFile('file.m');
+        var buildFileSection = proj.pbxBuildFileSection();
+        var bfsLength = Object.keys(buildFileSection).length;
 
         test.equal(60, bfsLength);
         test.ok(buildFileSection[newFile.uuid]);
@@ -61,17 +62,17 @@ exports.addSourceFile = {
         test.done();
     },
     'should add the PBXBuildFile comment correctly': function (test) {
-        var newFile = proj.addSourceFile('file.m'),
-            commentKey = newFile.uuid + '_comment',
-            buildFileSection = proj.pbxBuildFileSection();
+        var newFile = proj.addSourceFile('file.m');
+        var commentKey = newFile.uuid + '_comment';
+        var buildFileSection = proj.pbxBuildFileSection();
 
         test.equal(buildFileSection[commentKey], 'file.m in Sources');
         test.done();
     },
     'should add the PBXBuildFile object correctly': function (test) {
-        var newFile = proj.addSourceFile('file.m'),
-            buildFileSection = proj.pbxBuildFileSection(),
-            buildFileEntry = buildFileSection[newFile.uuid];
+        var newFile = proj.addSourceFile('file.m');
+        var buildFileSection = proj.pbxBuildFileSection();
+        var buildFileEntry = buildFileSection[newFile.uuid];
 
         test.equal(buildFileEntry.isa, 'PBXBuildFile');
         test.equal(buildFileEntry.fileRef, newFile.fileRef);
@@ -80,9 +81,9 @@ exports.addSourceFile = {
         test.done();
     },
     'should populate the PBXFileReference section with 2 fields': function (test) {
-        var newFile = proj.addSourceFile('file.m'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            frsLength = Object.keys(fileRefSection).length;
+        var newFile = proj.addSourceFile('file.m');
+        var fileRefSection = proj.pbxFileReferenceSection();
+        var frsLength = Object.keys(fileRefSection).length;
 
         test.equal(68, frsLength);
         test.ok(fileRefSection[newFile.fileRef]);
@@ -91,17 +92,17 @@ exports.addSourceFile = {
         test.done();
     },
     'should populate the PBXFileReference comment correctly': function (test) {
-        var newFile = proj.addSourceFile('file.m'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            commentKey = newFile.fileRef + '_comment';
+        var newFile = proj.addSourceFile('file.m');
+        var fileRefSection = proj.pbxFileReferenceSection();
+        var commentKey = newFile.fileRef + '_comment';
 
         test.equal(fileRefSection[commentKey], 'file.m');
         test.done();
     },
     'should add the PBXFileReference object correctly': function (test) {
-        var newFile = proj.addSourceFile('Plugins/file.m'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            fileRefEntry = fileRefSection[newFile.fileRef];
+        var newFile = proj.addSourceFile('Plugins/file.m');
+        var fileRefSection = proj.pbxFileReferenceSection();
+        var fileRefEntry = fileRefSection[newFile.fileRef];
 
         test.equal(fileRefEntry.isa, 'PBXFileReference');
         test.equal(fileRefEntry.fileEncoding, 4);
@@ -113,32 +114,32 @@ exports.addSourceFile = {
         test.done();
     },
     'should add to the Plugins PBXGroup group': function (test) {
-        var newFile = proj.addSourceFile('Plugins/file.m'),
-            plugins = proj.pbxGroupByName('Plugins');
+        var newFile = proj.addSourceFile('Plugins/file.m');
+        var plugins = proj.pbxGroupByName('Plugins');
 
         test.equal(plugins.children.length, 1);
         test.done();
     },
     'should have the right values for the PBXGroup entry': function (test) {
-        var newFile = proj.addSourceFile('Plugins/file.m'),
-            plugins = proj.pbxGroupByName('Plugins'),
-            pluginObj = plugins.children[0];
+        var newFile = proj.addSourceFile('Plugins/file.m');
+        var plugins = proj.pbxGroupByName('Plugins');
+        var pluginObj = plugins.children[0];
 
         test.equal(pluginObj.comment, 'file.m');
         test.equal(pluginObj.value, newFile.fileRef);
         test.done();
     },
     'should add to the PBXSourcesBuildPhase': function (test) {
-        var newFile = proj.addSourceFile('Plugins/file.m'),
-            sources = proj.pbxSourcesBuildPhaseObj();
+        var newFile = proj.addSourceFile('Plugins/file.m');
+        var sources = proj.pbxSourcesBuildPhaseObj();
 
         test.equal(sources.files.length, 3);
         test.done();
     },
     'should have the right values for the Sources entry': function (test) {
-        var newFile = proj.addSourceFile('Plugins/file.m'),
-            sources = proj.pbxSourcesBuildPhaseObj(),
-            sourceObj = sources.files[2];
+        var newFile = proj.addSourceFile('Plugins/file.m');
+        var sources = proj.pbxSourcesBuildPhaseObj();
+        var sourceObj = sources.files[2];
 
         test.equal(sourceObj.comment, 'file.m in Sources');
         test.equal(sourceObj.value, newFile.uuid);
@@ -152,13 +153,13 @@ exports.addSourceFile = {
             test.done();
         },
         'should not add another entry anywhere': function (test) {
-            var newFile = proj.addSourceFile('Plugins/file.m'),
-                buildFileSection = proj.pbxBuildFileSection(),
-                bfsLength = Object.keys(buildFileSection).length,
-                fileRefSection = proj.pbxFileReferenceSection(),
-                frsLength = Object.keys(fileRefSection).length,
-                plugins = proj.pbxGroupByName('Plugins'),
-                sources = proj.pbxSourcesBuildPhaseObj();
+            var newFile = proj.addSourceFile('Plugins/file.m');
+            var buildFileSection = proj.pbxBuildFileSection();
+            var bfsLength = Object.keys(buildFileSection).length;
+            var fileRefSection = proj.pbxFileReferenceSection();
+            var frsLength = Object.keys(fileRefSection).length;
+            var plugins = proj.pbxGroupByName('Plugins');
+            var sources = proj.pbxSourcesBuildPhaseObj();
 
             // duplicate!
             proj.addSourceFile('Plugins/file.m');

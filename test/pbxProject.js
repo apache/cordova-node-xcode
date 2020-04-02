@@ -15,11 +15,12 @@
  under the License.
  */
 
-var pbx = require('../lib/pbxProject'),
-    buildConfig = require('./fixtures/buildFiles'),
-    jsonProject = require('./fixtures/full-project'),
-    fs = require('fs'),
-    project;
+var pbx = require('../lib/pbxProject');
+
+var buildConfig = require('./fixtures/buildFiles');
+var jsonProject = require('./fixtures/full-project');
+var fs = require('fs');
+var project;
 
 exports['creation'] = {
     'should create a pbxProject with the new operator': function (test) {
@@ -38,21 +39,21 @@ exports['creation'] = {
 
 exports['parseSync function'] = {
   'should return the hash object': function (test) {
-        var myProj = new pbx('test/parser/projects/hash.pbxproj')
-          , projHash = myProj.parseSync();
-        test.ok(projHash);
-        test.done();
+      var myProj = new pbx('test/parser/projects/hash.pbxproj');
+      var projHash = myProj.parseSync();
+      test.ok(projHash);
+      test.done();
   },
   'should contain valid data in the returned objects hash': function (test) {
-        var myProj = new pbx('test/parser/projects/hash.pbxproj')
-          , projHash = myProj.parseSync();
-        test.ok(projHash);
+      var myProj = new pbx('test/parser/projects/hash.pbxproj');
+      var projHash = myProj.parseSync();
+      test.ok(projHash);
 
-        test.equal(projHash.hash.project.archiveVersion, 1);
-        test.equal(projHash.hash.project.objectVersion, 45);
-        test.equal(projHash.hash.project.nonObject, '29B97313FDCFA39411CA2CEF');
+      test.equal(projHash.hash.project.archiveVersion, 1);
+      test.equal(projHash.hash.project.objectVersion, 45);
+      test.equal(projHash.hash.project.nonObject, '29B97313FDCFA39411CA2CEF');
 
-        test.done();
+      test.done();
   },
 }
 
@@ -115,8 +116,8 @@ exports['parse function'] = {
 
 exports['allUuids function'] = {
    'should return the right amount of uuids': function (test) {
-       var project = new pbx('.'),
-           uuids;
+       var project = new pbx('.');
+       var uuids;
 
        project.hash = buildConfig;
        uuids = project.allUuids();
@@ -128,25 +129,25 @@ exports['allUuids function'] = {
 
 exports['generateUuid function'] = {
     'should return a 24 character string': function (test) {
-       var project = new pbx('.'),
-           newUUID;
+        var project = new pbx('.');
+        var newUUID;
 
-       project.hash = buildConfig;
-       newUUID = project.generateUuid();
+        project.hash = buildConfig;
+        newUUID = project.generateUuid();
 
-       test.equal(newUUID.length, 24);
-       test.done();
+        test.equal(newUUID.length, 24);
+        test.done();
     },
     'should be an uppercase hex string': function (test) {
-       var project = new pbx('.'),
-           uHex = /^[A-F0-9]{24}$/,
-           newUUID;
+        var project = new pbx('.');
+        var uHex = /^[A-F0-9]{24}$/;
+        var newUUID;
 
-       project.hash = buildConfig;
-       newUUID = project.generateUuid();
+        project.hash = buildConfig;
+        newUUID = project.generateUuid();
 
-       test.ok(uHex.test(newUUID));
-       test.done();
+        test.ok(uHex.test(newUUID));
+        test.done();
     }
 }
 

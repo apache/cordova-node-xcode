@@ -15,14 +15,15 @@
  under the License.
  */
 
-var jsonProject = require('./fixtures/full-project')
-    fullProjectStr = JSON.stringify(jsonProject),
-    path = require('path'),
-    pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    proj = new pbx('.'),
-    singleDataModelFilePath = __dirname + '/fixtures/single-data-model.xcdatamodeld',
-    multipleDataModelFilePath = __dirname + '/fixtures/multiple-data-model.xcdatamodeld';
+var jsonProject = require('./fixtures/full-project');
+
+var fullProjectStr = JSON.stringify(jsonProject);
+var path = require('path');
+var pbx = require('../lib/pbxProject');
+var pbxFile = require('../lib/pbxFile');
+var proj = new pbx('.');
+var singleDataModelFilePath = __dirname + '/fixtures/single-data-model.xcdatamodeld';
+var multipleDataModelFilePath = __dirname + '/fixtures/multiple-data-model.xcdatamodeld';
 
 function cleanHash() {
     return JSON.parse(fullProjectStr);
@@ -53,16 +54,16 @@ exports.dataModelDocument = {
         test.done()
     },
     'should set an optional target on the pbxFile': function (test) {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath, undefined, { target: target }),
-            target = proj.findTargetKey('TestApp');
+        var newFile = proj.addDataModelDocument(singleDataModelFilePath, undefined, { target: target });
+        var target = proj.findTargetKey('TestApp');
 
         test.equal(newFile.target, target);
         test.done()
     },
     'should populate the PBXBuildFile section with 2 fields': function (test) {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath),
-            buildFileSection = proj.pbxBuildFileSection(),
-            bfsLength = Object.keys(buildFileSection).length;
+        var newFile = proj.addDataModelDocument(singleDataModelFilePath);
+        var buildFileSection = proj.pbxBuildFileSection();
+        var bfsLength = Object.keys(buildFileSection).length;
 
         test.equal(59 + 1, bfsLength);
         test.ok(buildFileSection[newFile.uuid]);
@@ -71,9 +72,9 @@ exports.dataModelDocument = {
         test.done();
     },
     'should populate the PBXFileReference section with 2 fields for single model document': function (test) {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            frsLength = Object.keys(fileRefSection).length;
+        var newFile = proj.addDataModelDocument(singleDataModelFilePath);
+        var fileRefSection = proj.pbxFileReferenceSection();
+        var frsLength = Object.keys(fileRefSection).length;
 
         test.equal(66 + 2, frsLength);
         test.ok(fileRefSection[newFile.models[0].fileRef]);
@@ -82,9 +83,9 @@ exports.dataModelDocument = {
         test.done();
     },
     'should populate the PBXFileReference section with 2 fields for each model of a model document': function (test) {
-        var newFile = proj.addDataModelDocument(multipleDataModelFilePath),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            frsLength = Object.keys(fileRefSection).length;
+        var newFile = proj.addDataModelDocument(multipleDataModelFilePath);
+        var fileRefSection = proj.pbxFileReferenceSection();
+        var frsLength = Object.keys(fileRefSection).length;
 
         test.equal(66 + 2 * 2, frsLength);
         test.ok(fileRefSection[newFile.models[0].fileRef]);
@@ -109,9 +110,9 @@ exports.dataModelDocument = {
         test.done();
     },
     'should add to group specified by key': function (test) {
-        var group = 'Frameworks',
-            newFile = proj.addDataModelDocument(singleDataModelFilePath, proj.findPBXGroupKey({ name: group }));
-            groupChildren = proj.pbxGroupByName(group).children;
+        var group = 'Frameworks';
+        var newFile = proj.addDataModelDocument(singleDataModelFilePath, proj.findPBXGroupKey({ name: group }));
+        groupChildren = proj.pbxGroupByName(group).children;
 
         var found = false;
         for (var index in groupChildren) {
@@ -124,9 +125,9 @@ exports.dataModelDocument = {
         test.done();
     },
     'should add to group specified by name': function (test) {
-        var group = 'Frameworks',
-            newFile = proj.addDataModelDocument(singleDataModelFilePath, group);
-            groupChildren = proj.pbxGroupByName(group).children;
+        var group = 'Frameworks';
+        var newFile = proj.addDataModelDocument(singleDataModelFilePath, group);
+        groupChildren = proj.pbxGroupByName(group).children;
 
         var found = false;
         for (var index in groupChildren) {
@@ -139,31 +140,31 @@ exports.dataModelDocument = {
         test.done();
     },
     'should add to the PBXSourcesBuildPhase': function (test) {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath),
-            sources = proj.pbxSourcesBuildPhaseObj();
+        var newFile = proj.addDataModelDocument(singleDataModelFilePath);
+        var sources = proj.pbxSourcesBuildPhaseObj();
 
         test.equal(sources.files.length, 2 + 1);
         test.done();
     },
     'should create a XCVersionGroup section': function (test) {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath),
-            xcVersionGroupSection = proj.xcVersionGroupSection();
+        var newFile = proj.addDataModelDocument(singleDataModelFilePath);
+        var xcVersionGroupSection = proj.xcVersionGroupSection();
 
         test.ok(xcVersionGroupSection[newFile.fileRef]);
         test.done();
     },
     'should populate the XCVersionGroup comment correctly': function (test) {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath),
-            xcVersionGroupSection = proj.xcVersionGroupSection(),
-            commentKey = newFile.fileRef + '_comment';
+        var newFile = proj.addDataModelDocument(singleDataModelFilePath);
+        var xcVersionGroupSection = proj.xcVersionGroupSection();
+        var commentKey = newFile.fileRef + '_comment';
 
         test.equal(xcVersionGroupSection[commentKey], path.basename(singleDataModelFilePath));
         test.done();
     },
     'should add the XCVersionGroup object correctly': function (test) {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath),
-            xcVersionGroupSection = proj.xcVersionGroupSection(),
-            xcVersionGroupEntry = xcVersionGroupSection[newFile.fileRef];
+        var newFile = proj.addDataModelDocument(singleDataModelFilePath);
+        var xcVersionGroupSection = proj.xcVersionGroupSection();
+        var xcVersionGroupEntry = xcVersionGroupSection[newFile.fileRef];
 
         test.equal(xcVersionGroupEntry.isa, 'XCVersionGroup');
         test.equal(xcVersionGroupEntry.children[0], newFile.models[0].fileRef);

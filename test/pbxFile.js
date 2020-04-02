@@ -129,8 +129,8 @@ exports['group'] = {
         test.done();
     },
     'should be Resources for all other files': function (test) {
-        var headerFile = new pbxFile('Plugins/ChildBrowser.h'),
-            xibFile = new pbxFile('Plugins/ChildBrowser.xib');
+        var headerFile = new pbxFile('Plugins/ChildBrowser.h');
+        var xibFile = new pbxFile('Plugins/ChildBrowser.xib');
 
         test.equal('Resources', headerFile.group);
         test.equal('Resources', xibFile.group);

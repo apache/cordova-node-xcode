@@ -4,9 +4,8 @@
   "description": "parser for xcodeproj/project.pbxproj files",
   "version": "3.0.0-dev",
   "main": "index.js",
-  "repository": {
-    "url": "https://github.com/apache/cordova-node-xcode.git"
-  },
+  "repository": "github:apache/cordova-node-xcode",
+  "bugs": "https://github.com/apache/cordova-node-xcode/issues",
   "engines": {
     "node": ">=10.0.0"
   },

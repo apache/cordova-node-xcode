@@ -176,7 +176,7 @@ exports.addStaticLibrary = {
         for (i = 0; i < ids.length; i++) {
             buildSettings = configs[ids[i]].buildSettings;
 
-            if (buildSettings.PRODUCT_NAME == '"KitchenSinktablet"') {
+            if (buildSettings.PRODUCT_NAME === '"KitchenSinktablet"') {
                 test.ok(buildSettings.LIBRARY_SEARCH_PATHS);
             }
         }

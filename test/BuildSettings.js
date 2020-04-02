@@ -40,7 +40,7 @@ exports.addAndRemoveToFromBuildSettings = {
         proj.addToBuildSettings(buildSetting, value);
         var config = proj.pbxXCBuildConfigurationSection();
         for (var ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
             test.ok(config[ref].buildSettings[buildSetting] === value);
         }
         test.done();
@@ -51,7 +51,7 @@ exports.addAndRemoveToFromBuildSettings = {
         proj.removeFromBuildSettings(buildSetting);
         var config = proj.pbxXCBuildConfigurationSection();
         for (var ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
             test.ok(!config[ref].buildSettings.hasOwnProperty(buildSetting));
         }
         test.done();

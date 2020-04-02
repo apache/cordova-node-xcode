@@ -39,7 +39,7 @@ exports.addAndRemoveToFromOtherLinkerFlags = {
         proj.addToOtherLinkerFlags(flag);
         var config = proj.pbxXCBuildConfigurationSection();
         for (var ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
             var lib = config[ref].buildSettings.OTHER_LDFLAGS;
             test.ok(lib[1].indexOf(flag) > -1);
         }
@@ -51,10 +51,10 @@ exports.addAndRemoveToFromOtherLinkerFlags = {
         proj.removeFromOtherLinkerFlags(flag);
         var config = proj.pbxXCBuildConfigurationSection();
         for (var ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
             var lib = config[ref].buildSettings.OTHER_LDFLAGS;
             test.ok(lib.length === 1);
-            test.ok(lib[0].indexOf(flag) == -1);
+            test.ok(lib[0].indexOf(flag) === -1);
         }
         test.done();
     }

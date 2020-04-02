@@ -43,7 +43,7 @@ exports.addAndRemoveToFromFrameworkSearchPaths = {
         proj.addToFrameworkSearchPaths(pbxFile);
         var config = proj.pbxXCBuildConfigurationSection();
         for (var ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
             var lib = config[ref].buildSettings.FRAMEWORK_SEARCH_PATHS;
             test.ok(lib[1].indexOf('some/path') > -1);
         }
@@ -54,10 +54,10 @@ exports.addAndRemoveToFromFrameworkSearchPaths = {
         proj.removeFromFrameworkSearchPaths(pbxFile);
         var config = proj.pbxXCBuildConfigurationSection();
         for (var ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
             var lib = config[ref].buildSettings.FRAMEWORK_SEARCH_PATHS;
             test.ok(lib.length === 1);
-            test.ok(lib[0].indexOf('some/path') == -1);
+            test.ok(lib[0].indexOf('some/path') === -1);
         }
         test.done();
     }

@@ -401,7 +401,7 @@ exports.validatePropReplaceFix = {
 exports.validateHasFile = {
     'should return true for has file MainViewController.m': function (test) {
         var result = project.hasFile('MainViewController.m');
-        test.ok(result.path == 'MainViewController.m');
+        test.ok(result.path === 'MainViewController.m');
         test.done();
     }
 };

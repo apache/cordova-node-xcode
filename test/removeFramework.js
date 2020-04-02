@@ -166,7 +166,7 @@ exports.removeFramework = {
 
         for (i = 0; i < frameworkPaths.length; i++) {
             var current = frameworkPaths[i];
-            test.ok(current.indexOf(expectedPath) == -1);
+            test.ok(current.indexOf(expectedPath) === -1);
         }
 
         test.done();
@@ -193,7 +193,7 @@ exports.removeFramework = {
 
         for (i = 0; i < frameworkPaths.length; i++) {
             var current = frameworkPaths[i];
-            test.ok(current.indexOf(expectedPath) == -1);
+            test.ok(current.indexOf(expectedPath) === -1);
         }
 
         test.done();

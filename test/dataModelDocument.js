@@ -54,8 +54,8 @@ exports.dataModelDocument = {
         test.done();
     },
     'should set an optional target on the pbxFile': function (test) {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath, undefined, { target: target });
         var target = proj.findTargetKey('TestApp');
+        var newFile = proj.addDataModelDocument(singleDataModelFilePath, undefined, { target: target });
 
         test.equal(newFile.target, target);
         test.done();

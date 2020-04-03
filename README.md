@@ -23,6 +23,8 @@
 
 [![NPM](https://nodei.co/npm/xcode.png?compact=true)](https://nodei.co/npm/xcode/)
 
+[![Node CI](https://github.com/apache/xcode/workflows/Node%20CI/badge.svg?branch=master)](https://github.com/apache/xcode/actions?query=branch%3Amaster)
+
 Parser utility for xcodeproj project files
 
 Allows you to edit xcodeproject files and write them back out.

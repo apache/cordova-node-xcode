@@ -15,11 +15,14 @@
   },
   "devDependencies": {
     "nodeunit": "^0.11.3",
+    "nyc": "^15.0.0",
     "pegjs": "^0.10.0"
   },
   "scripts": {
     "pegjs": "node_modules/.bin/pegjs lib/parser/pbxproj.pegjs",
-    "test": "node_modules/.bin/nodeunit test/parser test"
+    "test": "npm run cover",
+    "test:unit": "nodeunit test/parser test",
+    "cover": "nyc npm run test:unit"
   },
   "license": "Apache-2.0",
   "contributors": [
@@ -43,5 +46,16 @@
     {
       "name": "Bob Easterday"
     }
-  ]
+  ],
+  "nyc": {
+    "all": true,
+    "exclude": [
+      "coverage/",
+      "test/"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ]
+  }
 }

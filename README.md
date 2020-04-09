@@ -22,7 +22,8 @@
 # cordova-node-xcode
 
 [![NPM](https://nodei.co/npm/xcode.png?compact=true)](https://nodei.co/npm/xcode/)
-[![Build Status](https://travis-ci.org/apache/cordova-node-xcode.svg?branch=master)](https://travis-ci.org/apache/cordova-node-xcode)
+
+[![Node CI](https://github.com/apache/xcode/workflows/Node%20CI/badge.svg?branch=master)](https://github.com/apache/xcode/actions?query=branch%3Amaster)
 
 Parser utility for xcodeproj project files
 

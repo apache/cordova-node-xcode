@@ -191,6 +191,26 @@ exports['updateBuildProperty function'] = {
             test.ok(newContents.match(/OTHER_LDFLAGS\s*=\s*\(\s*T,\s*E,\s*S,\s*T,\s*\)/))
             test.done();
         });
+    },
+    'should change all targets in .pbxproj with multiple targets': function (test) {
+        var myProj = new pbx('test/parser/projects/multitarget.pbxproj');
+        myProj.parse(function(err, hash) {
+            myProj.updateBuildProperty('PRODUCT_BUNDLE_IDENTIFIER', 'comcompanytest');
+            var newContents = myProj.writeSync();
+            // Should be 10 times = 5 targets, debug and release each
+            test.ok(newContents.match(/PRODUCT_BUNDLE_IDENTIFIER\s*=\s*comcompanytest/g).length === 10);
+            test.done();
+        });
+    },
+    'should change only one target in .pbxproj with multiple targets': function (test) {
+        var myProj = new pbx('test/parser/projects/multitarget.pbxproj');
+        myProj.parse(function(err, hash) {
+            myProj.updateBuildProperty('PRODUCT_BUNDLE_IDENTIFIER', 'comcompanytest', null, 'MultiTargetTest');
+            var newContents = myProj.writeSync();
+            // should be 2 times = one target debug and release
+            test.ok(newContents.match(/PRODUCT_BUNDLE_IDENTIFIER\s*=\s*comcompanytest/g).length === 2);
+            test.done();
+        });
     }
 }
 

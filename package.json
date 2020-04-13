@@ -2,7 +2,7 @@
   "author": "Apache Software Foundation",
   "name": "xcode",
   "description": "parser for xcodeproj/project.pbxproj files",
-  "version": "3.0.0",
+  "version": "3.0.1-dev",
   "main": "index.js",
   "repository": "github:apache/cordova-node-xcode",
   "bugs": "https://github.com/apache/cordova-node-xcode/issues",

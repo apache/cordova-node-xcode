@@ -214,6 +214,34 @@ exports['updateBuildProperty function'] = {
     }
 }
 
+exports['getBuildProperty function'] = {
+    setUp:function(callback) {
+        callback();
+    },
+    tearDown:function(callback) {
+        fs.writeFileSync(bcpbx, original_pbx, 'utf-8');
+        callback();
+    },
+    'should change all targets in .pbxproj with multiple targets': function (test) {
+        var myProj = new pbx('test/parser/projects/multitarget.pbxproj');
+        myProj.parse(function(err, hash) {
+            myProj.updateBuildProperty('PRODUCT_BUNDLE_IDENTIFIER', 'comcompanytest');
+            myProj.writeSync();
+            test.ok(myProj.getBuildProperty('PRODUCT_BUNDLE_IDENTIFIER') === 'comcompanytest');
+            test.done();
+        });
+    },
+    'should change only one target in .pbxproj with multiple targets': function (test) {
+        var myProj = new pbx('test/parser/projects/multitarget.pbxproj');
+        myProj.parse(function(err, hash) {
+            myProj.updateBuildProperty('PRODUCT_BUNDLE_IDENTIFIER', 'comcompanytest', null, 'MultiTargetTest');
+            myProj.writeSync();
+            test.ok(myProj.getBuildProperty('PRODUCT_BUNDLE_IDENTIFIER', undefined, 'MultiTargetTest') === 'comcompanytest');
+            test.done();
+        });
+    }
+}
+
 exports['addBuildProperty function'] = {
     setUp:function(callback) {
         callback();

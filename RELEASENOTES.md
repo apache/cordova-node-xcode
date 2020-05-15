@@ -20,6 +20,10 @@
 -->
 # Cordova-node-xcode Release Notes
 
+### 3.0.1 (May 15, 2020)
+
+* [GH-109](https://github.com/apache/cordova-node-xcode/pull/109) Add targetName to paramter to getBuildProperty
+
 ### 3.0.0 (Apr 09, 2020)
 
 * node-xcode-3.0.0 Added NOTICE for release

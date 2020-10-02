@@ -25,28 +25,6 @@
     "cover": "nyc npm run test:unit"
   },
   "license": "Apache-2.0",
-  "contributors": [
-    {
-      "name": "Andrew Lunny",
-      "email": "alunny@gmail.com"
-    },
-    {
-      "name": "Anis Kadri"
-    },
-    {
-      "name": "Mike Reinstein"
-    },
-    {
-      "name": "Filip Maj"
-    },
-    {
-      "name": "Brett Rudd",
-      "email": "goya@apache.org"
-    },
-    {
-      "name": "Bob Easterday"
-    }
-  ],
   "nyc": {
     "all": true,
     "exclude": [

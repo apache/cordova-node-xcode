@@ -17,6 +17,7 @@
 
 var fullProject = require('./fixtures/full-project')
     fullProjectStr = JSON.stringify(fullProject),
+    path = require('path'),
     pbx = require('../lib/pbxProject'),
     pbxFile = require('../lib/pbxFile'),
     proj = new pbx('.');
@@ -138,7 +139,7 @@ exports.addTarget = {
                 test.equal(debugConfig[0], '"DEBUG=1"');
                 test.equal(debugConfig[1], '"$(inherited)"');
             }
-            test.equal(pbxConfig.buildSettings['INFOPLIST_FILE'], '"' + TARGET_SUBFOLDER_NAME + '/' + TARGET_SUBFOLDER_NAME + '-Info.plist"');
+            test.equal(pbxConfig.buildSettings['INFOPLIST_FILE'], '"' + TARGET_SUBFOLDER_NAME + path.sep + TARGET_SUBFOLDER_NAME + '-Info.plist"');
             test.equal(pbxConfig.buildSettings['LD_RUNPATH_SEARCH_PATHS'], '"$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"');
             test.equal(pbxConfig.buildSettings['PRODUCT_NAME'], '"' + TARGET_NAME + '"');
             test.equal(pbxConfig.buildSettings['SKIP_INSTALL'], 'YES');

@@ -110,7 +110,7 @@ exports.addTarget = {
         test.ok(target.pbxNativeTarget.buildPhases);
         test.ok(target.pbxNativeTarget.buildRules);
         test.ok(target.pbxNativeTarget.dependencies);
-  
+
         test.done();
     },
     'should add debug and release configurations to build configuration list': function (test) {

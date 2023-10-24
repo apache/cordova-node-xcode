@@ -194,4 +194,11 @@ exports.addBuildPhase = {
         test.equal(buildPhase.shellScript, '"echo \\"hello world!\\""');
         test.done();
     },
+    'should add runOnlyForDeploymentPostprocessing option to run scripts': function (test) {
+        var options = {shellPath: '/bin/sh', shellScript: 'echo "hello world!"', runOnlyForDeploymentPostprocessing: 1};
+        var buildPhase = proj.addBuildPhase([], 'PBXShellScriptBuildPhase', 'Run a script', proj.getFirstTarget().uuid, options).buildPhase;
+
+        test.equal(buildPhase.runOnlyForDeploymentPostprocessing, 1);
+        test.done();
+    }
 }

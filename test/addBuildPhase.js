@@ -197,4 +197,26 @@ describe('addBuildPhase', () => {
         const buildPhase = proj.addBuildPhase([], 'PBXShellScriptBuildPhase', 'Run a script', proj.getFirstTarget().uuid, options).buildPhase;
         assert.equal(buildPhase.runOnlyForDeploymentPostprocessing, 1);
     });
+
+    it('should add the PBXBuildPhase with alwaysOutOfDate property', () => {
+        const options = {
+            shellPath: '/bin/sh',
+            shellScript: 'test',
+            alwaysOutOfDate: true
+        };
+
+        const buildPhase = proj.addBuildPhase([], 'PBXShellScriptBuildPhase', 'Run a script', proj.getFirstTarget().uuid, options).buildPhase;
+        assert.equal(buildPhase.shellPath, '/bin/sh');
+        assert.equal(buildPhase.shellScript, '"test"');
+        assert.equal(buildPhase.alwaysOutOfDate, 1);
+    });
+
+    it('should add the PBXBuildPhase without alwaysOutOfDate property', () => {
+        const options = { shellPath: '/bin/sh', shellScript: 'test' };
+
+        const buildPhase = proj.addBuildPhase([], 'PBXShellScriptBuildPhase', 'Run a script', proj.getFirstTarget().uuid, options).buildPhase;
+        assert.equal(buildPhase.shellPath, '/bin/sh');
+        assert.equal(buildPhase.shellScript, '"test"');
+        assert.equal(buildPhase.alwaysOutOfDate, null);
+    });
 });

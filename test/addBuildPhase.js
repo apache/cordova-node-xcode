@@ -196,4 +196,26 @@ exports.addBuildPhase = {
         test.equal(buildPhase.shellScript, '"echo \\"hello world!\\""');
         test.done();
     },
+    'should add the PBXBuildPhase with alwaysOutOfDate property': function (test) {
+        var options = {
+            shellPath: '/bin/sh',
+            shellScript: 'test',
+            alwaysOutOfDate: true
+        };
+
+        var buildPhase = proj.addBuildPhase([], 'PBXShellScriptBuildPhase', 'Run a script', proj.getFirstTarget().uuid, options).buildPhase;
+        test.equal(buildPhase.shellPath, '/bin/sh');
+        test.equal(buildPhase.shellScript, '"test"');
+        test.equal(buildPhase.alwaysOutOfDate, 1);
+        test.done();
+    },
+    'should add the PBXBuildPhase without alwaysOutOfDate property': function (test) {
+        var options = {shellPath: '/bin/sh', shellScript: 'test'};
+
+        var buildPhase = proj.addBuildPhase([], 'PBXShellScriptBuildPhase', 'Run a script', proj.getFirstTarget().uuid, options).buildPhase;
+        test.equal(buildPhase.shellPath, '/bin/sh');
+        test.equal(buildPhase.shellScript, '"test"');
+        test.equal(buildPhase.alwaysOutOfDate, null);
+        test.done();
+    },
 }

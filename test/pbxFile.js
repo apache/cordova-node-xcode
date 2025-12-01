@@ -232,7 +232,7 @@ exports['path'] = {
 }
 
 exports['settings'] = {
-   'should not be defined by default': function (test) {
+    'should not be defined by default': function (test) {
       var sourceFile = new pbxFile('social.framework');
 
       test.equal(undefined, sourceFile.settings);

@@ -22,9 +22,9 @@ const assert = require('node:assert');
 
 const fullProject = require('./fixtures/full-project');
 const fullProjectStr = JSON.stringify(fullProject);
-const pbx = require('../lib/pbxProject');
-const pbxFile = require('../lib/pbxFile');
-const proj = new pbx('.');
+const PBXProject = require('../lib/pbxProject');
+const PBXFile = require('../lib/pbxFile');
+const proj = new PBXProject('.');
 
 function cleanHash () {
     return JSON.parse(fullProjectStr);
@@ -37,7 +37,7 @@ describe('addHeaderFile', () => {
 
     it('should return a pbxFile', () => {
         const newFile = proj.addHeaderFile('file.h');
-        assert.equal(newFile.constructor, pbxFile);
+        assert.equal(newFile.constructor, PBXFile);
     });
 
     it('should set a fileRef on the pbxFile', () => {

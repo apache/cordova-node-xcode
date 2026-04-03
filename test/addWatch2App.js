@@ -21,9 +21,9 @@ const assert = require('node:assert');
 
 const fullProject = require('./fixtures/full-project');
 const fullProjectStr = JSON.stringify(fullProject);
-const pbx = require('../lib/pbxProject');
-const pbxFile = require('../lib/pbxFile');
-const proj = new pbx('.');
+const PBXProject = require('../lib/pbxProject');
+const PBXFile = require('../lib/pbxFile');
+const proj = new PBXProject('.');
 
 function cleanHash () {
     return JSON.parse(fullProjectStr);
@@ -91,10 +91,10 @@ describe('addWatchApp', () => {
         assert.ok(resourcePhase);
         assert.ok(frameworkPhase);
 
-        assert.equal(sourceFile.constructor, pbxFile);
-        assert.equal(resourceFile.constructor, pbxFile);
-        assert.equal(frameworkFile.constructor, pbxFile);
-        assert.equal(headerFile.constructor, pbxFile);
+        assert.equal(sourceFile.constructor, PBXFile);
+        assert.equal(resourceFile.constructor, PBXFile);
+        assert.equal(frameworkFile.constructor, PBXFile);
+        assert.equal(headerFile.constructor, PBXFile);
 
         assert.ok(typeof target === 'object');
         assert.ok(target.uuid);

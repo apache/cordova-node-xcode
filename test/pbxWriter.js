@@ -20,12 +20,12 @@
 const { describe, it } = require('node:test');
 const assert = require('node:assert');
 
-const pbx = require('../lib/pbxProject');
+const PBXProject = require('../lib/pbxProject');
 const fs = require('fs');
 let myProj;
 
 function testProjectContents (filename, expectedFilename) {
-    const myProj = new pbx(filename);
+    const myProj = new PBXProject(filename);
 
     let content;
     if (expectedFilename) {
@@ -47,7 +47,7 @@ function testProjectContents (filename, expectedFilename) {
 
 // // for debugging failing tests
 // function testContentsInDepth(filename) {
-//     var myProj = new pbx(filename),
+//     var myProj = new PBXProject(filename),
 //         content = fs.readFileSync(filename, 'utf-8');
 
 //     // normalize tabs vs strings
@@ -115,7 +115,7 @@ describe('writeSync', () => {
         const filename = 'test/parser/projects/with_omit_empty_values_disabled.pbxproj';
         const expectedFilename = 'test/parser/projects/expected/with_omit_empty_values_disabled_expected.pbxproj';
         let content = fs.readFileSync(expectedFilename, 'utf-8').replace(/ {4}/g, '\t');
-        const project = new pbx(filename);
+        const project = new PBXProject(filename);
         project.parse(function (err) {
             if (err) {
                 return assert.fail(err);
@@ -131,7 +131,7 @@ describe('writeSync', () => {
         const filename = 'test/parser/projects/with_omit_empty_values_enabled.pbxproj';
         const expectedFilename = 'test/parser/projects/expected/with_omit_empty_values_enabled_expected.pbxproj';
         let content = fs.readFileSync(expectedFilename, 'utf-8').replace(/ {4}/g, '\t');
-        const project = new pbx(filename);
+        const project = new PBXProject(filename);
         project.parse(function (err) {
             if (err) {
                 return assert.fail(err);

@@ -20,8 +20,8 @@
 const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert');
 
-const pbx = require('../lib/pbxProject');
-const pbxFile = require('../lib/pbxFile');
+const PBXProject = require('../lib/pbxProject');
+const PBXFile = require('../lib/pbxFile');
 let project;
 let projectHash;
 
@@ -80,7 +80,7 @@ const findByName = function (obj, target) {
 
 describe('group', () => {
     beforeEach(() => {
-        project = new pbx('test/parser/projects/group.pbxproj');
+        project = new PBXProject('test/parser/projects/group.pbxproj');
         projectHash = project.parseSync();
     });
 
@@ -155,9 +155,9 @@ describe('group', () => {
 
     describe('predefinedPbxGroups', () => {
         beforeEach(() => {
-            project = new pbx('test/parser/projects/empty-groups.pbxproj').parseSync();
+            project = new PBXProject('test/parser/projects/empty-groups.pbxproj').parseSync();
 
-            this.file = new pbxFile('some-file.m');
+            this.file = new PBXFile('some-file.m');
             this.file.fileRef = project.generateUuid();
             project.addToPbxFileReferenceSection(this.file);
         });

@@ -22,9 +22,9 @@ const assert = require('node:assert');
 
 const jsonProject = require('./fixtures/full-project');
 const fullProjectStr = JSON.stringify(jsonProject);
-const pbx = require('../lib/pbxProject');
-const pbxFile = require('../lib/pbxFile');
-const myProj = new pbx('.');
+const PBXProject = require('../lib/pbxProject');
+const PBXFile = require('../lib/pbxFile');
+const myProj = new PBXProject('.');
 
 function cleanHash () {
     return JSON.parse(fullProjectStr);
@@ -36,7 +36,7 @@ describe('addToPbxFileReferenceSection function', () => {
     });
 
     it('should add file and comment to fileReferenceSection', () => {
-        const file = new pbxFile('file.m');
+        const file = new PBXFile('file.m');
         file.fileRef = myProj.generateUuid();
 
         myProj.addToPbxFileReferenceSection(file);

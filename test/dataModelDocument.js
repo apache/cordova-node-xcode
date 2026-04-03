@@ -23,9 +23,9 @@ const assert = require('node:assert');
 const jsonProject = require('./fixtures/full-project');
 const fullProjectStr = JSON.stringify(jsonProject);
 const path = require('path');
-const pbx = require('../lib/pbxProject');
-const pbxFile = require('../lib/pbxFile');
-const proj = new pbx('.');
+const PBXProject = require('../lib/pbxProject');
+const PBXFile = require('../lib/pbxFile');
+const proj = new PBXProject('.');
 const singleDataModelFilePath = __dirname + '/fixtures/single-data-model.xcdatamodeld';
 const multipleDataModelFilePath = __dirname + '/fixtures/multiple-data-model.xcdatamodeld';
 
@@ -41,7 +41,7 @@ describe('dataModelDocument', () => {
     it('should return a pbxFile', () => {
         const newFile = proj.addDataModelDocument(singleDataModelFilePath);
 
-        assert.equal(newFile.constructor, pbxFile);
+        assert.equal(newFile.constructor, PBXFile);
     });
 
     it('should set a uuid on the pbxFile', () => {

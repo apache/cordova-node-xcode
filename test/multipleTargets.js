@@ -22,9 +22,9 @@ const assert = require('node:assert');
 
 const fullProject = require('./fixtures/multiple-targets');
 const fullProjectStr = JSON.stringify(fullProject);
-const pbx = require('../lib/pbxProject');
-const pbxFile = require('../lib/pbxFile');
-const proj = new pbx('.');
+const PBXProject = require('../lib/pbxProject');
+const PBXFile = require('../lib/pbxFile');
+const proj = new PBXProject('.');
 
 function cleanHash () {
     return JSON.parse(fullProjectStr);
@@ -42,7 +42,7 @@ describe('addFilesToTarget', () => {
         const opt = { target };
         const newFile = proj.addSourceFile(filename, opt);
 
-        assert.equal(newFile.constructor, pbxFile);
+        assert.equal(newFile.constructor, PBXFile);
 
         const sources = proj.pbxSourcesBuildPhaseObj(target);
         assert.equal(sources.files[5].comment, filename + ' in Sources');
@@ -55,7 +55,7 @@ describe('addFilesToTarget', () => {
         const opt = { target };
         const newFile = proj.addSourceFile(filename, opt);
 
-        assert.equal(newFile.constructor, pbxFile);
+        assert.equal(newFile.constructor, PBXFile);
 
         var sources = proj.pbxSourcesBuildPhaseObj(target);
         assert.equal(sources.files[5].comment, filename + ' in Sources');
@@ -82,7 +82,7 @@ describe('addFilesToTarget', () => {
         const opt = { target };
         const newFile = proj.addStaticLibrary(filename, opt);
 
-        assert.equal(newFile.constructor, pbxFile);
+        assert.equal(newFile.constructor, PBXFile);
 
         const libraries = proj.pbxFrameworksBuildPhaseObj(target);
         assert.equal(libraries.files[4].comment, filename + ' in Resources');
@@ -95,7 +95,7 @@ describe('addFilesToTarget', () => {
         const opt = { target };
         const newFile = proj.addStaticLibrary(filename, opt);
 
-        assert.equal(newFile.constructor, pbxFile);
+        assert.equal(newFile.constructor, PBXFile);
 
         var libraries = proj.pbxFrameworksBuildPhaseObj(target);
         assert.equal(libraries.files[4].comment, filename + ' in Resources');
@@ -113,7 +113,7 @@ describe('addFilesToTarget', () => {
         const opt = { target };
         const newFile = proj.addFramework(filename, opt);
 
-        assert.equal(newFile.constructor, pbxFile);
+        assert.equal(newFile.constructor, PBXFile);
 
         const frameworks = proj.pbxFrameworksBuildPhaseObj(target);
         assert.equal(frameworks.files[4].comment, filename + ' in Frameworks');
@@ -126,7 +126,7 @@ describe('addFilesToTarget', () => {
         const opt = { target };
         const newFile = proj.addResourceFile(filename, opt);
 
-        assert.equal(newFile.constructor, pbxFile);
+        assert.equal(newFile.constructor, PBXFile);
 
         const resources = proj.pbxResourcesBuildPhaseObj(target);
         assert.equal(resources.files[26].comment, filename + ' in Resources');
@@ -138,7 +138,7 @@ describe('addFilesToTarget', () => {
         const opt = { target };
         const newFile = proj.addResourceFile(filename, opt);
 
-        assert.equal(newFile.constructor, pbxFile);
+        assert.equal(newFile.constructor, PBXFile);
 
         var resources = proj.pbxResourcesBuildPhaseObj(target);
         assert.equal(resources.files[26].comment, filename + ' in Resources');

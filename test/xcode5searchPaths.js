@@ -21,11 +21,10 @@ const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert');
 
 const xcode5proj = require('./fixtures/library-search-paths');
-xcode5projStr = JSON.stringify(xcode5proj),
-pbx = require('../lib/pbxProject'),
-pbxFile = require('../lib/pbxFile'),
-proj = new pbx('.'),
-libPoop = { path: 'some/path/poop.a' };
+const xcode5projStr = JSON.stringify(xcode5proj);
+const PBXProject = require('../lib/pbxProject');
+const proj = new PBXProject('.');
+const libPoop = { path: 'some/path/poop.a' };
 
 function cleanHash () {
     return JSON.parse(xcode5projStr);

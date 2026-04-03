@@ -20,7 +20,7 @@
 const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert');
 
-const pbx = require('../lib/pbxProject');
+const PBXProject = require('../lib/pbxProject');
 let project;
 let projectHash;
 
@@ -79,7 +79,7 @@ const findByName = function (obj, target) {
 
 describe('variantGroup', () => {
     beforeEach(() => {
-        project = new pbx('test/parser/projects/variantgroup.pbxproj');
+        project = new PBXProject('test/parser/projects/variantgroup.pbxproj');
         projectHash = project.parseSync();
     });
 

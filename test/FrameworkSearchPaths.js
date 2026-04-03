@@ -21,9 +21,9 @@ const assert = require('node:assert');
 
 const fullProject = require('./fixtures/full-project');
 const fullProjectStr = JSON.stringify(fullProject);
-const pbx = require('../lib/pbxProject');
+const PBXProject = require('../lib/pbxProject');
 var pbxFile = require('../lib/pbxFile');
-const proj = new pbx('.');
+const proj = new PBXProject('.');
 
 var pbxFile = {
     path: 'some/path/include',

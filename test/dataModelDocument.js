@@ -22,12 +22,12 @@ const assert = require('node:assert');
 
 const jsonProject = require('./fixtures/full-project');
 const fullProjectStr = JSON.stringify(jsonProject);
-const path = require('path');
+const path = require('node:path');
 const PBXProject = require('../lib/pbxProject');
 const PBXFile = require('../lib/pbxFile');
 const proj = new PBXProject('.');
-const singleDataModelFilePath = __dirname + '/fixtures/single-data-model.xcdatamodeld';
-const multipleDataModelFilePath = __dirname + '/fixtures/multiple-data-model.xcdatamodeld';
+const singleDataModelFilePath = path.join(__dirname, '/fixtures/single-data-model.xcdatamodeld');
+const multipleDataModelFilePath = path.join(__dirname, '/fixtures/multiple-data-model.xcdatamodeld');
 
 function cleanHash () {
     return JSON.parse(fullProjectStr);

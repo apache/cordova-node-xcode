@@ -32,7 +32,7 @@ const debugConfiguration = {
         ],
         INFOPLIST_FILE: 'Info.Plist',
         LD_RUNPATH_SEARCH_PATHS: '"$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"',
-        PRODUCT_NAME: '"${TARGET_NAME}"',
+        PRODUCT_NAME: '"${TARGET_NAME}"', // eslint-disable-line no-template-curly-in-string
         SKIP_INSTALL: 'YES'
     },
     name: 'Debug'
@@ -42,7 +42,7 @@ const releaseConfiguration = {
     buildSettings: {
         INFOPLIST_FILE: 'Info.Plist',
         LD_RUNPATH_SEARCH_PATHS: '"$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"',
-        PRODUCT_NAME: '"${TARGET_NAME}"',
+        PRODUCT_NAME: '"${TARGET_NAME}"', // eslint-disable-line no-template-curly-in-string
         SKIP_INSTALL: 'YES'
     },
     name: 'Release'

@@ -49,7 +49,7 @@ describe('addAndRemoveToFromLibrarySearchPaths', () => {
 
             refSettings = config[ref].buildSettings;
 
-            if (refSettings.PRODUCT_NAME != PRODUCT_NAME) { continue; }
+            if (refSettings.PRODUCT_NAME !== PRODUCT_NAME) { continue; }
 
             lib = refSettings.LIBRARY_SEARCH_PATHS;
             assert.equal(lib[1], expected);
@@ -65,11 +65,11 @@ describe('addAndRemoveToFromLibrarySearchPaths', () => {
 
         const config = proj.pbxXCBuildConfigurationSection();
         for (ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
 
             lib = config[ref].buildSettings.LIBRARY_SEARCH_PATHS;
             assert.ok(lib.length === 1);
-            assert.ok(lib[0].indexOf('$(SRCROOT)/KitchenSinktablet/some/path') == -1);
+            assert.ok(lib[0].indexOf('$(SRCROOT)/KitchenSinktablet/some/path') === -1);
         }
     });
 });

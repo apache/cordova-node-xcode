@@ -155,7 +155,7 @@ describe('removeFramework', () => {
 
         for (let i = 0; i < frameworkPaths.length; i++) {
             const current = frameworkPaths[i];
-            assert.ok(current.indexOf(expectedPath) == -1);
+            assert.ok(current.indexOf(expectedPath) === -1);
         }
     });
 
@@ -183,7 +183,7 @@ describe('removeFramework', () => {
 
         for (let i = 0; i < frameworkPaths.length; i++) {
             const current = frameworkPaths[i];
-            assert.ok(current.indexOf(expectedPath) == -1);
+            assert.ok(current.indexOf(expectedPath) === -1);
         }
     });
 });

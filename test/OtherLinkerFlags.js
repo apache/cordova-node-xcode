@@ -40,7 +40,7 @@ describe('addAndRemoveToFromOtherLinkerFlags', () => {
         proj.addToOtherLinkerFlags(flag);
         const config = proj.pbxXCBuildConfigurationSection();
         for (const ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
             const lib = config[ref].buildSettings.OTHER_LDFLAGS;
             assert.ok(lib[1].indexOf(flag) > -1);
         }
@@ -51,10 +51,10 @@ describe('addAndRemoveToFromOtherLinkerFlags', () => {
         proj.removeFromOtherLinkerFlags(flag);
         const config = proj.pbxXCBuildConfigurationSection();
         for (const ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
             const lib = config[ref].buildSettings.OTHER_LDFLAGS;
             assert.ok(lib.length === 1);
-            assert.ok(lib[0].indexOf(flag) == -1);
+            assert.ok(lib[0].indexOf(flag) === -1);
         }
     });
 });

@@ -41,7 +41,7 @@ describe('addAndRemoveToFromLibrarySearchPaths', () => {
         });
         const config = proj.pbxXCBuildConfigurationSection();
         for (const ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
             const lib = config[ref].buildSettings.LIBRARY_SEARCH_PATHS;
             assert.ok(lib[1].indexOf('$(SRCROOT)/KitchenSinktablet/some/path') > -1);
         }
@@ -51,7 +51,7 @@ describe('addAndRemoveToFromLibrarySearchPaths', () => {
         proj.addToLibrarySearchPaths(libPath);
         const config = proj.pbxXCBuildConfigurationSection();
         for (const ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
             const lib = config[ref].buildSettings.LIBRARY_SEARCH_PATHS;
             assert.ok(lib[1].indexOf(libPath) > -1);
         }
@@ -66,10 +66,10 @@ describe('addAndRemoveToFromLibrarySearchPaths', () => {
         });
         const config = proj.pbxXCBuildConfigurationSection();
         for (const ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
             const lib = config[ref].buildSettings.LIBRARY_SEARCH_PATHS;
             assert.ok(lib.length === 1);
-            assert.ok(lib[0].indexOf('$(SRCROOT)/KitchenSinktablet/some/path') == -1);
+            assert.ok(lib[0].indexOf('$(SRCROOT)/KitchenSinktablet/some/path') === -1);
         }
     });
 });

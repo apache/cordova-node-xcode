@@ -45,7 +45,7 @@ describe('addAndRemoveToFromFrameworkSearchPaths', () => {
         proj.addToFrameworkSearchPaths(pbxFile);
         const config = proj.pbxXCBuildConfigurationSection();
         for (const ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
             const lib = config[ref].buildSettings.FRAMEWORK_SEARCH_PATHS;
             assert.ok(lib[1].indexOf('some/path') > -1);
         }
@@ -55,10 +55,10 @@ describe('addAndRemoveToFromFrameworkSearchPaths', () => {
         proj.removeFromFrameworkSearchPaths(pbxFile);
         const config = proj.pbxXCBuildConfigurationSection();
         for (const ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
             const lib = config[ref].buildSettings.FRAMEWORK_SEARCH_PATHS;
             assert.ok(lib.length === 1);
-            assert.ok(lib[0].indexOf('some/path') == -1);
+            assert.ok(lib[0].indexOf('some/path') === -1);
         }
     });
 });

@@ -40,7 +40,7 @@ describe('addAndRemoveToFromBuildSettings', () => {
         proj.addToBuildSettings(buildSetting, value);
         const config = proj.pbxXCBuildConfigurationSection();
         for (const ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
             assert.ok(config[ref].buildSettings[buildSetting] === value);
         }
     });
@@ -50,7 +50,7 @@ describe('addAndRemoveToFromBuildSettings', () => {
         proj.removeFromBuildSettings(buildSetting);
         const config = proj.pbxXCBuildConfigurationSection();
         for (const ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
             const buildSettings = config[ref].buildSettings;
             assert.ok(!Object.prototype.hasOwnProperty.call(buildSettings, buildSetting));
         }

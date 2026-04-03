@@ -370,7 +370,7 @@ describe('group', () => {
     describe('validateHasFile', () => {
         it('should return true for has file MainViewController.m', () => {
             const result = project.hasFile('MainViewController.m');
-            assert.ok(result.path == 'MainViewController.m');
+            assert.ok(result.path === 'MainViewController.m');
         });
     });
 

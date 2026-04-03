@@ -32,9 +32,9 @@ function cleanHash () {
 
 function nonComments (obj) {
     const keys = Object.keys(obj);
-    const newObj = {}; let i = 0;
+    const newObj = {};
 
-    for (i; i < keys.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
         if (!/_comment$/.test(keys[i])) {
             newObj[keys[i]] = obj[keys[i]];
         }
@@ -46,9 +46,9 @@ function nonComments (obj) {
 function frameworkSearchPaths (proj) {
     const configs = nonComments(proj.pbxXCBuildConfigurationSection());
     const allPaths = [];
-    const ids = Object.keys(configs); let i; let buildSettings;
+    const ids = Object.keys(configs); let buildSettings;
 
-    for (i = 0; i < ids.length; i++) {
+    for (let i = 0; i < ids.length; i++) {
         buildSettings = configs[ids[i]].buildSettings;
 
         if (buildSettings.FRAMEWORK_SEARCH_PATHS) {
@@ -202,9 +202,9 @@ describe('addFramework', () => {
 
         // should add path to framework search path
         const frameworkPaths = frameworkSearchPaths(proj);
-        expectedPath = '"\\"/path/to\\""';
+        const expectedPath = '"\\"/path/to\\""';
 
-        for (i = 0; i < frameworkPaths.length; i++) {
+        for (let i = 0; i < frameworkPaths.length; i++) {
             const current = frameworkPaths[i];
             assert.ok(current.indexOf('"$(inherited)"') >= 0);
             assert.ok(current.indexOf(expectedPath) >= 0);

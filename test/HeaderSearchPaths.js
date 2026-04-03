@@ -22,7 +22,6 @@ const assert = require('node:assert');
 const fullProject = require('./fixtures/full-project');
 const fullProjectStr = JSON.stringify(fullProject);
 const PBXProject = require('../lib/pbxProject');
-const PBXFile = require('../lib/pbxFile');
 const proj = new PBXProject('.');
 
 function cleanHash () {

@@ -22,7 +22,6 @@ const assert = require('node:assert');
 
 const PBXProject = require('../lib/pbxProject');
 const fs = require('fs');
-let myProj;
 
 function testProjectContents (filename, expectedFilename) {
     const myProj = new PBXProject(filename);
@@ -36,11 +35,11 @@ function testProjectContents (filename, expectedFilename) {
     // normalize tabs vs strings
     content = content.replace(/ {4}/g, '\t');
 
-    return new Promise(function (success, erro) {
-        myProj.parse(function (err, projHash) {
+    return new Promise(function (resolve) {
+        myProj.parse(function () {
             const written = myProj.writeSync();
             assert.equal(content, written);
-            success();
+            resolve();
         });
     });
 }

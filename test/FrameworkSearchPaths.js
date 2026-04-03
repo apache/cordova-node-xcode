@@ -22,14 +22,14 @@ const assert = require('node:assert');
 const fullProject = require('./fixtures/full-project');
 const fullProjectStr = JSON.stringify(fullProject);
 const PBXProject = require('../lib/pbxProject');
-var pbxFile = require('../lib/pbxFile');
 const proj = new PBXProject('.');
 
-var pbxFile = {
+const pbxFile = {
     path: 'some/path/include',
     dirname: 'some/path',
     customFramework: true
 };
+
 function cleanHash () {
     return JSON.parse(fullProjectStr);
 }

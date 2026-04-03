@@ -22,7 +22,6 @@ const assert = require('node:assert');
 
 const PBXProject = require('../lib/pbxProject');
 let project;
-let projectHash;
 
 const findChildInGroup = function (obj, target) {
     let found = false;
@@ -80,7 +79,7 @@ const findByName = function (obj, target) {
 describe('variantGroup', () => {
     beforeEach(() => {
         project = new PBXProject('test/parser/projects/variantgroup.pbxproj');
-        projectHash = project.parseSync();
+        project.parseSync();
     });
 
     describe('getVariantGroupByKey', () => {
@@ -95,10 +94,10 @@ describe('variantGroup', () => {
         it('should create a new Test Variant Group', () => {
             delete project.getPBXObject('PBXVariantGroup');
 
-            var found = false;
+            let found = false;
             let groups = project.getPBXObject('PBXVariantGroup');
 
-            var found = findByName(groups, 'Test');
+            found = findByName(groups, 'Test');
             assert.ok(found === false);
 
             let group = project.findPBXVariantGroupKey({ name: 'Test' });
@@ -177,12 +176,12 @@ describe('variantGroup', () => {
             const testKey = project.findPBXVariantGroupKey({ name: 'Localizable.strings' });
             const file = project.addResourceFile('Resources/zh.lproj/Localization.strings', {}, testKey);
 
-            var foundInGroup = findChildInGroup(project.getPBXVariantGroupByKey(testKey), file.fileRef);
+            let foundInGroup = findChildInGroup(project.getPBXVariantGroupByKey(testKey), file.fileRef);
             assert.ok(foundInGroup);
 
             project.removeResourceFile('Resources/zh.lproj/Localization.strings', {}, testKey);
 
-            var foundInGroup = findChildInGroup(project.getPBXVariantGroupByKey(testKey), file.fileRef);
+            foundInGroup = findChildInGroup(project.getPBXVariantGroupByKey(testKey), file.fileRef);
             assert.ok(!foundInGroup);
         });
     });

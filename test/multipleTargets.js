@@ -57,12 +57,12 @@ describe('addFilesToTarget', () => {
 
         assert.equal(newFile.constructor, PBXFile);
 
-        var sources = proj.pbxSourcesBuildPhaseObj(target);
+        let sources = proj.pbxSourcesBuildPhaseObj(target);
         assert.equal(sources.files[5].comment, filename + ' in Sources');
         const l = sources.files.length;
 
         proj.removeSourceFile(filename, opt);
-        var sources = proj.pbxSourcesBuildPhaseObj(target);
+        sources = proj.pbxSourcesBuildPhaseObj(target);
         assert.equal(sources.files.length, l - 1);
     });
 
@@ -97,12 +97,12 @@ describe('addFilesToTarget', () => {
 
         assert.equal(newFile.constructor, PBXFile);
 
-        var libraries = proj.pbxFrameworksBuildPhaseObj(target);
+        let libraries = proj.pbxFrameworksBuildPhaseObj(target);
         assert.equal(libraries.files[4].comment, filename + ' in Resources');
         const l = libraries.files.length;
 
         proj.removeFramework(filename, opt);
-        var libraries = proj.pbxFrameworksBuildPhaseObj(target);
+        libraries = proj.pbxFrameworksBuildPhaseObj(target);
         assert.equal(libraries.files.length, l - 1);
     });
 
@@ -140,13 +140,13 @@ describe('addFilesToTarget', () => {
 
         assert.equal(newFile.constructor, PBXFile);
 
-        var resources = proj.pbxResourcesBuildPhaseObj(target);
+        let resources = proj.pbxResourcesBuildPhaseObj(target);
         assert.equal(resources.files[26].comment, filename + ' in Resources');
 
         const l = resources.files.length;
 
         proj.removeResourceFile(filename, opt);
-        var resources = proj.pbxResourcesBuildPhaseObj(target);
+        resources = proj.pbxResourcesBuildPhaseObj(target);
         assert.equal(resources.files.length, l - 1);
     });
 });

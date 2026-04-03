@@ -57,8 +57,8 @@ describe('dataModelDocument', () => {
     });
 
     it('should set an optional target on the pbxFile', () => {
+        const target = proj.findTargetKey('TestApp');
         const newFile = proj.addDataModelDocument(singleDataModelFilePath, undefined, { target });
-        var target = proj.findTargetKey('TestApp');
 
         assert.equal(newFile.target, target);
     });
@@ -96,9 +96,9 @@ describe('dataModelDocument', () => {
     });
 
     it('should add to resources group by default', () => {
-        const newFile = proj.addDataModelDocument(singleDataModelFilePath);
-        groupChildren = proj.pbxGroupByName('Resources').children,
-        found = false;
+        proj.addDataModelDocument(singleDataModelFilePath);
+        const groupChildren = proj.pbxGroupByName('Resources').children;
+        let found = false;
 
         for (const index in groupChildren) {
             if (groupChildren[index].comment === 'single-data-model.xcdatamodeld') {
@@ -111,8 +111,8 @@ describe('dataModelDocument', () => {
 
     it('should add to group specified by key', () => {
         const group = 'Frameworks';
-        const newFile = proj.addDataModelDocument(singleDataModelFilePath, proj.findPBXGroupKey({ name: group }));
-        groupChildren = proj.pbxGroupByName(group).children;
+        proj.addDataModelDocument(singleDataModelFilePath, proj.findPBXGroupKey({ name: group }));
+        const groupChildren = proj.pbxGroupByName(group).children;
 
         let found = false;
         for (const index in groupChildren) {
@@ -126,8 +126,8 @@ describe('dataModelDocument', () => {
 
     it('should add to group specified by name', () => {
         const group = 'Frameworks';
-        const newFile = proj.addDataModelDocument(singleDataModelFilePath, group);
-        groupChildren = proj.pbxGroupByName(group).children;
+        proj.addDataModelDocument(singleDataModelFilePath, group);
+        const groupChildren = proj.pbxGroupByName(group).children;
 
         let found = false;
         for (const index in groupChildren) {
@@ -140,7 +140,7 @@ describe('dataModelDocument', () => {
     });
 
     it('should add to the PBXSourcesBuildPhase', () => {
-        const newFile = proj.addDataModelDocument(singleDataModelFilePath);
+        proj.addDataModelDocument(singleDataModelFilePath);
         const sources = proj.pbxSourcesBuildPhaseObj();
 
         assert.equal(sources.files.length, 2 + 1);

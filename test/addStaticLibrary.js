@@ -77,8 +77,8 @@ describe('addStaticLibrary', () => {
 
     it('should populate the PBXBuildFile section with 2 fields', () => {
         const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
-        buildFileSection = proj.pbxBuildFileSection(),
-        bfsLength = Object.keys(buildFileSection).length;
+        const buildFileSection = proj.pbxBuildFileSection();
+        const bfsLength = Object.keys(buildFileSection).length;
 
         assert.equal(60, bfsLength);
         assert.ok(buildFileSection[newFile.uuid]);
@@ -86,10 +86,9 @@ describe('addStaticLibrary', () => {
     });
 
     it('should populate the PBXBuildFile section with 2 fields as plugin', () => {
-        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a',
-            { plugin: true });
-        buildFileSection = proj.pbxBuildFileSection(),
-        bfsLength = Object.keys(buildFileSection).length;
+        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a', { plugin: true });
+        const buildFileSection = proj.pbxBuildFileSection();
+        const bfsLength = Object.keys(buildFileSection).length;
 
         assert.equal(60, bfsLength);
         assert.ok(buildFileSection[newFile.uuid]);
@@ -98,16 +97,16 @@ describe('addStaticLibrary', () => {
 
     it('should add the PBXBuildFile comment correctly', () => {
         const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
-        commentKey = newFile.uuid + '_comment',
-        buildFileSection = proj.pbxBuildFileSection();
+        const commentKey = newFile.uuid + '_comment';
+        const buildFileSection = proj.pbxBuildFileSection();
 
         assert.equal(buildFileSection[commentKey], 'libGoogleAnalytics.a in Frameworks');
     });
 
     it('should add the PBXBuildFile object correctly', () => {
         const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
-        buildFileSection = proj.pbxBuildFileSection(),
-        buildFileEntry = buildFileSection[newFile.uuid];
+        const buildFileSection = proj.pbxBuildFileSection();
+        const buildFileEntry = buildFileSection[newFile.uuid];
 
         assert.equal(buildFileEntry.isa, 'PBXBuildFile');
         assert.equal(buildFileEntry.fileRef, newFile.fileRef);
@@ -116,8 +115,8 @@ describe('addStaticLibrary', () => {
 
     it('should populate the PBXFileReference section with 2 fields', () => {
         const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
-        fileRefSection = proj.pbxFileReferenceSection(),
-        frsLength = Object.keys(fileRefSection).length;
+        const fileRefSection = proj.pbxFileReferenceSection();
+        const frsLength = Object.keys(fileRefSection).length;
 
         assert.equal(68, frsLength);
         assert.ok(fileRefSection[newFile.fileRef]);
@@ -126,8 +125,8 @@ describe('addStaticLibrary', () => {
 
     it('should populate the PBXFileReference comment correctly', () => {
         const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
-        fileRefSection = proj.pbxFileReferenceSection(),
-        commentKey = newFile.fileRef + '_comment';
+        const fileRefSection = proj.pbxFileReferenceSection();
+        const commentKey = newFile.fileRef + '_comment';
 
         assert.equal(fileRefSection[commentKey], 'libGoogleAnalytics.a');
     });
@@ -145,7 +144,7 @@ describe('addStaticLibrary', () => {
     });
 
     it('should add to the PBXFrameworksBuildPhase', () => {
-        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
+        proj.addStaticLibrary('libGoogleAnalytics.a');
         const frameworks = proj.pbxFrameworksBuildPhaseObj();
 
         assert.equal(frameworks.files.length, 16);
@@ -161,7 +160,7 @@ describe('addStaticLibrary', () => {
     });
 
     it('should set LIBRARY_SEARCH_PATHS for appropriate build configurations', () => {
-        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
+        proj.addStaticLibrary('libGoogleAnalytics.a');
         const configs = nonComments(proj.pbxXCBuildConfigurationSection());
         const ids = Object.keys(configs); let i; let buildSettings;
 
@@ -175,9 +174,8 @@ describe('addStaticLibrary', () => {
     });
 
     it('should ensure LIBRARY_SEARCH_PATHS inherits defaults correctly', () => {
-        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
+        proj.addStaticLibrary('libGoogleAnalytics.a');
         const libraryPaths = librarySearchPaths(proj);
-        const expectedPath = '"\\"$(SRCROOT)/KitchenSinktablet\\""';
         let i; let current;
 
         for (i = 0; i < libraryPaths.length; i++) {
@@ -187,7 +185,7 @@ describe('addStaticLibrary', () => {
     });
 
     it('should ensure the new library is in LIBRARY_SEARCH_PATHS', () => {
-        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
+        proj.addStaticLibrary('libGoogleAnalytics.a');
         const libraryPaths = librarySearchPaths(proj);
         const expectedPath = '"\\"$(SRCROOT)/KitchenSinktablet\\""';
         let i; let current;
@@ -199,24 +197,23 @@ describe('addStaticLibrary', () => {
     });
 
     it('should add to the Plugins group, optionally', () => {
-        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a',
-            { plugin: true });
+        proj.addStaticLibrary('libGoogleAnalytics.a', { plugin: true });
         const plugins = proj.pbxGroupByName('Plugins');
 
         assert.equal(plugins.children.length, 1);
     });
+
     describe('should add the right LIBRARY_SEARCH_PATHS entry for plugins', () => {
         it('with group set', () => {
-            plugins = proj.pbxGroupByName('Plugins');
+            const plugins = proj.pbxGroupByName('Plugins');
             plugins.path = '"Test200/Plugins"';
 
-            const newFile = proj.addStaticLibrary('Plugins/libGoogleAnalytics.a',
-                { plugin: true });
+            proj.addStaticLibrary('Plugins/libGoogleAnalytics.a', { plugin: true });
             const libraryPaths = librarySearchPaths(proj);
             const expectedPath = '"\\"$(SRCROOT)/Test200/Plugins\\""';
-            let i; let current;
+            let current;
 
-            for (i = 0; i < libraryPaths.length; i++) {
+            for (let i = 0; i < libraryPaths.length; i++) {
                 current = libraryPaths[i];
                 assert.ok(current.indexOf(expectedPath) >= 0,
                     expectedPath + ' not found in ' + current);
@@ -224,16 +221,15 @@ describe('addStaticLibrary', () => {
         });
 
         it('without group set', () => {
-            plugins = proj.pbxGroupByName('Plugins');
+            const plugins = proj.pbxGroupByName('Plugins');
             delete plugins.path;
 
-            const newFile = proj.addStaticLibrary('Plugins/libGoogleAnalytics.a',
-                { plugin: true });
+            proj.addStaticLibrary('Plugins/libGoogleAnalytics.a', { plugin: true });
             const libraryPaths = librarySearchPaths(proj);
             const expectedPath = '"\\"$(SRCROOT)/KitchenSinktablet/Plugins\\""';
-            let i; let current;
+            let current;
 
-            for (i = 0; i < libraryPaths.length; i++) {
+            for (let i = 0; i < libraryPaths.length; i++) {
                 current = libraryPaths[i];
                 assert.ok(current.indexOf(expectedPath) >= 0,
                     expectedPath + ' not found in ' + current);
@@ -243,16 +239,14 @@ describe('addStaticLibrary', () => {
 
     describe('duplicate entries', () => {
         it('should return false', () => {
-            const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
+            proj.addStaticLibrary('libGoogleAnalytics.a');
 
             assert.ok(!proj.addStaticLibrary('libGoogleAnalytics.a'));
         });
         it('should return false (plugin entries)', () => {
-            const newFile = proj.addStaticLibrary('Plugins/libGoogleAnalytics.a',
-                { plugin: true });
+            proj.addStaticLibrary('Plugins/libGoogleAnalytics.a', { plugin: true });
 
-            assert.ok(!proj.addStaticLibrary('Plugins/libGoogleAnalytics.a',
-                { plugin: true }));
+            assert.ok(!proj.addStaticLibrary('Plugins/libGoogleAnalytics.a', { plugin: true }));
         });
     });
 });

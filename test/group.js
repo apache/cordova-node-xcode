@@ -23,7 +23,6 @@ const assert = require('node:assert');
 const PBXProject = require('../lib/pbxProject');
 const PBXFile = require('../lib/pbxFile');
 let project;
-let projectHash;
 
 const findChildInGroup = function (obj, target) {
     let found = false;
@@ -81,7 +80,7 @@ const findByName = function (obj, target) {
 describe('group', () => {
     beforeEach(() => {
         project = new PBXProject('test/parser/projects/group.pbxproj');
-        projectHash = project.parseSync();
+        project.parseSync();
     });
 
     describe('getGroupByKey', () => {
@@ -100,10 +99,10 @@ describe('group', () => {
 
     describe('createGroup', () => {
         it('should create a new Test Group', () => {
-            var found = false;
+            let found = false;
             let groups = project.getPBXObject('PBXGroup');
 
-            var found = findByName(groups, 'Test');
+            found = findByName(groups, 'Test');
             assert.ok(found === false);
 
             let group = project.findPBXGroupKey({ name: 'Test' });
@@ -243,24 +242,24 @@ describe('group', () => {
             const testKey = project.pbxCreateGroup('Test', 'Test');
             const file = project.addSourceFile('Notifications.m', {}, testKey);
 
-            var foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey), file.fileRef);
+            let foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey), file.fileRef);
             assert.ok(foundInGroup);
 
-            var foundInBuildFileSection = findByFileRef(project.pbxBuildFileSection(), file.fileRef);
+            let foundInBuildFileSection = findByFileRef(project.pbxBuildFileSection(), file.fileRef);
             assert.ok(foundInBuildFileSection);
 
-            var foundInBuildPhase = findFileByUUID(project.pbxSourcesBuildPhaseObj(), file.uuid);
+            let foundInBuildPhase = findFileByUUID(project.pbxSourcesBuildPhaseObj(), file.uuid);
             assert.ok(foundInBuildPhase);
 
             project.removeSourceFile('Notifications.m', {}, testKey);
 
-            var foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey), file.fileRef);
+            foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey), file.fileRef);
             assert.ok(!foundInGroup);
 
-            var foundInBuildFileSection = findByFileRef(project.pbxBuildFileSection(), file.fileRef);
+            foundInBuildFileSection = findByFileRef(project.pbxBuildFileSection(), file.fileRef);
             assert.ok(!foundInBuildFileSection);
 
-            var foundInBuildPhase = findFileByUUID(project.pbxSourcesBuildPhaseObj(), file.uuid);
+            foundInBuildPhase = findFileByUUID(project.pbxSourcesBuildPhaseObj(), file.uuid);
             assert.ok(!foundInBuildPhase);
         });
     });
@@ -280,12 +279,12 @@ describe('group', () => {
             const testKey = project.pbxCreateGroup('Test', 'Test');
             const file = project.addHeaderFile('Notifications.h', {}, testKey);
 
-            var foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey), file.fileRef);
+            let foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey), file.fileRef);
             assert.ok(foundInGroup);
 
             project.removeHeaderFile('Notifications.h', {}, testKey);
 
-            var foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey), file.fileRef);
+            foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey), file.fileRef);
             assert.ok(!foundInGroup);
         });
     });
@@ -305,12 +304,12 @@ describe('group', () => {
             const testKey = project.findPBXGroupKey({ path: 'splash' });
             const file = project.addResourceFile('DefaultTest-667h.png', {}, testKey);
 
-            var foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey), file.fileRef);
+            let foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey), file.fileRef);
             assert.ok(foundInGroup);
 
             project.removeResourceFile('DefaultTest-667h.png', {}, testKey);
 
-            var foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey), file.fileRef);
+            foundInGroup = findChildInGroup(project.getPBXGroupByKey(testKey), file.fileRef);
             assert.ok(!foundInGroup);
         });
     });
@@ -332,14 +331,14 @@ describe('group', () => {
     describe('retrieveBuildConfigByName', () => {
         it('should retrieve valid build config', () => {
             const releaseBuildConfig = project.getBuildConfigByName('Release');
-            for (var property in releaseBuildConfig) {
-                var value = releaseBuildConfig[property];
+            for (const property in releaseBuildConfig) {
+                const value = releaseBuildConfig[property];
                 assert.ok(value.name === 'Release');
             }
 
             const debugBuildConfig = project.getBuildConfigByName('Debug');
-            for (var property in debugBuildConfig) {
-                var value = debugBuildConfig[property];
+            for (const property in debugBuildConfig) {
+                const value = debugBuildConfig[property];
                 assert.ok(value.name === 'Debug');
             }
 

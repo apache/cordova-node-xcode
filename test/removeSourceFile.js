@@ -113,14 +113,14 @@ describe('removeSourceFile', () => {
 
     it('should remove from the Plugins PBXGroup group', () => {
         proj.addSourceFile('Plugins/file.m');
-        const newFile = proj.removeSourceFile('Plugins/file.m');
+        proj.removeSourceFile('Plugins/file.m');
         const plugins = proj.pbxGroupByName('Plugins');
         assert.equal(plugins.children.length, 0);
     });
 
     it('should have the right values for the PBXGroup entry', () => {
         proj.addSourceFile('Plugins/file.m');
-        const newFile = proj.removeSourceFile('Plugins/file.m');
+        proj.removeSourceFile('Plugins/file.m');
         const plugins = proj.pbxGroupByName('Plugins');
         const pluginObj = plugins.children[0];
 
@@ -129,7 +129,7 @@ describe('removeSourceFile', () => {
 
     it('should remove from the PBXSourcesBuildPhase', () => {
         proj.addSourceFile('Plugins/file.m');
-        const newFile = proj.removeSourceFile('Plugins/file.m');
+        proj.removeSourceFile('Plugins/file.m');
         const sources = proj.pbxSourcesBuildPhaseObj();
 
         assert.equal(sources.files.length, 2);
@@ -137,7 +137,7 @@ describe('removeSourceFile', () => {
 
     it('should have the right values for the Sources entry', () => {
         proj.addSourceFile('Plugins/file.m');
-        const newFile = proj.removeSourceFile('Plugins/file.m');
+        proj.removeSourceFile('Plugins/file.m');
         const sources = proj.pbxSourcesBuildPhaseObj();
         const sourceObj = sources.files[2];
 

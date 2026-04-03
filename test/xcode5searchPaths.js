@@ -57,12 +57,13 @@ describe('addAndRemoveToFromLibrarySearchPaths', () => {
     });
 
     it('remove should remove from the path to each configuration section', () => {
-        let config, ref, lib;
+        let ref;
+        let lib;
 
         proj.addToLibrarySearchPaths(libPoop);
         proj.removeFromLibrarySearchPaths(libPoop);
 
-        config = proj.pbxXCBuildConfigurationSection();
+        const config = proj.pbxXCBuildConfigurationSection();
         for (ref in config) {
             if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
 

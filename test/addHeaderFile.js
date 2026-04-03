@@ -77,8 +77,9 @@ describe('addHeaderFile', () => {
     });
 
     it('should add to the Plugins PBXGroup group', () => {
-        proj.addHeaderFile('Plugins/file.h'),
-        plugins = proj.pbxGroupByName('Plugins');
+        proj.addHeaderFile('Plugins/file.h');
+
+        const plugins = proj.pbxGroupByName('Plugins');
 
         assert.equal(plugins.children.length, 1);
     });

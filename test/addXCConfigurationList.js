@@ -85,7 +85,7 @@ describe('addXCConfigurationList', () => {
     it('should add XCConfigurationList to pbxXCConfigurationListSection', () => {
         const myProj = new PBXProject('test/parser/projects/full.pbxproj').parseSync();
         const pbxXCConfigurationListSection = myProj.pbxXCConfigurationList();
-        xcConfigurationList = myProj.addXCConfigurationList([debugConfiguration, releaseConfiguration], 'Release', 'XCConfigurationList Comment');
+        const xcConfigurationList = myProj.addXCConfigurationList([debugConfiguration, releaseConfiguration], 'Release', 'XCConfigurationList Comment');
 
         assert.ok(pbxXCConfigurationListSection[xcConfigurationList.uuid]);
     });
@@ -93,8 +93,8 @@ describe('addXCConfigurationList', () => {
     it('should add XCConfigurationList object correctly', () => {
         const myProj = new PBXProject('test/parser/projects/full.pbxproj').parseSync();
         const pbxXCConfigurationListSection = myProj.pbxXCConfigurationList();
-        xcConfigurationList = myProj.addXCConfigurationList([debugConfiguration, releaseConfiguration], 'Release', 'XCConfigurationList Comment'),
-        xcConfigurationListInPbx = pbxXCConfigurationListSection[xcConfigurationList.uuid];
+        const xcConfigurationList = myProj.addXCConfigurationList([debugConfiguration, releaseConfiguration], 'Release', 'XCConfigurationList Comment');
+        const xcConfigurationListInPbx = pbxXCConfigurationListSection[xcConfigurationList.uuid];
 
         assert.deepEqual(xcConfigurationListInPbx, xcConfigurationList.xcConfigurationList);
     });
@@ -102,11 +102,11 @@ describe('addXCConfigurationList', () => {
     it('should add correct configurations to XCConfigurationList and to pbxBuildConfigurationSection', () => {
         const myProj = new PBXProject('test/parser/projects/full.pbxproj').parseSync();
         const pbxXCConfigurationListSection = myProj.pbxXCConfigurationList();
-        pbxBuildConfigurationSection = myProj.pbxXCBuildConfigurationSection(),
-        xcConfigurationList = myProj.addXCConfigurationList([debugConfiguration, releaseConfiguration], 'Release', 'XCConfigurationList Comment'),
-        xcConfigurationListConfigurations = xcConfigurationList.xcConfigurationList.buildConfigurations,
-        expectedConfigurations = [],
-        xcConfigurationListInPbx = pbxXCConfigurationListSection[xcConfigurationList.uuid];
+        const pbxBuildConfigurationSection = myProj.pbxXCBuildConfigurationSection();
+        const xcConfigurationList = myProj.addXCConfigurationList([debugConfiguration, releaseConfiguration], 'Release', 'XCConfigurationList Comment');
+        const xcConfigurationListConfigurations = xcConfigurationList.xcConfigurationList.buildConfigurations;
+        const expectedConfigurations = [];
+        const xcConfigurationListInPbx = pbxXCConfigurationListSection[xcConfigurationList.uuid];
 
         for (let index = 0; index < xcConfigurationListConfigurations.length; index++) {
             const configuration = xcConfigurationListConfigurations[index];

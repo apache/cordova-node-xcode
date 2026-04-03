@@ -18,3 +18,5 @@
 .*
 coverage
 test
+eslint.config.js
+licence_checker.yml

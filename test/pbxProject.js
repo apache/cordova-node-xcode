@@ -20,35 +20,34 @@
 const { describe, it, afterEach } = require('node:test');
 const assert = require('node:assert');
 
-const pbx = require('../lib/pbxProject');
+const PBXProject = require('../lib/pbxProject');
 const buildConfig = require('./fixtures/buildFiles');
 const jsonProject = require('./fixtures/full-project');
 const fs = require('fs');
-let project;
 
-describe('pbxProject', () => {
+describe('PBXProject', () => {
     describe('creation', () => {
         it('should create a pbxProject with the new operator', () => {
-            const myProj = new pbx('test/parser/projects/hash.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/hash.pbxproj');
 
-            assert.ok(myProj instanceof pbx);
+            assert.ok(myProj instanceof PBXProject);
         });
 
         it('should create a pbxProject without the new operator', () => {
-            const myProj = pbx('test/parser/projects/hash.pbxproj');
+            const myProj = PBXProject('test/parser/projects/hash.pbxproj');
 
-            assert.ok(myProj instanceof pbx);
+            assert.ok(myProj instanceof PBXProject);
         });
     });
 
     describe('parseSync function', () => {
         it('should return the hash object', () => {
-            const myProj = new pbx('test/parser/projects/hash.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/hash.pbxproj');
             const projHash = myProj.parseSync();
             assert.ok(projHash);
         });
         it('should contain valid data in the returned objects hash', () => {
-            const myProj = new pbx('test/parser/projects/hash.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/hash.pbxproj');
             const projHash = myProj.parseSync();
             assert.ok(projHash);
 
@@ -60,47 +59,47 @@ describe('pbxProject', () => {
 
     describe('parse function', () => {
         it('should emit an "end" event', () => {
-            const myProj = new pbx('test/parser/projects/hash.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/hash.pbxproj');
 
             myProj.parse().on('end', function (err, projHash) {
             });
         });
         it('should take the end callback as a parameter', () => {
-            const myProj = new pbx('test/parser/projects/hash.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/hash.pbxproj');
 
             myProj.parse(function (err, projHash) {
             });
         });
         it('should allow evented error handling', () => {
-            const myProj = new pbx('NotARealPath.pbxproj');
+            const myProj = new PBXProject('NotARealPath.pbxproj');
 
             myProj.parse().on('error', function (err) {
                 assert.equal(typeof err, 'object');
             });
         });
         it('should pass the hash object to the callback function', () => {
-            const myProj = new pbx('test/parser/projects/hash.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/hash.pbxproj');
 
             myProj.parse(function (err, projHash) {
                 assert.ok(projHash);
             });
         });
         it('should handle projects with comments in the header', () => {
-            const myProj = new pbx('test/parser/projects/comments.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/comments.pbxproj');
 
             myProj.parse(function (err, projHash) {
                 assert.ok(projHash);
             });
         });
         it('should attach the hash object to the pbx object', () => {
-            const myProj = new pbx('test/parser/projects/hash.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/hash.pbxproj');
 
             myProj.parse(function (err, projHash) {
                 assert.ok(myProj.hash);
             });
         });
         it('it should pass an error object back when the parsing fails', () => {
-            const myProj = new pbx('test/parser/projects/fail.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/fail.pbxproj');
 
             myProj.parse(function (err, projHash) {
                 assert.ok(err);
@@ -110,7 +109,7 @@ describe('pbxProject', () => {
 
     describe('allUuids function', () => {
         it('should return the right amount of uuids', () => {
-            const project = new pbx('.');
+            const project = new PBXProject('.');
             let uuids;
 
             project.hash = buildConfig;
@@ -122,7 +121,7 @@ describe('pbxProject', () => {
 
     describe('generateUuid function', () => {
         it('should return a 24 character string', () => {
-            const project = new pbx('.');
+            const project = new PBXProject('.');
             let newUUID;
 
             project.hash = buildConfig;
@@ -131,7 +130,7 @@ describe('pbxProject', () => {
             assert.equal(newUUID.length, 24);
         });
         it('should be an uppercase hex string', () => {
-            const project = new pbx('.');
+            const project = new PBXProject('.');
             const uHex = /^[A-F0-9]{24}$/;
             let newUUID;
 
@@ -150,7 +149,7 @@ describe('pbxProject', () => {
             fs.writeFileSync(bcpbx, original_pbx, 'utf-8');
         });
         it('should change the PRODUCT_NAME field in the .pbxproj file', () => {
-            const myProj = new pbx('test/parser/projects/build-config.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/build-config.pbxproj');
             myProj.parse(function (err, hash) {
                 myProj.updateProductName('furious anger');
                 const newContents = myProj.writeSync();
@@ -164,7 +163,7 @@ describe('pbxProject', () => {
             fs.writeFileSync(bcpbx, original_pbx, 'utf-8');
         });
         it('should change build properties in the .pbxproj file', () => {
-            const myProj = new pbx('test/parser/projects/build-config.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/build-config.pbxproj');
             myProj.parse(function (err, hash) {
                 myProj.updateBuildProperty('TARGETED_DEVICE_FAMILY', '"arm"');
                 let newContents = myProj.writeSync();
@@ -175,7 +174,7 @@ describe('pbxProject', () => {
             });
         });
         it('should change all targets in .pbxproj with multiple targets', () => {
-            const myProj = new pbx('test/parser/projects/multitarget.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/multitarget.pbxproj');
             myProj.parse(function (err, hash) {
                 myProj.updateBuildProperty('PRODUCT_BUNDLE_IDENTIFIER', 'comcompanytest');
                 const newContents = myProj.writeSync();
@@ -184,7 +183,7 @@ describe('pbxProject', () => {
             });
         });
         it('should change only one target in .pbxproj with multiple targets', () => {
-            const myProj = new pbx('test/parser/projects/multitarget.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/multitarget.pbxproj');
             myProj.parse(function (err, hash) {
                 myProj.updateBuildProperty('PRODUCT_BUNDLE_IDENTIFIER', 'comcompanytest', null, 'MultiTargetTest');
                 const newContents = myProj.writeSync();
@@ -199,7 +198,7 @@ describe('pbxProject', () => {
             fs.writeFileSync(bcpbx, original_pbx, 'utf-8');
         });
         it('should change all targets in .pbxproj with multiple targets', () => {
-            const myProj = new pbx('test/parser/projects/multitarget.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/multitarget.pbxproj');
             myProj.parse(function (err, hash) {
                 myProj.updateBuildProperty('PRODUCT_BUNDLE_IDENTIFIER', 'comcompanytest');
                 myProj.writeSync();
@@ -207,7 +206,7 @@ describe('pbxProject', () => {
             });
         });
         it('should change only one target in .pbxproj with multiple targets', () => {
-            const myProj = new pbx('test/parser/projects/multitarget.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/multitarget.pbxproj');
             myProj.parse(function (err, hash) {
                 myProj.updateBuildProperty('PRODUCT_BUNDLE_IDENTIFIER', 'comcompanytest', null, 'MultiTargetTest');
                 myProj.writeSync();
@@ -221,7 +220,7 @@ describe('pbxProject', () => {
             fs.writeFileSync(bcpbx, original_pbx, 'utf-8');
         });
         it('should add 4 build properties in the .pbxproj file', () => {
-            const myProj = new pbx('test/parser/projects/build-config.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/build-config.pbxproj');
             myProj.parse(function (err, hash) {
                 myProj.addBuildProperty('ENABLE_BITCODE', 'NO');
                 const newContents = myProj.writeSync();
@@ -229,7 +228,7 @@ describe('pbxProject', () => {
             });
         });
         it('should add 2 build properties in the .pbxproj file for specific build', () => {
-            const myProj = new pbx('test/parser/projects/build-config.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/build-config.pbxproj');
             myProj.parse(function (err, hash) {
                 myProj.addBuildProperty('ENABLE_BITCODE', 'NO', 'Release');
                 const newContents = myProj.writeSync();
@@ -237,7 +236,7 @@ describe('pbxProject', () => {
             });
         });
         it('should not add build properties in the .pbxproj file for nonexist build', () => {
-            const myProj = new pbx('test/parser/projects/build-config.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/build-config.pbxproj');
             myProj.parse(function (err, hash) {
                 myProj.addBuildProperty('ENABLE_BITCODE', 'NO', 'nonexist');
                 const newContents = myProj.writeSync();
@@ -251,7 +250,7 @@ describe('pbxProject', () => {
             fs.writeFileSync(bcpbx, original_pbx, 'utf-8');
         });
         it('should remove all build properties in the .pbxproj file', () => {
-            const myProj = new pbx('test/parser/projects/build-config.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/build-config.pbxproj');
             myProj.parse(function (err, hash) {
                 myProj.removeBuildProperty('IPHONEOS_DEPLOYMENT_TARGET');
                 const newContents = myProj.writeSync();
@@ -259,7 +258,7 @@ describe('pbxProject', () => {
             });
         });
         it('should remove specific build properties in the .pbxproj file', () => {
-            const myProj = new pbx('test/parser/projects/build-config.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/build-config.pbxproj');
             myProj.parse(function (err, hash) {
                 myProj.removeBuildProperty('IPHONEOS_DEPLOYMENT_TARGET', 'Debug');
                 const newContents = myProj.writeSync();
@@ -267,7 +266,7 @@ describe('pbxProject', () => {
             });
         });
         it('should not remove any build properties in the .pbxproj file', () => {
-            const myProj = new pbx('test/parser/projects/build-config.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/build-config.pbxproj');
             myProj.parse(function (err, hash) {
                 myProj.removeBuildProperty('IPHONEOS_DEPLOYMENT_TARGET', 'notexist');
                 const newContents = myProj.writeSync();
@@ -275,7 +274,7 @@ describe('pbxProject', () => {
             });
         });
         it('should fine with remove inexist build properties in the .pbxproj file', () => {
-            const myProj = new pbx('test/parser/projects/build-config.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/build-config.pbxproj');
             myProj.parse(function (err, hash) {
                 myProj.removeBuildProperty('ENABLE_BITCODE');
                 const newContents = myProj.writeSync();
@@ -286,7 +285,7 @@ describe('pbxProject', () => {
 
     describe('productName field', () => {
         it('should return the product name', () => {
-            const newProj = new pbx('.');
+            const newProj = new PBXProject('.');
             newProj.hash = jsonProject;
 
             assert.equal(newProj.productName, 'KitchenSinktablet');
@@ -295,7 +294,7 @@ describe('pbxProject', () => {
 
     describe('addPluginFile function', () => {
         it('should strip the Plugin path prefix', () => {
-            const myProj = new pbx('test/parser/projects/full.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/full.pbxproj');
 
             myProj.parse(function (err, hash) {
                 assert.equal(myProj.addPluginFile('Plugins/testMac.m').path, 'testMac.m');
@@ -303,7 +302,7 @@ describe('pbxProject', () => {
             });
         });
         it('should add files to the .pbxproj file using the / path seperator', () => {
-            const myProj = new pbx('test/parser/projects/full.pbxproj');
+            const myProj = new PBXProject('test/parser/projects/full.pbxproj');
 
             myProj.parse(function (err, hash) {
                 const file = myProj.addPluginFile('myPlugin\\newFile.m');
@@ -315,7 +314,7 @@ describe('pbxProject', () => {
 
     describe('hasFile', () => {
         it('should return true if the file is in the project', () => {
-            const newProj = new pbx('.');
+            const newProj = new PBXProject('.');
             newProj.hash = jsonProject;
 
             //  sourceTree: '"<group>"'
@@ -323,7 +322,7 @@ describe('pbxProject', () => {
         });
 
         it('should return false if the file is not in the project', () => {
-            const newProj = new pbx('.');
+            const newProj = new PBXProject('.');
             newProj.hash = jsonProject;
 
             //  sourceTree: '"<group>"'

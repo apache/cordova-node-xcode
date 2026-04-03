@@ -36,33 +36,6 @@ const findChildInGroup = function (obj, target) {
     return found;
 };
 
-const findFileByUUID = function (obj, target) {
-    let found = false;
-
-    for (let k = 0, l = obj.files.length; k < l; k++) {
-        if (obj.files[k].value === target) {
-            found = true;
-            break;
-        }
-    }
-
-    return found;
-};
-
-const findByFileRef = function (obj, target) {
-    let found = false;
-
-    for (const property in obj) {
-        if (!/comment/.test(property)) {
-            if (obj[property].fileRef === target) {
-                found = true;
-                break;
-            }
-        }
-    }
-    return found;
-};
-
 const findByName = function (obj, target) {
     let found = false;
     for (const property in obj) {

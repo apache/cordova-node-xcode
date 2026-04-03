@@ -26,7 +26,7 @@ const pbx = require('../lib/pbxProject');
 const pbxFile = require('../lib/pbxFile');
 const proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
@@ -155,7 +155,6 @@ describe('addResourceFile', () => {
     // { plugin: true }
     //
     describe('when added with { plugin: true }', () => {
-
         it('should add the PBXFileReference with the "Plugins" path', () => {
             delete proj.pbxGroupByName('Plugins').path;
 
@@ -232,7 +231,6 @@ describe('addResourceFile', () => {
     // { variantGroup: true }
     //
     describe('when added with { variantGroup: true }', () => {
-
         it('should not add to the PBXResourcesBuildPhase and PBXBuildFile', () => {
             const newFile = proj.addResourceFile(
                 'en.lproj/Localization.strings',
@@ -251,7 +249,6 @@ describe('addResourceFile', () => {
     // duplicate entries
     //
     describe('duplicate entries', () => {
-
         it('should return false', () => {
             proj.addResourceFile('Plugins/assets.bundle');
             assert.ok(!proj.addResourceFile('Plugins/assets.bundle'));

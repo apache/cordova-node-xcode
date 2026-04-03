@@ -19,12 +19,12 @@
 const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert');
 
-var fullProject = require('./fixtures/full-project'),
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    proj = new pbx('.');
+const fullProject = require('./fixtures/full-project');
+const fullProjectStr = JSON.stringify(fullProject);
+const pbx = require('../lib/pbxProject');
+const proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
@@ -34,35 +34,35 @@ describe('pbxItemByComment', () => {
     });
 
     it('should return PBXTargetDependency', () => {
-        var pbxItem = proj.pbxItemByComment('PBXTargetDependency', 'PBXTargetDependency');
+        const pbxItem = proj.pbxItemByComment('PBXTargetDependency', 'PBXTargetDependency');
 
         assert.ok(pbxItem);
         assert.equal(pbxItem.isa, 'PBXTargetDependency');
     });
 
     it('should return PBXContainerItemProxy', () => {
-        var pbxItem = proj.pbxItemByComment('libPhoneGap.a', 'PBXReferenceProxy');
+        const pbxItem = proj.pbxItemByComment('libPhoneGap.a', 'PBXReferenceProxy');
 
         assert.ok(pbxItem);
         assert.equal(pbxItem.isa, 'PBXReferenceProxy');
     });
 
     it('should return PBXResourcesBuildPhase', () => {
-        var pbxItem = proj.pbxItemByComment('Resources', 'PBXResourcesBuildPhase');
+        const pbxItem = proj.pbxItemByComment('Resources', 'PBXResourcesBuildPhase');
 
         assert.ok(pbxItem);
         assert.equal(pbxItem.isa, 'PBXResourcesBuildPhase');
     });
 
     it('should return PBXShellScriptBuildPhase', () => {
-        var pbxItem = proj.pbxItemByComment('Touch www folder', 'PBXShellScriptBuildPhase');
+        const pbxItem = proj.pbxItemByComment('Touch www folder', 'PBXShellScriptBuildPhase');
 
         assert.ok(pbxItem);
         assert.equal(pbxItem.isa, 'PBXShellScriptBuildPhase');
     });
 
     it('should return null when PBXNativeTarget not found', () => {
-        var pbxItem = proj.pbxItemByComment('Invalid', 'PBXTargetDependency');
+        const pbxItem = proj.pbxItemByComment('Invalid', 'PBXTargetDependency');
 
         assert.equal(pbxItem, null);
     });

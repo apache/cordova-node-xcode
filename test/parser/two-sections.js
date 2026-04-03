@@ -20,13 +20,13 @@
 const { describe, it } = require('node:test');
 const assert = require('assert');
 
-var PEG = require('pegjs'),
-    fs = require('fs'),
-    pbx = fs.readFileSync('test/parser/projects/two-sections.pbxproj', 'utf-8'),
-    grammar = fs.readFileSync('lib/parser/pbxproj.pegjs', 'utf-8'),
-    parser = PEG.generate(grammar),
-    rawProj = parser.parse(pbx),
-    project = rawProj.project;
+const PEG = require('pegjs');
+const fs = require('fs');
+const pbx = fs.readFileSync('test/parser/projects/two-sections.pbxproj', 'utf-8');
+const grammar = fs.readFileSync('lib/parser/pbxproj.pegjs', 'utf-8');
+const parser = PEG.generate(grammar);
+const rawProj = parser.parse(pbx);
+const project = rawProj.project;
 
 describe('parser/two-sections', () => {
     it('should parse a project with two sections', () => {
@@ -34,7 +34,7 @@ describe('parser/two-sections', () => {
     });
 
     it('should have both sections on the project object', () => {
-        assert.ok(project.objects['PBXTargetDependency']);
-        assert.ok(project.objects['PBXSourcesBuildPhase']);
+        assert.ok(project.objects.PBXTargetDependency);
+        assert.ok(project.objects.PBXSourcesBuildPhase);
     });
 });

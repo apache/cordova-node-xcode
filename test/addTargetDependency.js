@@ -19,28 +19,27 @@
 const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert');
 
-var fullProject = require('./fixtures/full-project'),
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    proj = new pbx('.');
+const fullProject = require('./fixtures/full-project');
+const fullProjectStr = JSON.stringify(fullProject);
+const pbx = require('../lib/pbxProject');
+const proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
-
 
 describe('addTargetDependency', () => {
     beforeEach(() => {
         proj.hash = cleanHash();
     });
     it('should return undefined when no target specified', () => {
-        var buildPhase = proj.addTargetDependency();
+        const buildPhase = proj.addTargetDependency();
 
         assert.ok(typeof buildPhase === 'undefined');
     });
 
     it('should throw when target not found in nativeTargetsSection', () => {
-        assert.throws(function() {
+        assert.throws(function () {
             proj.addTargetDependency('invalidTarget');
         }, function (error) {
             return (error instanceof Error) && /Invalid target/i.test(error);
@@ -48,7 +47,7 @@ describe('addTargetDependency', () => {
     });
 
     it('should throw when any dependency target not found in nativeTargetsSection', () => {
-        assert.throws(function() {
+        assert.throws(function () {
             proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['invalidTarget']);
         }, function (error) {
             return (error instanceof Error) && /Invalid target/i.test(error);
@@ -56,184 +55,176 @@ describe('addTargetDependency', () => {
     });
 
     it('should return the pbxTarget', () => {
-        var target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54']);
+        const target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54']);
 
-        assert.ok(typeof target == 'object');
+        assert.ok(typeof target === 'object');
         assert.ok(target.uuid);
         assert.ok(target.target);
     });
 
     it('should add targetDependencies to target', () => {
-        var targetInPbxProj = proj.pbxNativeTargetSection()['1D6058900D05DD3D006BFB55'];
+        const targetInPbxProj = proj.pbxNativeTargetSection()['1D6058900D05DD3D006BFB55'];
         assert.deepEqual(targetInPbxProj.dependencies, []);
 
-        var target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
-        assert.deepEqual(targetInPbxProj.dependencies, target.dependencies)
+        const target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        assert.deepEqual(targetInPbxProj.dependencies, target.dependencies);
     });
 
     it('should not modify native target dependencies if PBXTargetDependency object does not exist', () => {
-        delete proj.hash.project.objects['PBXTargetDependency'];
+        delete proj.hash.project.objects.PBXTargetDependency;
 
-        var numDependenciesBefore = proj.pbxNativeTargetSection()['1D6058900D05DD3D006BFB54'].dependencies.length;
+        const numDependenciesBefore = proj.pbxNativeTargetSection()['1D6058900D05DD3D006BFB54'].dependencies.length;
         proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54']);
-        var numDependenciesAfter = proj.pbxNativeTargetSection()['1D6058900D05DD3D006BFB54'].dependencies.length;
+        const numDependenciesAfter = proj.pbxNativeTargetSection()['1D6058900D05DD3D006BFB54'].dependencies.length;
 
         assert.equal(numDependenciesBefore, numDependenciesAfter);
-
     });
 
     it('should not modify native target dependencies if PBXContainerItemProxy object does not exist', () => {
-        delete proj.hash.project.objects['PBXContainerItemProxy'];
+        delete proj.hash.project.objects.PBXContainerItemProxy;
 
-        var numDependenciesBefore = proj.pbxNativeTargetSection()['1D6058900D05DD3D006BFB54'].dependencies.length;
+        const numDependenciesBefore = proj.pbxNativeTargetSection()['1D6058900D05DD3D006BFB54'].dependencies.length;
         proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54']);
-        var numDependenciesAfter = proj.pbxNativeTargetSection()['1D6058900D05DD3D006BFB54'].dependencies.length;
+        const numDependenciesAfter = proj.pbxNativeTargetSection()['1D6058900D05DD3D006BFB54'].dependencies.length;
 
         assert.equal(numDependenciesBefore, numDependenciesAfter);
-
     });
 
     it('should create a PBXTargetDependency for each dependency target', () => {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        const pbxTargetDependencySection = proj.hash.project.objects.PBXTargetDependency;
+        const target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
 
-        for (var index = 0; index < target.dependencies.length; index++) {
-            var dependency = target.dependencies[index].value;
+        for (let index = 0; index < target.dependencies.length; index++) {
+            const dependency = target.dependencies[index].value;
             assert.ok(pbxTargetDependencySection[dependency]);
         }
-
     });
 
     it('should set right comment for each target dependency', () => {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        const pbxTargetDependencySection = proj.hash.project.objects.PBXTargetDependency;
+        const target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
 
-        for (var index = 0; index < target.dependencies.length; index++) {
-            var dependencyCommentKey = target.dependencies[index].value + '_comment';
+        for (let index = 0; index < target.dependencies.length; index++) {
+            const dependencyCommentKey = target.dependencies[index].value + '_comment';
             assert.equal(pbxTargetDependencySection[dependencyCommentKey], 'PBXTargetDependency');
         }
-
     });
 
     it('should set right comment for each dependency target', () => {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        const pbxTargetDependencySection = proj.hash.project.objects.PBXTargetDependency;
+        const target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
 
-        for (var index = 0; index < target.dependencies.length; index++) {
-            var dependencyTargetUuid = target.dependencies[index].value;
-            var targetDependencyUuid = pbxTargetDependencySection[dependencyTargetUuid].target;
+        for (let index = 0; index < target.dependencies.length; index++) {
+            const dependencyTargetUuid = target.dependencies[index].value;
+            const targetDependencyUuid = pbxTargetDependencySection[dependencyTargetUuid].target;
 
             if (pbxTargetDependencySection[dependencyTargetUuid].target) {
-                var targetCommentKey = targetDependencyUuid + '_comment';
+                const targetCommentKey = targetDependencyUuid + '_comment';
                 assert.equal(pbxTargetDependencySection[dependencyTargetUuid].target_comment, proj.pbxNativeTargetSection()[targetCommentKey]);
             }
         }
-
     });
 
     it('should create a PBXContainerItemProxy for each PBXTargetDependency', () => {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        const pbxTargetDependencySection = proj.hash.project.objects.PBXTargetDependency;
+        const pbxContainerItemProxySection = proj.hash.project.objects.PBXContainerItemProxy;
+        const target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
 
-        for (var index = 0; index < target.dependencies.length; index++) {
-            var dependency = target.dependencies[index].value,
-                targetProxy = pbxTargetDependencySection[dependency]['targetProxy'];
+        for (let index = 0; index < target.dependencies.length; index++) {
+            const dependency = target.dependencies[index].value;
+            const targetProxy = pbxTargetDependencySection[dependency].targetProxy;
 
             assert.ok(pbxContainerItemProxySection[targetProxy]);
         }
-
     });
 
     it('should set right comment for each container item proxy', () => {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        const pbxTargetDependencySection = proj.hash.project.objects.PBXTargetDependency;
+        const pbxContainerItemProxySection = proj.hash.project.objects.PBXContainerItemProxy;
+        const target = proj.addTargetDependency('1D6058900D05DD3D006BFB54', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
 
-        for (var index = 0; index < target.dependencies.length; index++) {
-            var dependencyTargetUuid = target.dependencies[index].value;
+        for (let index = 0; index < target.dependencies.length; index++) {
+            const dependencyTargetUuid = target.dependencies[index].value;
 
-            var proxyUuid = pbxTargetDependencySection[dependencyTargetUuid].targetProxy;
+            const proxyUuid = pbxTargetDependencySection[dependencyTargetUuid].targetProxy;
 
             if (proxyUuid) {
                 assert.ok(pbxTargetDependencySection[dependencyTargetUuid].targetProxy_comment, 'PBXContainerItemProxy');
                 assert.ok(pbxContainerItemProxySection[proxyUuid]);
-                var proxyCommentKey = proxyUuid + '_comment';
+                const proxyCommentKey = proxyUuid + '_comment';
                 assert.ok(pbxContainerItemProxySection[proxyCommentKey]);
             }
         }
-
     });
 
     it('should set each PBXContainerItemProxy`s remoteGlobalIDString correctly', () => {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target,
-            remoteGlobalIDStrings = [];
+        const pbxTargetDependencySection = proj.hash.project.objects.PBXTargetDependency;
+        const pbxContainerItemProxySection = proj.hash.project.objects.PBXContainerItemProxy;
+        const target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        const remoteGlobalIDStrings = [];
 
-        for (var index = 0; index < target.dependencies.length; index++) {
-            var dependency = target.dependencies[index].value,
-                targetProxy = pbxTargetDependencySection[dependency]['targetProxy'];
+        for (let index = 0; index < target.dependencies.length; index++) {
+            const dependency = target.dependencies[index].value;
+            const targetProxy = pbxTargetDependencySection[dependency].targetProxy;
 
-            remoteGlobalIDStrings.push(pbxContainerItemProxySection[targetProxy]['remoteGlobalIDString']);
+            remoteGlobalIDStrings.push(pbxContainerItemProxySection[targetProxy].remoteGlobalIDString);
         }
 
         assert.deepEqual(remoteGlobalIDStrings, ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']);
     });
 
     it('should set each PBXContainerItemProxy`s remoteInfo correctly', () => {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target,
-            remoteInfoArray = [];
+        const pbxTargetDependencySection = proj.hash.project.objects.PBXTargetDependency;
+        const pbxContainerItemProxySection = proj.hash.project.objects.PBXContainerItemProxy;
+        const target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        const remoteInfoArray = [];
 
-        for (var index = 0; index < target.dependencies.length; index++) {
-            var dependency = target.dependencies[index].value,
-                targetProxy = pbxTargetDependencySection[dependency]['targetProxy'];
+        for (let index = 0; index < target.dependencies.length; index++) {
+            const dependency = target.dependencies[index].value;
+            const targetProxy = pbxTargetDependencySection[dependency].targetProxy;
 
-            remoteInfoArray.push(pbxContainerItemProxySection[targetProxy]['remoteInfo']);
+            remoteInfoArray.push(pbxContainerItemProxySection[targetProxy].remoteInfo);
         }
 
         assert.deepEqual(remoteInfoArray, ['"KitchenSinktablet"', '"TestApp"']);
     });
 
     it('should set each PBXContainerItemProxy`s containerPortal correctly', () => {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        const pbxTargetDependencySection = proj.hash.project.objects.PBXTargetDependency;
+        const pbxContainerItemProxySection = proj.hash.project.objects.PBXContainerItemProxy;
+        const target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
 
-        for (var index = 0; index < target.dependencies.length; index++) {
-            var dependency = target.dependencies[index].value,
-                targetProxy = pbxTargetDependencySection[dependency]['targetProxy'];
+        for (let index = 0; index < target.dependencies.length; index++) {
+            const dependency = target.dependencies[index].value;
+            const targetProxy = pbxTargetDependencySection[dependency].targetProxy;
 
-            assert.equal(pbxContainerItemProxySection[targetProxy]['containerPortal'], proj.hash.project['rootObject']);
+            assert.equal(pbxContainerItemProxySection[targetProxy].containerPortal, proj.hash.project.rootObject);
         }
-
     });
 
     it('should set each PBXContainerItemProxy`s containerPortal_comment correctly', () => {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        const pbxTargetDependencySection = proj.hash.project.objects.PBXTargetDependency;
+        const pbxContainerItemProxySection = proj.hash.project.objects.PBXContainerItemProxy;
+        const target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
 
-        for (var index = 0; index < target.dependencies.length; index++) {
-            var dependency = target.dependencies[index].value,
-                targetProxy = pbxTargetDependencySection[dependency]['targetProxy'];
+        for (let index = 0; index < target.dependencies.length; index++) {
+            const dependency = target.dependencies[index].value;
+            const targetProxy = pbxTargetDependencySection[dependency].targetProxy;
 
-            assert.equal(pbxContainerItemProxySection[targetProxy]['containerPortal_comment'], proj.hash.project['rootObject_comment']);
+            assert.equal(pbxContainerItemProxySection[targetProxy].containerPortal_comment, proj.hash.project.rootObject_comment);
         }
     });
 
     it('should set each PBXContainerItemProxy`s proxyType correctly', () => {
-        var pbxTargetDependencySection = proj.hash.project.objects['PBXTargetDependency'],
-            pbxContainerItemProxySection = proj.hash.project.objects['PBXContainerItemProxy'],
-            target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
+        const pbxTargetDependencySection = proj.hash.project.objects.PBXTargetDependency;
+        const pbxContainerItemProxySection = proj.hash.project.objects.PBXContainerItemProxy;
+        const target = proj.addTargetDependency('1D6058900D05DD3D006BFB55', ['1D6058900D05DD3D006BFB54', '1D6058900D05DD3D006BFB55']).target;
 
-        for (var index = 0; index < target.dependencies.length; index++) {
-            var dependency = target.dependencies[index].value,
-                targetProxy = pbxTargetDependencySection[dependency]['targetProxy'];
+        for (let index = 0; index < target.dependencies.length; index++) {
+            const dependency = target.dependencies[index].value;
+            const targetProxy = pbxTargetDependencySection[dependency].targetProxy;
 
-            assert.equal(pbxContainerItemProxySection[targetProxy]['proxyType'], 1);
+            assert.equal(pbxContainerItemProxySection[targetProxy].proxyType, 1);
         }
     });
 });

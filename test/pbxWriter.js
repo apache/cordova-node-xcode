@@ -20,25 +20,25 @@
 const { describe, it } = require('node:test');
 const assert = require('node:assert');
 
-var pbx = require('../lib/pbxProject'),
-    fs = require('fs'),
-    myProj;
+const pbx = require('../lib/pbxProject');
+const fs = require('fs');
+let myProj;
 
-function testProjectContents(filename, expectedFilename) {
-    var myProj = new pbx(filename);
+function testProjectContents (filename, expectedFilename) {
+    const myProj = new pbx(filename);
 
-    var content;
+    let content;
     if (expectedFilename) {
         content = fs.readFileSync(expectedFilename, 'utf-8');
     } else {
         content = fs.readFileSync(filename, 'utf-8');
     }
     // normalize tabs vs strings
-    content = content.replace(/    /g, '\t');
+    content = content.replace(/ {4}/g, '\t');
 
-    return new Promise(function(success, erro) {
+    return new Promise(function (success, erro) {
         myProj.parse(function (err, projHash) {
-            var written = myProj.writeSync();
+            const written = myProj.writeSync();
             assert.equal(content, written);
             success();
         });
@@ -112,33 +112,33 @@ describe('writeSync', () => {
     });
 
     it('should not null and undefined with the "omitEmptyValues" option set to false test', () => {
-        var filename = 'test/parser/projects/with_omit_empty_values_disabled.pbxproj'
-        var expectedFilename = 'test/parser/projects/expected/with_omit_empty_values_disabled_expected.pbxproj'
-        var content = fs.readFileSync(expectedFilename, 'utf-8').replace(/    /g, '\t');
-        var project = new pbx(filename);
+        const filename = 'test/parser/projects/with_omit_empty_values_disabled.pbxproj';
+        const expectedFilename = 'test/parser/projects/expected/with_omit_empty_values_disabled_expected.pbxproj';
+        let content = fs.readFileSync(expectedFilename, 'utf-8').replace(/ {4}/g, '\t');
+        const project = new pbx(filename);
         project.parse(function (err) {
             if (err) {
                 return assert.fail(err);
             }
-            const group = project.addPbxGroup([], 'CustomGroup', undefined)
-            var written = project.writeSync();
-            content = content.replace('CUSTOM_GROUP_UUID_REPLACED_BY_TEST', group.uuid)
+            const group = project.addPbxGroup([], 'CustomGroup', undefined);
+            const written = project.writeSync();
+            content = content.replace('CUSTOM_GROUP_UUID_REPLACED_BY_TEST', group.uuid);
             assert.equal(content, written);
         });
     });
 
     it('should drop null and undefined with the "omitEmptyValues" option set to true test', () => {
-        var filename = 'test/parser/projects/with_omit_empty_values_enabled.pbxproj'
-        var expectedFilename = 'test/parser/projects/expected/with_omit_empty_values_enabled_expected.pbxproj'
-        var content = fs.readFileSync(expectedFilename, 'utf-8').replace(/    /g, '\t');
-        var project = new pbx(filename);
+        const filename = 'test/parser/projects/with_omit_empty_values_enabled.pbxproj';
+        const expectedFilename = 'test/parser/projects/expected/with_omit_empty_values_enabled_expected.pbxproj';
+        let content = fs.readFileSync(expectedFilename, 'utf-8').replace(/ {4}/g, '\t');
+        const project = new pbx(filename);
         project.parse(function (err) {
             if (err) {
                 return assert.fail(err);
             }
-            var group = project.addPbxGroup([], 'CustomGroup', undefined);
-            var written = project.writeSync({ omitEmptyValues: true });
-            content = content.replace('CUSTOM_GROUP_UUID_REPLACED_BY_TEST', group.uuid)
+            const group = project.addPbxGroup([], 'CustomGroup', undefined);
+            const written = project.writeSync({ omitEmptyValues: true });
+            content = content.replace('CUSTOM_GROUP_UUID_REPLACED_BY_TEST', group.uuid);
             assert.equal(content, written);
         });
     });

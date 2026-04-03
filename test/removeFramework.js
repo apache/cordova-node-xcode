@@ -19,19 +19,19 @@
 const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert');
 
-var fullProject = require('./fixtures/full-project'),
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    proj = new pbx('.');
+const fullProject = require('./fixtures/full-project');
+const fullProjectStr = JSON.stringify(fullProject);
+const pbx = require('../lib/pbxProject');
+const pbxFile = require('../lib/pbxFile');
+const proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
-function nonComments(obj) {
-    var keys = Object.keys(obj),
-        newObj = {}, i = 0;
+function nonComments (obj) {
+    const keys = Object.keys(obj);
+    const newObj = {}; let i = 0;
 
     for (i; i < keys.length; i++) {
         if (!/_comment$/.test(keys[i])) {
@@ -42,16 +42,16 @@ function nonComments(obj) {
     return newObj;
 }
 
-function frameworkSearchPaths(proj) {
-    var configs = nonComments(proj.pbxXCBuildConfigurationSection()),
-        allPaths = [],
-        ids = Object.keys(configs), i, buildSettings;
+function frameworkSearchPaths (proj) {
+    const configs = nonComments(proj.pbxXCBuildConfigurationSection());
+    const allPaths = [];
+    const ids = Object.keys(configs); let i; let buildSettings;
 
-    for (i = 0; i< ids.length; i++) {
+    for (i = 0; i < ids.length; i++) {
         buildSettings = configs[ids[i]].buildSettings;
 
-        if (buildSettings['FRAMEWORK_SEARCH_PATHS']) {
-            allPaths.push(buildSettings['FRAMEWORK_SEARCH_PATHS']);
+        if (buildSettings.FRAMEWORK_SEARCH_PATHS) {
+            allPaths.push(buildSettings.FRAMEWORK_SEARCH_PATHS);
         }
     }
 
@@ -64,31 +64,31 @@ describe('removeFramework', () => {
     });
 
     it('should return a pbxFile', () => {
-        var newFile = proj.addFramework('libsqlite3.dylib');
+        const newFile = proj.addFramework('libsqlite3.dylib');
         assert.equal(newFile.constructor, pbxFile);
 
-        var deletedFile = proj.removeFramework('libsqlite3.dylib');
+        const deletedFile = proj.removeFramework('libsqlite3.dylib');
         assert.equal(deletedFile.constructor, pbxFile);
     });
 
     it('should set a fileRef on the pbxFile', () => {
-        var newFile = proj.addFramework('libsqlite3.dylib');
+        const newFile = proj.addFramework('libsqlite3.dylib');
         assert.ok(newFile.fileRef);
 
-        var deletedFile = proj.removeFramework('libsqlite3.dylib');
+        const deletedFile = proj.removeFramework('libsqlite3.dylib');
         assert.ok(deletedFile.fileRef);
     });
 
     it('should remove 2 fields from the PBXFileReference section', () => {
-        var newFile = proj.addFramework('libsqlite3.dylib'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            frsLength = Object.keys(fileRefSection).length;
+        const newFile = proj.addFramework('libsqlite3.dylib');
+        const fileRefSection = proj.pbxFileReferenceSection();
+        let frsLength = Object.keys(fileRefSection).length;
 
         assert.equal(68, frsLength);
         assert.ok(fileRefSection[newFile.fileRef]);
         assert.ok(fileRefSection[newFile.fileRef + '_comment']);
 
-        var deletedFile = proj.removeFramework('libsqlite3.dylib');
+        const deletedFile = proj.removeFramework('libsqlite3.dylib');
         frsLength = Object.keys(fileRefSection).length;
 
         assert.equal(66, frsLength);
@@ -97,15 +97,15 @@ describe('removeFramework', () => {
     });
 
     it('should remove 2 fields from the PBXBuildFile section', () => {
-        var newFile = proj.addFramework('libsqlite3.dylib'),
-            buildFileSection = proj.pbxBuildFileSection(),
-            bfsLength = Object.keys(buildFileSection).length;
+        const newFile = proj.addFramework('libsqlite3.dylib');
+        const buildFileSection = proj.pbxBuildFileSection();
+        let bfsLength = Object.keys(buildFileSection).length;
 
         assert.equal(60, bfsLength);
         assert.ok(buildFileSection[newFile.uuid]);
         assert.ok(buildFileSection[newFile.uuid + '_comment']);
 
-        var deletedFile = proj.removeFramework('libsqlite3.dylib');
+        const deletedFile = proj.removeFramework('libsqlite3.dylib');
         bfsLength = Object.keys(buildFileSection).length;
 
         assert.equal(58, bfsLength);
@@ -114,10 +114,10 @@ describe('removeFramework', () => {
     });
 
     it('should remove from the Frameworks PBXGroup', () => {
-        var newLength = proj.pbxGroupByName('Frameworks').children.length + 1;
+        let newLength = proj.pbxGroupByName('Frameworks').children.length + 1;
         proj.addFramework('libsqlite3.dylib');
 
-        var frameworks = proj.pbxGroupByName('Frameworks');
+        const frameworks = proj.pbxGroupByName('Frameworks');
         assert.equal(frameworks.children.length, newLength);
 
         proj.removeFramework('libsqlite3.dylib'),
@@ -129,7 +129,7 @@ describe('removeFramework', () => {
     it('should remove from the PBXFrameworksBuildPhase', () => {
         proj.addFramework('libsqlite3.dylib');
 
-        var frameworks = proj.pbxFrameworksBuildPhaseObj();
+        let frameworks = proj.pbxFrameworksBuildPhaseObj();
         assert.equal(frameworks.files.length, 16);
 
         proj.removeFramework('libsqlite3.dylib');
@@ -141,7 +141,7 @@ describe('removeFramework', () => {
     it('should remove custom frameworks', () => {
         proj.addFramework('/path/to/Custom.framework', { customFramework: true });
 
-        var frameworks = proj.pbxFrameworksBuildPhaseObj();
+        let frameworks = proj.pbxFrameworksBuildPhaseObj();
         assert.equal(frameworks.files.length, 16);
 
         proj.removeFramework('/path/to/Custom.framework', { customFramework: true });
@@ -149,42 +149,40 @@ describe('removeFramework', () => {
         frameworks = proj.pbxFrameworksBuildPhaseObj();
         assert.equal(frameworks.files.length, 15);
 
-        var frameworkPaths = frameworkSearchPaths(proj),
-            expectedPath = '"/path/to"';
+        const frameworkPaths = frameworkSearchPaths(proj);
+        const expectedPath = '"/path/to"';
 
         for (i = 0; i < frameworkPaths.length; i++) {
-            var current = frameworkPaths[i];
+            const current = frameworkPaths[i];
             assert.ok(current.indexOf(expectedPath) == -1);
         }
-
     });
 
     it('should remove embedded frameworks', () => {
-        proj.addFramework('/path/to/Custom.framework', { customFramework: true, embed:true, sign:true });
+        proj.addFramework('/path/to/Custom.framework', { customFramework: true, embed: true, sign: true });
 
-        var frameworks = proj.pbxFrameworksBuildPhaseObj(),
-            buildFileSection = proj.pbxBuildFileSection(),
-            bfsLength = Object.keys(buildFileSection).length;
+        let frameworks = proj.pbxFrameworksBuildPhaseObj();
+        let buildFileSection = proj.pbxBuildFileSection();
+        let bfsLength = Object.keys(buildFileSection).length;
 
         assert.equal(frameworks.files.length, 16);
         assert.equal(62, bfsLength);
 
-        proj.removeFramework('/path/to/Custom.framework', { customFramework: true, embed:true });
+        proj.removeFramework('/path/to/Custom.framework', { customFramework: true, embed: true });
 
         frameworks = proj.pbxFrameworksBuildPhaseObj(),
-            buildFileSection = proj.pbxBuildFileSection(),
-            bfsLength = Object.keys(buildFileSection).length;
+        buildFileSection = proj.pbxBuildFileSection(),
+        bfsLength = Object.keys(buildFileSection).length;
 
         assert.equal(frameworks.files.length, 15);
         assert.equal(58, bfsLength);
 
-        var frameworkPaths = frameworkSearchPaths(proj);
+        const frameworkPaths = frameworkSearchPaths(proj);
         expectedPath = '"/path/to"';
 
         for (i = 0; i < frameworkPaths.length; i++) {
-            var current = frameworkPaths[i];
+            const current = frameworkPaths[i];
             assert.ok(current.indexOf(expectedPath) == -1);
         }
-
     });
 });

@@ -19,19 +19,19 @@
 const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert');
 
-var fullProject = require('./fixtures/full-project'),
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    proj = new pbx('.');
+const fullProject = require('./fixtures/full-project');
+const fullProjectStr = JSON.stringify(fullProject);
+const pbx = require('../lib/pbxProject');
+const pbxFile = require('../lib/pbxFile');
+const proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
-function nonComments(obj) {
-    var keys = Object.keys(obj),
-        newObj = {}, i = 0;
+function nonComments (obj) {
+    const keys = Object.keys(obj);
+    const newObj = {}; let i = 0;
 
     for (i; i < keys.length; i++) {
         if (!/_comment$/.test(keys[i])) {
@@ -42,16 +42,16 @@ function nonComments(obj) {
     return newObj;
 }
 
-function librarySearchPaths(proj) {
-    var configs = nonComments(proj.pbxXCBuildConfigurationSection()),
-        allPaths = [],
-        ids = Object.keys(configs), i, buildSettings;
+function librarySearchPaths (proj) {
+    const configs = nonComments(proj.pbxXCBuildConfigurationSection());
+    const allPaths = [];
+    const ids = Object.keys(configs); let i; let buildSettings;
 
-    for (i = 0; i< ids.length; i++) {
+    for (i = 0; i < ids.length; i++) {
         buildSettings = configs[ids[i]].buildSettings;
 
-        if (buildSettings['LIBRARY_SEARCH_PATHS']) {
-            allPaths.push(buildSettings['LIBRARY_SEARCH_PATHS']);
+        if (buildSettings.LIBRARY_SEARCH_PATHS) {
+            allPaths.push(buildSettings.LIBRARY_SEARCH_PATHS);
         }
     }
 
@@ -64,21 +64,21 @@ beforeEach(() => {
 
 describe('addStaticLibrary', () => {
     it('should return a pbxFile', () => {
-        var newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
+        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
 
         assert.equal(newFile.constructor, pbxFile);
     });
 
     it('should set a fileRef on the pbxFile', () => {
-        var newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
+        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
 
         assert.ok(newFile.fileRef);
     });
 
     it('should populate the PBXBuildFile section with 2 fields', () => {
-        var newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
-            buildFileSection = proj.pbxBuildFileSection(),
-            bfsLength = Object.keys(buildFileSection).length;
+        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
+        buildFileSection = proj.pbxBuildFileSection(),
+        bfsLength = Object.keys(buildFileSection).length;
 
         assert.equal(60, bfsLength);
         assert.ok(buildFileSection[newFile.uuid]);
@@ -86,10 +86,10 @@ describe('addStaticLibrary', () => {
     });
 
     it('should populate the PBXBuildFile section with 2 fields as plugin', () => {
-        var newFile = proj.addStaticLibrary('libGoogleAnalytics.a',
-                { plugin: true });
-            buildFileSection = proj.pbxBuildFileSection(),
-            bfsLength = Object.keys(buildFileSection).length;
+        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a',
+            { plugin: true });
+        buildFileSection = proj.pbxBuildFileSection(),
+        bfsLength = Object.keys(buildFileSection).length;
 
         assert.equal(60, bfsLength);
         assert.ok(buildFileSection[newFile.uuid]);
@@ -97,17 +97,17 @@ describe('addStaticLibrary', () => {
     });
 
     it('should add the PBXBuildFile comment correctly', () => {
-        var newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
-            commentKey = newFile.uuid + '_comment',
-            buildFileSection = proj.pbxBuildFileSection();
+        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
+        commentKey = newFile.uuid + '_comment',
+        buildFileSection = proj.pbxBuildFileSection();
 
         assert.equal(buildFileSection[commentKey], 'libGoogleAnalytics.a in Frameworks');
     });
 
     it('should add the PBXBuildFile object correctly', () => {
-        var newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
-            buildFileSection = proj.pbxBuildFileSection(),
-            buildFileEntry = buildFileSection[newFile.uuid];
+        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
+        buildFileSection = proj.pbxBuildFileSection(),
+        buildFileEntry = buildFileSection[newFile.uuid];
 
         assert.equal(buildFileEntry.isa, 'PBXBuildFile');
         assert.equal(buildFileEntry.fileRef, newFile.fileRef);
@@ -115,9 +115,9 @@ describe('addStaticLibrary', () => {
     });
 
     it('should populate the PBXFileReference section with 2 fields', () => {
-        var newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
-            fileRefSection = proj.pbxFileReferenceSection(),
-            frsLength = Object.keys(fileRefSection).length;
+        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
+        fileRefSection = proj.pbxFileReferenceSection(),
+        frsLength = Object.keys(fileRefSection).length;
 
         assert.equal(68, frsLength);
         assert.ok(fileRefSection[newFile.fileRef]);
@@ -125,17 +125,17 @@ describe('addStaticLibrary', () => {
     });
 
     it('should populate the PBXFileReference comment correctly', () => {
-        var newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
-            fileRefSection = proj.pbxFileReferenceSection(),
-            commentKey = newFile.fileRef + '_comment';
+        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
+        fileRefSection = proj.pbxFileReferenceSection(),
+        commentKey = newFile.fileRef + '_comment';
 
         assert.equal(fileRefSection[commentKey], 'libGoogleAnalytics.a');
     });
 
     it('should add the PBXFileReference object correctly', () => {
-        var newFile = proj.addStaticLibrary('libGoogleAnalytics.a'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            fileRefEntry = fileRefSection[newFile.fileRef];
+        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
+        const fileRefSection = proj.pbxFileReferenceSection();
+        const fileRefEntry = fileRefSection[newFile.fileRef];
 
         assert.equal(fileRefEntry.isa, 'PBXFileReference');
         assert.equal(fileRefEntry.lastKnownFileType, 'archive.ar');
@@ -145,66 +145,63 @@ describe('addStaticLibrary', () => {
     });
 
     it('should add to the PBXFrameworksBuildPhase', () => {
-        var newFile = proj.addStaticLibrary('libGoogleAnalytics.a'),
-            frameworks = proj.pbxFrameworksBuildPhaseObj();
+        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
+        const frameworks = proj.pbxFrameworksBuildPhaseObj();
 
         assert.equal(frameworks.files.length, 16);
     });
 
     it('should have the right values for the Sources entry', () => {
-        var newFile = proj.addStaticLibrary('libGoogleAnalytics.a'),
-            frameworks = proj.pbxFrameworksBuildPhaseObj(),
-            framework = frameworks.files[15];
+        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
+        const frameworks = proj.pbxFrameworksBuildPhaseObj();
+        const framework = frameworks.files[15];
 
         assert.equal(framework.comment, 'libGoogleAnalytics.a in Frameworks');
         assert.equal(framework.value, newFile.uuid);
     });
 
     it('should set LIBRARY_SEARCH_PATHS for appropriate build configurations', () => {
-        var newFile = proj.addStaticLibrary('libGoogleAnalytics.a'),
-            configs = nonComments(proj.pbxXCBuildConfigurationSection()),
-            ids = Object.keys(configs), i, buildSettings;
+        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
+        const configs = nonComments(proj.pbxXCBuildConfigurationSection());
+        const ids = Object.keys(configs); let i; let buildSettings;
 
-        for (i = 0; i< ids.length; i++) {
+        for (i = 0; i < ids.length; i++) {
             buildSettings = configs[ids[i]].buildSettings;
 
-            if (buildSettings['PRODUCT_NAME'] == '"KitchenSinktablet"') {
-                assert.ok(buildSettings['LIBRARY_SEARCH_PATHS']);
+            if (buildSettings.PRODUCT_NAME == '"KitchenSinktablet"') {
+                assert.ok(buildSettings.LIBRARY_SEARCH_PATHS);
             }
         }
-
     });
 
     it('should ensure LIBRARY_SEARCH_PATHS inherits defaults correctly', () => {
-        var newFile = proj.addStaticLibrary('libGoogleAnalytics.a'),
-            libraryPaths = librarySearchPaths(proj),
-            expectedPath = '"\\"$(SRCROOT)/KitchenSinktablet\\""',
-            i, current;
+        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
+        const libraryPaths = librarySearchPaths(proj);
+        const expectedPath = '"\\"$(SRCROOT)/KitchenSinktablet\\""';
+        let i; let current;
 
         for (i = 0; i < libraryPaths.length; i++) {
             current = libraryPaths[i];
             assert.ok(current.indexOf('"$(inherited)"') >= 0);
         }
-
     });
 
     it('should ensure the new library is in LIBRARY_SEARCH_PATHS', () => {
-        var newFile = proj.addStaticLibrary('libGoogleAnalytics.a'),
-            libraryPaths = librarySearchPaths(proj),
-            expectedPath = '"\\"$(SRCROOT)/KitchenSinktablet\\""',
-            i, current;
+        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
+        const libraryPaths = librarySearchPaths(proj);
+        const expectedPath = '"\\"$(SRCROOT)/KitchenSinktablet\\""';
+        let i; let current;
 
         for (i = 0; i < libraryPaths.length; i++) {
             current = libraryPaths[i];
             assert.ok(current.indexOf(expectedPath) >= 0);
         }
-
     });
 
     it('should add to the Plugins group, optionally', () => {
-        var newFile = proj.addStaticLibrary('libGoogleAnalytics.a',
-                                        { plugin: true }),
-            plugins = proj.pbxGroupByName('Plugins');
+        const newFile = proj.addStaticLibrary('libGoogleAnalytics.a',
+            { plugin: true });
+        const plugins = proj.pbxGroupByName('Plugins');
 
         assert.equal(plugins.children.length, 1);
     });
@@ -213,50 +210,49 @@ describe('addStaticLibrary', () => {
             plugins = proj.pbxGroupByName('Plugins');
             plugins.path = '"Test200/Plugins"';
 
-            var newFile = proj.addStaticLibrary('Plugins/libGoogleAnalytics.a',
-                                            { plugin: true }),
-                libraryPaths = librarySearchPaths(proj),
-                expectedPath = '"\\"$(SRCROOT)/Test200/Plugins\\""',
-                i, current;
+            const newFile = proj.addStaticLibrary('Plugins/libGoogleAnalytics.a',
+                { plugin: true });
+            const libraryPaths = librarySearchPaths(proj);
+            const expectedPath = '"\\"$(SRCROOT)/Test200/Plugins\\""';
+            let i; let current;
 
             for (i = 0; i < libraryPaths.length; i++) {
                 current = libraryPaths[i];
                 assert.ok(current.indexOf(expectedPath) >= 0,
-                       expectedPath + ' not found in ' + current);
+                    expectedPath + ' not found in ' + current);
             }
-
         });
 
         it('without group set', () => {
             plugins = proj.pbxGroupByName('Plugins');
             delete plugins.path;
 
-            var newFile = proj.addStaticLibrary('Plugins/libGoogleAnalytics.a',
-                                            { plugin: true }),
-                libraryPaths = librarySearchPaths(proj),
-                expectedPath = '"\\"$(SRCROOT)/KitchenSinktablet/Plugins\\""',
-                i, current;
+            const newFile = proj.addStaticLibrary('Plugins/libGoogleAnalytics.a',
+                { plugin: true });
+            const libraryPaths = librarySearchPaths(proj);
+            const expectedPath = '"\\"$(SRCROOT)/KitchenSinktablet/Plugins\\""';
+            let i; let current;
 
             for (i = 0; i < libraryPaths.length; i++) {
                 current = libraryPaths[i];
                 assert.ok(current.indexOf(expectedPath) >= 0,
-                       expectedPath + ' not found in ' + current);
+                    expectedPath + ' not found in ' + current);
             }
         });
     });
 
     describe('duplicate entries', () => {
         it('should return false', () => {
-            var newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
+            const newFile = proj.addStaticLibrary('libGoogleAnalytics.a');
 
             assert.ok(!proj.addStaticLibrary('libGoogleAnalytics.a'));
         });
         it('should return false (plugin entries)', () => {
-            var newFile = proj.addStaticLibrary('Plugins/libGoogleAnalytics.a',
-                                                { plugin: true });
+            const newFile = proj.addStaticLibrary('Plugins/libGoogleAnalytics.a',
+                { plugin: true });
 
             assert.ok(!proj.addStaticLibrary('Plugins/libGoogleAnalytics.a',
-                                                { plugin: true }));
+                { plugin: true }));
         });
     });
 });

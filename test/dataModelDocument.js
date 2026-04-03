@@ -20,19 +20,18 @@
 const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert');
 
-var jsonProject = require('./fixtures/full-project'),
-    fullProjectStr = JSON.stringify(jsonProject),
-    path = require('path'),
-    pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    proj = new pbx('.'),
-    singleDataModelFilePath = __dirname + '/fixtures/single-data-model.xcdatamodeld',
-    multipleDataModelFilePath = __dirname + '/fixtures/multiple-data-model.xcdatamodeld';
+const jsonProject = require('./fixtures/full-project');
+const fullProjectStr = JSON.stringify(jsonProject);
+const path = require('path');
+const pbx = require('../lib/pbxProject');
+const pbxFile = require('../lib/pbxFile');
+const proj = new pbx('.');
+const singleDataModelFilePath = __dirname + '/fixtures/single-data-model.xcdatamodeld';
+const multipleDataModelFilePath = __dirname + '/fixtures/multiple-data-model.xcdatamodeld';
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
-
 
 describe('dataModelDocument', () => {
     beforeEach(() => {
@@ -40,71 +39,68 @@ describe('dataModelDocument', () => {
     });
 
     it('should return a pbxFile', () => {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath);
+        const newFile = proj.addDataModelDocument(singleDataModelFilePath);
 
         assert.equal(newFile.constructor, pbxFile);
     });
 
     it('should set a uuid on the pbxFile', () => {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath);
+        const newFile = proj.addDataModelDocument(singleDataModelFilePath);
 
         assert.ok(newFile.uuid);
     });
 
     it('should set a fileRef on the pbxFile', () => {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath);
+        const newFile = proj.addDataModelDocument(singleDataModelFilePath);
 
         assert.ok(newFile.fileRef);
     });
 
     it('should set an optional target on the pbxFile', () => {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath, undefined, { target: target }),
-            target = proj.findTargetKey('TestApp');
+        const newFile = proj.addDataModelDocument(singleDataModelFilePath, undefined, { target });
+        var target = proj.findTargetKey('TestApp');
 
         assert.equal(newFile.target, target);
     });
 
     it('should populate the PBXBuildFile section with 2 fields', () => {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath),
-            buildFileSection = proj.pbxBuildFileSection(),
-            bfsLength = Object.keys(buildFileSection).length;
+        const newFile = proj.addDataModelDocument(singleDataModelFilePath);
+        const buildFileSection = proj.pbxBuildFileSection();
+        const bfsLength = Object.keys(buildFileSection).length;
 
         assert.equal(59 + 1, bfsLength);
         assert.ok(buildFileSection[newFile.uuid]);
         assert.ok(buildFileSection[newFile.uuid + '_comment']);
-
     });
 
     it('should populate the PBXFileReference section with 2 fields for single model document', () => {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            frsLength = Object.keys(fileRefSection).length;
+        const newFile = proj.addDataModelDocument(singleDataModelFilePath);
+        const fileRefSection = proj.pbxFileReferenceSection();
+        const frsLength = Object.keys(fileRefSection).length;
 
         assert.equal(66 + 2, frsLength);
         assert.ok(fileRefSection[newFile.models[0].fileRef]);
         assert.ok(fileRefSection[newFile.models[0].fileRef + '_comment']);
-
     });
 
     it('should populate the PBXFileReference section with 2 fields for each model of a model document', () => {
-        var newFile = proj.addDataModelDocument(multipleDataModelFilePath),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            frsLength = Object.keys(fileRefSection).length;
+        const newFile = proj.addDataModelDocument(multipleDataModelFilePath);
+        const fileRefSection = proj.pbxFileReferenceSection();
+        const frsLength = Object.keys(fileRefSection).length;
 
         assert.equal(66 + 2 * 2, frsLength);
         assert.ok(fileRefSection[newFile.models[0].fileRef]);
         assert.ok(fileRefSection[newFile.models[0].fileRef + '_comment']);
         assert.ok(fileRefSection[newFile.models[1].fileRef]);
         assert.ok(fileRefSection[newFile.models[1].fileRef + '_comment']);
-
     });
 
     it('should add to resources group by default', () => {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath);
-            groupChildren = proj.pbxGroupByName('Resources').children,
-            found = false;
+        const newFile = proj.addDataModelDocument(singleDataModelFilePath);
+        groupChildren = proj.pbxGroupByName('Resources').children,
+        found = false;
 
-        for (var index in groupChildren) {
+        for (const index in groupChildren) {
             if (groupChildren[index].comment === 'single-data-model.xcdatamodeld') {
                 found = true;
                 break;
@@ -114,12 +110,12 @@ describe('dataModelDocument', () => {
     });
 
     it('should add to group specified by key', () => {
-        var group = 'Frameworks',
-            newFile = proj.addDataModelDocument(singleDataModelFilePath, proj.findPBXGroupKey({ name: group }));
-            groupChildren = proj.pbxGroupByName(group).children;
+        const group = 'Frameworks';
+        const newFile = proj.addDataModelDocument(singleDataModelFilePath, proj.findPBXGroupKey({ name: group }));
+        groupChildren = proj.pbxGroupByName(group).children;
 
-        var found = false;
-        for (var index in groupChildren) {
+        let found = false;
+        for (const index in groupChildren) {
             if (groupChildren[index].comment === path.basename(singleDataModelFilePath)) {
                 found = true;
                 break;
@@ -129,12 +125,12 @@ describe('dataModelDocument', () => {
     });
 
     it('should add to group specified by name', () => {
-        var group = 'Frameworks',
-            newFile = proj.addDataModelDocument(singleDataModelFilePath, group);
-            groupChildren = proj.pbxGroupByName(group).children;
+        const group = 'Frameworks';
+        const newFile = proj.addDataModelDocument(singleDataModelFilePath, group);
+        groupChildren = proj.pbxGroupByName(group).children;
 
-        var found = false;
-        for (var index in groupChildren) {
+        let found = false;
+        for (const index in groupChildren) {
             if (groupChildren[index].comment === path.basename(singleDataModelFilePath)) {
                 found = true;
                 break;
@@ -144,31 +140,31 @@ describe('dataModelDocument', () => {
     });
 
     it('should add to the PBXSourcesBuildPhase', () => {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath),
-            sources = proj.pbxSourcesBuildPhaseObj();
+        const newFile = proj.addDataModelDocument(singleDataModelFilePath);
+        const sources = proj.pbxSourcesBuildPhaseObj();
 
         assert.equal(sources.files.length, 2 + 1);
     });
 
     it('should create a XCVersionGroup section', () => {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath),
-            xcVersionGroupSection = proj.xcVersionGroupSection();
+        const newFile = proj.addDataModelDocument(singleDataModelFilePath);
+        const xcVersionGroupSection = proj.xcVersionGroupSection();
 
         assert.ok(xcVersionGroupSection[newFile.fileRef]);
     });
 
     it('should populate the XCVersionGroup comment correctly', () => {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath),
-            xcVersionGroupSection = proj.xcVersionGroupSection(),
-            commentKey = newFile.fileRef + '_comment';
+        const newFile = proj.addDataModelDocument(singleDataModelFilePath);
+        const xcVersionGroupSection = proj.xcVersionGroupSection();
+        const commentKey = newFile.fileRef + '_comment';
 
         assert.equal(xcVersionGroupSection[commentKey], path.basename(singleDataModelFilePath));
     });
 
     it('should add the XCVersionGroup object correctly', () => {
-        var newFile = proj.addDataModelDocument(singleDataModelFilePath),
-            xcVersionGroupSection = proj.xcVersionGroupSection(),
-            xcVersionGroupEntry = xcVersionGroupSection[newFile.fileRef];
+        const newFile = proj.addDataModelDocument(singleDataModelFilePath);
+        const xcVersionGroupSection = proj.xcVersionGroupSection();
+        const xcVersionGroupEntry = xcVersionGroupSection[newFile.fileRef];
 
         assert.equal(xcVersionGroupEntry.isa, 'XCVersionGroup');
         assert.equal(xcVersionGroupEntry.children[0], newFile.models[0].fileRef);
@@ -178,6 +174,5 @@ describe('dataModelDocument', () => {
         assert.equal(xcVersionGroupEntry.path, singleDataModelFilePath.replace(/\\/g, '/'));
         assert.equal(xcVersionGroupEntry.sourceTree, '"<group>"');
         assert.equal(xcVersionGroupEntry.versionGroupType, 'wrapper.xcdatamodel');
-
     });
 });

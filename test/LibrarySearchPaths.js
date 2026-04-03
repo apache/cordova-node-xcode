@@ -19,18 +19,17 @@
 const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert');
 
-var fullProject = require('./fixtures/full-project'),
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    proj = new pbx('.');
+const fullProject = require('./fixtures/full-project');
+const fullProjectStr = JSON.stringify(fullProject);
+const pbx = require('../lib/pbxProject');
+const pbxFile = require('../lib/pbxFile');
+const proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
-
-var PRODUCT_NAME = '"KitchenSinktablet"';
+const PRODUCT_NAME = '"KitchenSinktablet"';
 
 describe('addAndRemoveToFromLibrarySearchPaths', () => {
     beforeEach(() => {
@@ -39,37 +38,37 @@ describe('addAndRemoveToFromLibrarySearchPaths', () => {
 
     it('add should add the path to each configuration section', () => {
         proj.addToLibrarySearchPaths({
-            path:'some/path/poop.a'
+            path: 'some/path/poop.a'
         });
-        var config = proj.pbxXCBuildConfigurationSection();
-        for (var ref in config) {
+        const config = proj.pbxXCBuildConfigurationSection();
+        for (const ref in config) {
             if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
-            var lib = config[ref].buildSettings.LIBRARY_SEARCH_PATHS;
+            const lib = config[ref].buildSettings.LIBRARY_SEARCH_PATHS;
             assert.ok(lib[1].indexOf('$(SRCROOT)/KitchenSinktablet/some/path') > -1);
         }
     });
     it('add should not mangle string arguments and add to each config section', () => {
-        var libPath = '../../some/path';
+        const libPath = '../../some/path';
         proj.addToLibrarySearchPaths(libPath);
-        var config = proj.pbxXCBuildConfigurationSection();
-        for (var ref in config) {
+        const config = proj.pbxXCBuildConfigurationSection();
+        for (const ref in config) {
             if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
-            var lib = config[ref].buildSettings.LIBRARY_SEARCH_PATHS;
+            const lib = config[ref].buildSettings.LIBRARY_SEARCH_PATHS;
             assert.ok(lib[1].indexOf(libPath) > -1);
         }
     });
     it('remove should remove from the path to each configuration section', () => {
-        var libPath = 'some/path/poop.a';
+        const libPath = 'some/path/poop.a';
         proj.addToLibrarySearchPaths({
-            path:libPath
+            path: libPath
         });
         proj.removeFromLibrarySearchPaths({
-            path:libPath
+            path: libPath
         });
-        var config = proj.pbxXCBuildConfigurationSection();
-        for (var ref in config) {
+        const config = proj.pbxXCBuildConfigurationSection();
+        for (const ref in config) {
             if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
-            var lib = config[ref].buildSettings.LIBRARY_SEARCH_PATHS;
+            const lib = config[ref].buildSettings.LIBRARY_SEARCH_PATHS;
             assert.ok(lib.length === 1);
             assert.ok(lib[0].indexOf('$(SRCROOT)/KitchenSinktablet/some/path') == -1);
         }

@@ -20,16 +20,15 @@
 const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert');
 
-var fullProject = require('./fixtures/multiple-targets'),
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    proj = new pbx('.');
+const fullProject = require('./fixtures/multiple-targets');
+const fullProjectStr = JSON.stringify(fullProject);
+const pbx = require('../lib/pbxProject');
+const pbxFile = require('../lib/pbxFile');
+const proj = new pbx('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
-
 
 describe('addFilesToTarget', () => {
     beforeEach(() => {
@@ -37,134 +36,117 @@ describe('addFilesToTarget', () => {
     });
 
     it('should add the file to a proper target', () => {
+        const target = '1D6058900D05DD3D006BFB54';
+        const filename = 'file.m';
 
-        var target = "1D6058900D05DD3D006BFB54";
-        var filename = "file.m";
-
-        var opt = { target : target };
-        var newFile = proj.addSourceFile(filename,opt);
+        const opt = { target };
+        const newFile = proj.addSourceFile(filename, opt);
 
         assert.equal(newFile.constructor, pbxFile);
 
-        var sources = proj.pbxSourcesBuildPhaseObj(target);
-        assert.equal(sources.files[5].comment, filename+" in Sources");
-
+        const sources = proj.pbxSourcesBuildPhaseObj(target);
+        assert.equal(sources.files[5].comment, filename + ' in Sources');
     });
 
     it('should remove the file from the proper target', () => {
+        const target = '1D6058900D05DD3D006BFB54';
+        const filename = 'file.m';
 
-        var target = "1D6058900D05DD3D006BFB54";
-        var filename = "file.m";
-
-        var opt = { target : target };
-        var newFile = proj.addSourceFile(filename,opt);
+        const opt = { target };
+        const newFile = proj.addSourceFile(filename, opt);
 
         assert.equal(newFile.constructor, pbxFile);
 
         var sources = proj.pbxSourcesBuildPhaseObj(target);
-        assert.equal(sources.files[5].comment, filename+" in Sources");
-        var l = sources.files.length;
+        assert.equal(sources.files[5].comment, filename + ' in Sources');
+        const l = sources.files.length;
 
-        proj.removeSourceFile(filename,opt);
+        proj.removeSourceFile(filename, opt);
         var sources = proj.pbxSourcesBuildPhaseObj(target);
-         assert.equal(sources.files.length,l-1);
-
+        assert.equal(sources.files.length, l - 1);
     });
 
     it('should fail when specifying an invalid target', () => {
+        const target = 'XXXXX';
+        const filename = 'file.m';
 
-        var target = "XXXXX";
-        var filename = "file.m";
-
-        var opt = { target : target };
-        assert.throws(function(){
-            proj.addSourceFile(filename,opt);
+        const opt = { target };
+        assert.throws(function () {
+            proj.addSourceFile(filename, opt);
         });
-
-
     });
-     it('should add the library to a proper target', () => {
+    it('should add the library to a proper target', () => {
+        const target = '1D6058900D05DD3D006BFB54';
+        const filename = 'library.lib';
 
-        var target = "1D6058900D05DD3D006BFB54";
-        var filename = "library.lib";
-
-        var opt = { target : target };
-        var newFile = proj.addStaticLibrary(filename,opt);
+        const opt = { target };
+        const newFile = proj.addStaticLibrary(filename, opt);
 
         assert.equal(newFile.constructor, pbxFile);
 
-        var libraries = proj.pbxFrameworksBuildPhaseObj(target);
-        assert.equal(libraries.files[4].comment, filename+" in Resources");
-
+        const libraries = proj.pbxFrameworksBuildPhaseObj(target);
+        assert.equal(libraries.files[4].comment, filename + ' in Resources');
     });
 
     it('should remove the library to a proper target', () => {
+        const target = '1D6058900D05DD3D006BFB54';
+        const filename = 'library.lib';
 
-        var target = "1D6058900D05DD3D006BFB54";
-        var filename = "library.lib";
-
-        var opt = { target : target };
-        var newFile = proj.addStaticLibrary(filename,opt);
+        const opt = { target };
+        const newFile = proj.addStaticLibrary(filename, opt);
 
         assert.equal(newFile.constructor, pbxFile);
 
         var libraries = proj.pbxFrameworksBuildPhaseObj(target);
-        assert.equal(libraries.files[4].comment, filename+" in Resources");
-        var l = libraries.files.length;
+        assert.equal(libraries.files[4].comment, filename + ' in Resources');
+        const l = libraries.files.length;
 
-        proj.removeFramework(filename,opt);
+        proj.removeFramework(filename, opt);
         var libraries = proj.pbxFrameworksBuildPhaseObj(target);
-        assert.equal(libraries.files.length,l-1);
+        assert.equal(libraries.files.length, l - 1);
     });
 
-     it('should add the framework to a proper target', () => {
+    it('should add the framework to a proper target', () => {
+        const target = '1D6058900D05DD3D006BFB54';
+        const filename = 'delta.framework';
 
-        var target = "1D6058900D05DD3D006BFB54";
-        var filename = "delta.framework";
-
-        var opt = { target : target };
-        var newFile = proj.addFramework(filename,opt);
+        const opt = { target };
+        const newFile = proj.addFramework(filename, opt);
 
         assert.equal(newFile.constructor, pbxFile);
 
-        var frameworks = proj.pbxFrameworksBuildPhaseObj(target);
-        assert.equal(frameworks.files[4].comment, filename+" in Frameworks");
-
+        const frameworks = proj.pbxFrameworksBuildPhaseObj(target);
+        assert.equal(frameworks.files[4].comment, filename + ' in Frameworks');
     });
 
     it('should add a ressource fileto a proper target', () => {
+        const target = '1D6058900D05DD3D006BFB54';
+        const filename = 'delta.png';
 
-        var target = "1D6058900D05DD3D006BFB54";
-        var filename = "delta.png";
-
-        var opt = { target : target };
-        var newFile = proj.addResourceFile(filename,opt);
+        const opt = { target };
+        const newFile = proj.addResourceFile(filename, opt);
 
         assert.equal(newFile.constructor, pbxFile);
 
-        var resources = proj.pbxResourcesBuildPhaseObj(target);
-        assert.equal(resources.files[26].comment, filename+" in Resources");
-
+        const resources = proj.pbxResourcesBuildPhaseObj(target);
+        assert.equal(resources.files[26].comment, filename + ' in Resources');
     });
-     it('should remove a ressource file from a proper target', () => {
+    it('should remove a ressource file from a proper target', () => {
+        const target = '1D6058900D05DD3D006BFB54';
+        const filename = 'delta.png';
 
-        var target = "1D6058900D05DD3D006BFB54";
-        var filename = "delta.png";
-
-        var opt = { target : target };
-        var newFile = proj.addResourceFile(filename,opt);
+        const opt = { target };
+        const newFile = proj.addResourceFile(filename, opt);
 
         assert.equal(newFile.constructor, pbxFile);
 
         var resources = proj.pbxResourcesBuildPhaseObj(target);
-        assert.equal(resources.files[26].comment, filename+" in Resources");
+        assert.equal(resources.files[26].comment, filename + ' in Resources');
 
-        var l = resources.files.length;
+        const l = resources.files.length;
 
-        proj.removeResourceFile(filename,opt);
-         var resources = proj.pbxResourcesBuildPhaseObj(target);
-        assert.equal(resources.files.length,l-1);
-
+        proj.removeResourceFile(filename, opt);
+        var resources = proj.pbxResourcesBuildPhaseObj(target);
+        assert.equal(resources.files.length, l - 1);
     });
 });
-

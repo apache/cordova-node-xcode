@@ -20,14 +20,14 @@
 const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert');
 
-var pbx = require('../lib/pbxProject'),
-    project,
-    projectHash;
+const pbx = require('../lib/pbxProject');
+let project;
+let projectHash;
 
-var findChildInGroup = function(obj, target) {
-    var found = false;
+const findChildInGroup = function (obj, target) {
+    let found = false;
 
-    for (var i = 0, j = obj.children.length; i < j; i++) {
+    for (let i = 0, j = obj.children.length; i < j; i++) {
         if (obj.children[i].value === target) {
             found = true;
             break;
@@ -35,12 +35,12 @@ var findChildInGroup = function(obj, target) {
     }
 
     return found;
-}
+};
 
-var findFileByUUID = function(obj, target) {
-    var found = false;
+const findFileByUUID = function (obj, target) {
+    let found = false;
 
-    for (var k = 0, l = obj.files.length; k < l; k++) {
+    for (let k = 0, l = obj.files.length; k < l; k++) {
         if (obj.files[k].value === target) {
             found = true;
             break;
@@ -48,12 +48,12 @@ var findFileByUUID = function(obj, target) {
     }
 
     return found;
-}
+};
 
-var findByFileRef = function(obj, target) {
-    var found = false;
+const findByFileRef = function (obj, target) {
+    let found = false;
 
-    for (var property in obj) {
+    for (const property in obj) {
         if (!/comment/.test(property)) {
             if (obj[property].fileRef === target) {
                 found = true;
@@ -62,21 +62,20 @@ var findByFileRef = function(obj, target) {
         }
     }
     return found;
-}
+};
 
-var findByName = function(obj, target) {
-    var found = false;
-    for (var property in obj) {
+const findByName = function (obj, target) {
+    let found = false;
+    for (const property in obj) {
         if (!/comment/.test(property)) {
-            var value = obj[property];
+            const value = obj[property];
             if (value.name === target) {
                 found = true;
             }
         }
     }
     return found;
-}
-
+};
 
 describe('variantGroup', () => {
     beforeEach(() => {
@@ -86,8 +85,8 @@ describe('variantGroup', () => {
 
     describe('getVariantGroupByKey', () => {
         it('should return PBXVariantGroup for Localizable.strings', () => {
-            var groupKey = project.findPBXVariantGroupKey({name: 'Localizable.strings'});
-            var group = project.getPBXVariantGroupByKey(groupKey);
+            const groupKey = project.findPBXVariantGroupKey({ name: 'Localizable.strings' });
+            const group = project.getPBXVariantGroupByKey(groupKey);
             assert.ok(group.name === 'Localizable.strings');
         });
     });
@@ -97,12 +96,12 @@ describe('variantGroup', () => {
             delete project.getPBXObject('PBXVariantGroup');
 
             var found = false;
-            var groups = project.getPBXObject('PBXVariantGroup');
+            let groups = project.getPBXObject('PBXVariantGroup');
 
             var found = findByName(groups, 'Test');
             assert.ok(found === false);
 
-            var group = project.findPBXVariantGroupKey({name:'Test'});
+            let group = project.findPBXVariantGroupKey({ name: 'Test' });
             assert.ok(group === undefined);
 
             project.pbxCreateVariantGroup('Test');
@@ -111,15 +110,15 @@ describe('variantGroup', () => {
             found = findByName(groups, 'Test');
             assert.ok(found === true);
 
-            group = project.findPBXVariantGroupKey({name:'Test'});
+            group = project.findPBXVariantGroupKey({ name: 'Test' });
             assert.ok(typeof group === 'string');
         });
     });
 
     describe('findVariantGroupKey', () => {
         it('should return a valid group key', () => {
-            var keyByName = project.findPBXVariantGroupKey({ name: 'Localizable.strings'});
-            var nonExistingKey = project.findPBXVariantGroupKey({ name: 'Foo'});
+            const keyByName = project.findPBXVariantGroupKey({ name: 'Localizable.strings' });
+            const nonExistingKey = project.findPBXVariantGroupKey({ name: 'Foo' });
 
             assert.ok(keyByName === '07E3BDBC1DF1DEA500E49912');
             assert.ok(nonExistingKey === undefined);
@@ -130,17 +129,17 @@ describe('variantGroup', () => {
         it('should create a new localisation variationgroup then add group to Resources group', () => {
             delete project.getPBXObject('PBXVariantGroup');
 
-            var localizationVariantGp = project.addLocalizationVariantGroup('InfoPlist.strings');
+            const localizationVariantGp = project.addLocalizationVariantGroup('InfoPlist.strings');
 
-            var resourceGroupKey =  project.findPBXGroupKey({name: 'Resources'});
-            var resourceGroup = project.getPBXGroupByKey(resourceGroupKey);
-            var foundInResourcesGroup = findChildInGroup(resourceGroup, localizationVariantGp.fileRef );
+            const resourceGroupKey = project.findPBXGroupKey({ name: 'Resources' });
+            const resourceGroup = project.getPBXGroupByKey(resourceGroupKey);
+            const foundInResourcesGroup = findChildInGroup(resourceGroup, localizationVariantGp.fileRef);
             assert.ok(foundInResourcesGroup);
 
-            var foundInResourcesBuildPhase = false;
-            var sources = project.pbxResourcesBuildPhaseObj();
-            for (var i = 0, j = sources.files.length; i < j; i++) {
-                var file = sources.files[i];
+            let foundInResourcesBuildPhase = false;
+            const sources = project.pbxResourcesBuildPhaseObj();
+            for (let i = 0, j = sources.files.length; i < j; i++) {
+                const file = sources.files[i];
                 if (file.value === localizationVariantGp.uuid) {
                     foundInResourcesBuildPhase = true;
                 }
@@ -151,40 +150,39 @@ describe('variantGroup', () => {
 
     describe('addResourceFileToLocalisationGroup', () => {
         it('should add resource file to the TestVariantGroup group', () => {
+            const infoPlistVarGp = project.addLocalizationVariantGroup('InfoPlist.strings');
+            const testKey = infoPlistVarGp.fileRef;
+            const file = project.addResourceFile('Resources/en.lproj/Localization.strings', { variantGroup: true }, testKey);
 
-            var infoPlistVarGp = project.addLocalizationVariantGroup('InfoPlist.strings');
-            var testKey = infoPlistVarGp.fileRef;
-            var file = project.addResourceFile('Resources/en.lproj/Localization.strings', {variantGroup: true}, testKey);
-
-            var foundInLocalisationVariantGroup = findChildInGroup(project.getPBXVariantGroupByKey(testKey), file.fileRef );
+            const foundInLocalisationVariantGroup = findChildInGroup(project.getPBXVariantGroupByKey(testKey), file.fileRef);
             assert.ok(foundInLocalisationVariantGroup);
 
-            var foundInResourcesBuildPhase = false;
-            var sources = project.pbxResourcesBuildPhaseObj();
-            for (var i = 0, j = sources.files.length; i < j; i++) {
-                var sourceFile = sources.files[i];
+            let foundInResourcesBuildPhase = false;
+            const sources = project.pbxResourcesBuildPhaseObj();
+            for (let i = 0, j = sources.files.length; i < j; i++) {
+                const sourceFile = sources.files[i];
                 if (sourceFile.value === file.fileRef) {
                     foundInResourcesBuildPhase = true;
                 }
             }
             assert.ok(!foundInResourcesBuildPhase);
 
-            var buildFileSection = project.pbxBuildFileSection();
+            const buildFileSection = project.pbxBuildFileSection();
             assert.ok(buildFileSection[file.uuid] === undefined);
         });
     });
 
     describe('removeResourceFileFromGroup', () => {
         it('should add resource file then remove resource file from Localizable.strings group', () => {
-            var testKey = project.findPBXVariantGroupKey({name:'Localizable.strings'});
-            var file = project.addResourceFile('Resources/zh.lproj/Localization.strings', {}, testKey);
+            const testKey = project.findPBXVariantGroupKey({ name: 'Localizable.strings' });
+            const file = project.addResourceFile('Resources/zh.lproj/Localization.strings', {}, testKey);
 
-            var foundInGroup = findChildInGroup(project.getPBXVariantGroupByKey(testKey),file.fileRef );
+            var foundInGroup = findChildInGroup(project.getPBXVariantGroupByKey(testKey), file.fileRef);
             assert.ok(foundInGroup);
 
             project.removeResourceFile('Resources/zh.lproj/Localization.strings', {}, testKey);
 
-            var foundInGroup = findChildInGroup(project.getPBXVariantGroupByKey(testKey),file.fileRef );
+            var foundInGroup = findChildInGroup(project.getPBXVariantGroupByKey(testKey), file.fileRef);
             assert.ok(!foundInGroup);
         });
     });

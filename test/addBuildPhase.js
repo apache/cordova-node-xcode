@@ -88,7 +88,7 @@ describe('addBuildPhase', () => {
     it('should not add files to PBXFileReference section if already added', () => {
         const fileRefSection = proj.pbxFileReferenceSection();
         const initialFileReferenceSectionItemsCount = Object.keys(fileRefSection);
-        proj.addBuildPhase(['AppDelegate.m', 'main.m'], 'PBXResourcesBuildPhase', 'My build phase').buildPhase;
+        proj.addBuildPhase(['AppDelegate.m', 'main.m'], 'PBXResourcesBuildPhase', 'My build phase');
         const afterAdditionBuildFileSectionItemsCount = Object.keys(fileRefSection);
 
         assert.deepEqual(initialFileReferenceSectionItemsCount, afterAdditionBuildFileSectionItemsCount);
@@ -97,7 +97,7 @@ describe('addBuildPhase', () => {
     it('should not add files to PBXBuildFile section if already added', () => {
         const buildFileSection = proj.pbxBuildFileSection();
         const initialBuildFileSectionItemsCount = Object.keys(buildFileSection);
-        proj.addBuildPhase(['AppDelegate.m', 'main.m'], 'PBXResourcesBuildPhase', 'My build phase').buildPhase;
+        proj.addBuildPhase(['AppDelegate.m', 'main.m'], 'PBXResourcesBuildPhase', 'My build phase');
         const afterAdditionBuildFileSectionItemsCount = Object.keys(buildFileSection);
 
         assert.deepEqual(initialBuildFileSectionItemsCount, afterAdditionBuildFileSectionItemsCount);

@@ -108,7 +108,7 @@ describe('addWatchExtension', () => {
         assert.ok(target.pbxNativeTarget.buildRules);
         assert.ok(target.pbxNativeTarget.dependencies);
 
-        var buildPhase = proj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed App Extensions', target.uuid)
+        var buildPhase = proj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed App Extensions', target.uuid);
 
         assert.ok(!buildPhase);
 

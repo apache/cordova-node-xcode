@@ -40,7 +40,7 @@ describe('addToPbxFileReferenceSection function', () => {
         var file = new pbxFile('file.m');
         file.fileRef = myProj.generateUuid();
 
-        myProj.addToPbxFileReferenceSection(file)
+        myProj.addToPbxFileReferenceSection(file);
 
         assert.equal(myProj.pbxFileReferenceSection()[file.fileRef].isa, 'PBXFileReference');
         assert.equal(myProj.pbxFileReferenceSection()[file.fileRef].lastKnownFileType, 'sourcecode.c.objc');

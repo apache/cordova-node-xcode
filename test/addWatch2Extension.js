@@ -109,7 +109,7 @@ describe('addWatchExtension', () => {
         assert.ok(target.pbxNativeTarget.buildRules);
         assert.ok(target.pbxNativeTarget.dependencies);
 
-        var buildPhase = proj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed App Extensions', target.uuid)
+        var buildPhase = proj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed App Extensions', target.uuid);
 
         assert.ok(!buildPhase);
 
@@ -119,7 +119,7 @@ describe('addWatchExtension', () => {
         proj.addTarget('TestWatchApp', 'watch2_app');
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
 
-        var buildPhase = proj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed App Extensions', target.uuid)
+        var buildPhase = proj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed App Extensions', target.uuid);
 
         assert.ok(buildPhase);
         assert.ok(buildPhase.files);
@@ -168,7 +168,7 @@ describe('addWatchExtension', () => {
         proj.addTarget('TestWatchApp', 'watch2_app');
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
 
-        var buildPhase = proj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed App Extensions', target.uuid)
+        var buildPhase = proj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed App Extensions', target.uuid);
 
         var buildPhaseFile = buildPhase.files[0];
         assert.ok(buildPhaseFile.value);

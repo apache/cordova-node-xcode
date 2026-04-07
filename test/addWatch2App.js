@@ -146,7 +146,7 @@ describe('addWatchApp', () => {
     it('should create a new watch2 app with appropriate target extension', () => {
         var target = proj.addTarget(TARGET_NAME, TARGET_TYPE);
 
-        var buildPhase = proj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed Watch Content', target.uuid)
+        var buildPhase = proj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed Watch Content', target.uuid);
 
         var buildPhaseFile = buildPhase.files[0];
         assert.ok(buildPhaseFile.value);

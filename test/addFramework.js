@@ -46,7 +46,8 @@ function nonComments (obj) {
 function frameworkSearchPaths (proj) {
     const configs = nonComments(proj.pbxXCBuildConfigurationSection());
     const allPaths = [];
-    const ids = Object.keys(configs); let buildSettings;
+    const ids = Object.keys(configs);
+    let buildSettings;
 
     for (let i = 0; i < ids.length; i++) {
         buildSettings = configs[ids[i]].buildSettings;

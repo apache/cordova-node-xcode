@@ -31,7 +31,8 @@ function cleanHash () {
 
 function nonComments (obj) {
     const keys = Object.keys(obj);
-    const newObj = {}; let i = 0;
+    const newObj = {};
+    let i = 0;
 
     for (i; i < keys.length; i++) {
         if (!/_comment$/.test(keys[i])) {
@@ -45,7 +46,9 @@ function nonComments (obj) {
 function librarySearchPaths (proj) {
     const configs = nonComments(proj.pbxXCBuildConfigurationSection());
     const allPaths = [];
-    const ids = Object.keys(configs); let i; let buildSettings;
+    const ids = Object.keys(configs);
+    let i;
+    let buildSettings;
 
     for (i = 0; i < ids.length; i++) {
         buildSettings = configs[ids[i]].buildSettings;
@@ -162,7 +165,9 @@ describe('addStaticLibrary', () => {
     it('should set LIBRARY_SEARCH_PATHS for appropriate build configurations', () => {
         proj.addStaticLibrary('libGoogleAnalytics.a');
         const configs = nonComments(proj.pbxXCBuildConfigurationSection());
-        const ids = Object.keys(configs); let i; let buildSettings;
+        const ids = Object.keys(configs);
+        let i;
+        let buildSettings;
 
         for (i = 0; i < ids.length; i++) {
             buildSettings = configs[ids[i]].buildSettings;
@@ -176,7 +181,8 @@ describe('addStaticLibrary', () => {
     it('should ensure LIBRARY_SEARCH_PATHS inherits defaults correctly', () => {
         proj.addStaticLibrary('libGoogleAnalytics.a');
         const libraryPaths = librarySearchPaths(proj);
-        let i; let current;
+        let i;
+        let current;
 
         for (i = 0; i < libraryPaths.length; i++) {
             current = libraryPaths[i];
@@ -188,7 +194,8 @@ describe('addStaticLibrary', () => {
         proj.addStaticLibrary('libGoogleAnalytics.a');
         const libraryPaths = librarySearchPaths(proj);
         const expectedPath = '"\\"$(SRCROOT)/KitchenSinktablet\\""';
-        let i; let current;
+        let i;
+        let current;
 
         for (i = 0; i < libraryPaths.length; i++) {
             current = libraryPaths[i];

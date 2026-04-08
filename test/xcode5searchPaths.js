@@ -40,7 +40,9 @@ describe('addAndRemoveToFromLibrarySearchPaths', () => {
     it('add should add the path to each configuration section', () => {
         const expected = '"\\"$(SRCROOT)/$(TARGET_NAME)/some/path\\""';
         const config = proj.pbxXCBuildConfigurationSection();
-        let ref; let lib; let refSettings;
+        let ref;
+        let lib;
+        let refSettings;
 
         proj.addToLibrarySearchPaths(libPoop);
 

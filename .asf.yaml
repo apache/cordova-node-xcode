@@ -15,12 +15,28 @@
 # specific language governing permissions and limitations
 # under the License.
 
-notifications:
-  commits: commits@cordova.apache.org
-  issues: issues@cordova.apache.org
-  pullrequests_status: issues@cordova.apache.org
-  pullrequests_comment: issues@cordova.apache.org
 github:
+  description: Apache Cordova - Xcode Node
+  homepage: https://cordova.apache.org/
+
+  labels:
+    - cordova
+    - mobile
+    - ios
+    - javascript
+    - nodejs
+    - hacktoberfest
+
+  features:
+    wiki: false
+    issues: true
+    projects: true
+
+  enabled_merge_buttons:
+    squash: true
+    merge: false
+    rebase: false
+
   rulesets:
     - name: "Default Branch Protection"
       type: branch
@@ -34,3 +50,9 @@ github:
         - root
       restrict_deletion: true
       restrict_force_push: true
+
+notifications:
+  commits: commits@cordova.apache.org
+  issues: issues@cordova.apache.org
+  pullrequests_status: issues@cordova.apache.org
+  pullrequests_comment: issues@cordova.apache.org

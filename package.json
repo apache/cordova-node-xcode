@@ -2,21 +2,24 @@
   "author": "Apache Software Foundation",
   "name": "xcode",
   "description": "parser for xcodeproj/project.pbxproj files",
-  "version": "3.0.2-dev",
+  "version": "4.0.0-dev.0",
   "main": "index.js",
   "repository": "github:apache/cordova-node-xcode",
   "bugs": "https://github.com/apache/cordova-node-xcode/issues",
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=14.17.0"
   },
   "dependencies": {
     "simple-plist": "^1.1.0"
   },
   "devDependencies": {
+    "@cordova/eslint-config": "^6.0.1",
     "pegjs": "^0.10.0"
   },
   "scripts": {
     "pegjs": "node_modules/.bin/pegjs lib/parser/pbxproj.pegjs",
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix",
     "test": "node --test --experimental-test-coverage --test-reporter=spec --test-reporter=lcov --test-reporter-destination=stdout --test-reporter-destination=lcov.info"
   },
   "license": "Apache-2.0"

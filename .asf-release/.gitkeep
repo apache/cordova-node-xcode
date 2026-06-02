@@ -15,13 +15,8 @@
 # specific language governing permissions and limitations
 # under the License.
 
-node_modules/*
-.DS_Store
-npm-debug.log
-coverage
-.nyc_output
-lcov.info
-
-# ASF release workspace
-.asf-release/
-!.asf-release/.gitkeep
+# ---
+# This directory is used as apart of the release process.
+# Package tarballs will be generated in stored temporarily
+# within this directory and should not be commited to repo.
+# ---

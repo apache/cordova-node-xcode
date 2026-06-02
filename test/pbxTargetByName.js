@@ -20,12 +20,12 @@
 const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert');
 
-var fullProject = require('./fixtures/full-project'),
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    proj = new pbx('.');
+const fullProject = require('./fixtures/full-project');
+const fullProjectStr = JSON.stringify(fullProject);
+const PBXProject = require('../lib/pbxProject');
+const proj = new PBXProject('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
@@ -35,14 +35,14 @@ describe('pbxTargetByName', () => {
     });
 
     it('should return PBXNativeTarget', () => {
-        var pbxTarget = proj.pbxTargetByName('KitchenSinktablet');
+        const pbxTarget = proj.pbxTargetByName('KitchenSinktablet');
 
         assert.ok(pbxTarget);
         assert.equal(pbxTarget.isa, 'PBXNativeTarget');
     });
 
     it('should return null when PBXNativeTarget not found', () => {
-        var pbxTarget = proj.pbxTargetByName('Invalid');
+        const pbxTarget = proj.pbxTargetByName('Invalid');
 
         assert.equal(pbxTarget, null);
     });

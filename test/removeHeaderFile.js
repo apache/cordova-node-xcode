@@ -19,13 +19,13 @@
 const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert');
 
-var fullProject = require('./fixtures/full-project'),
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    proj = new pbx('.');
+const fullProject = require('./fixtures/full-project');
+const fullProjectStr = JSON.stringify(fullProject);
+const PBXProject = require('../lib/pbxProject');
+const PBXFile = require('../lib/pbxFile');
+const proj = new PBXProject('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
@@ -35,37 +35,33 @@ describe('removeHeaderFile', () => {
     });
 
     it('should return a pbxFile', () => {
-        var newFile = proj.addHeaderFile('file.h');
+        const newFile = proj.addHeaderFile('file.h');
+        assert.equal(newFile.constructor, PBXFile);
 
-        assert.equal(newFile.constructor, pbxFile);
-
-        var deletedFile = proj.removeHeaderFile('file.h');
-
-        assert.equal(deletedFile.constructor, pbxFile);
+        const deletedFile = proj.removeHeaderFile('file.h');
+        assert.equal(deletedFile.constructor, PBXFile);
     });
 
     it('should set a fileRef on the pbxFile', () => {
-        var newFile = proj.addHeaderFile('file.h');
-
+        const newFile = proj.addHeaderFile('file.h');
         assert.ok(newFile.fileRef);
 
-        var deletedFile = proj.removeHeaderFile('file.h');
-
+        const deletedFile = proj.removeHeaderFile('file.h');
         assert.ok(deletedFile.fileRef);
     });
 
     it('should remove 2 fields from the PBXFileReference section', () => {
-        var newFile = proj.addHeaderFile('file.h'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            frsLength = Object.keys(fileRefSection).length;
+        const newFile = proj.addHeaderFile('file.h');
+        let fileRefSection = proj.pbxFileReferenceSection();
+        let frsLength = Object.keys(fileRefSection).length;
 
         assert.equal(68, frsLength);
         assert.ok(fileRefSection[newFile.fileRef]);
         assert.ok(fileRefSection[newFile.fileRef + '_comment']);
 
-        var deletedFile = proj.removeHeaderFile('file.h'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            frsLength = Object.keys(fileRefSection).length;
+        const deletedFile = proj.removeHeaderFile('file.h');
+        fileRefSection = proj.pbxFileReferenceSection();
+        frsLength = Object.keys(fileRefSection).length;
 
         assert.equal(66, frsLength);
         assert.ok(!fileRefSection[deletedFile.fileRef]);
@@ -73,22 +69,22 @@ describe('removeHeaderFile', () => {
     });
 
     it('should remove comment from the PBXFileReference correctly', () => {
-        var newFile = proj.addHeaderFile('file.h'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            commentKey = newFile.fileRef + '_comment';
+        const newFile = proj.addHeaderFile('file.h');
+        let fileRefSection = proj.pbxFileReferenceSection();
+        let commentKey = newFile.fileRef + '_comment';
 
         assert.equal(fileRefSection[commentKey], 'file.h');
 
-        var deletedFile = proj.removeHeaderFile('file.h'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            commentKey = deletedFile.fileRef + '_comment';
+        const deletedFile = proj.removeHeaderFile('file.h');
+        fileRefSection = proj.pbxFileReferenceSection();
+        commentKey = deletedFile.fileRef + '_comment';
         assert.ok(!fileRefSection[commentKey]);
     });
 
     it('should remove the PBXFileReference object correctly', () => {
-        var newFile = proj.addHeaderFile('Plugins/file.h'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            fileRefEntry = fileRefSection[newFile.fileRef];
+        const newFile = proj.addHeaderFile('Plugins/file.h');
+        let fileRefSection = proj.pbxFileReferenceSection();
+        let fileRefEntry = fileRefSection[newFile.fileRef];
 
         assert.equal(fileRefEntry.isa, 'PBXFileReference');
         assert.equal(fileRefEntry.fileEncoding, 4);
@@ -97,21 +93,21 @@ describe('removeHeaderFile', () => {
         assert.equal(fileRefEntry.path, '"file.h"');
         assert.equal(fileRefEntry.sourceTree, '"<group>"');
 
-        var deletedFile = proj.removeHeaderFile('Plugins/file.h'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            fileRefEntry = fileRefSection[deletedFile.fileRef];
+        const deletedFile = proj.removeHeaderFile('Plugins/file.h');
+        fileRefSection = proj.pbxFileReferenceSection();
+        fileRefEntry = fileRefSection[deletedFile.fileRef];
 
         assert.ok(!fileRefEntry);
     });
 
     it('should remove from the Plugins PBXGroup group', () => {
-        var newFile = proj.addHeaderFile('Plugins/file.h'),
-            plugins = proj.pbxGroupByName('Plugins');
+        proj.addHeaderFile('Plugins/file.h');
+        let plugins = proj.pbxGroupByName('Plugins');
 
         assert.equal(plugins.children.length, 1);
 
-        var deletedFile = proj.removeHeaderFile('Plugins/file.h'),
-            plugins = proj.pbxGroupByName('Plugins');
+        proj.removeHeaderFile('Plugins/file.h');
+        plugins = proj.pbxGroupByName('Plugins');
 
         assert.equal(plugins.children.length, 0);
     });

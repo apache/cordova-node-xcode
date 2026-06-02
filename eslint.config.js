@@ -1,4 +1,4 @@
-/**
+/*
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
     distributed with this work for additional information
@@ -17,19 +17,17 @@
     under the License.
 */
 
-// parsing is slow and blocking right now
-// so we do it in a separate process
-const fs = require('fs');
-const parser = require('./parser/pbxproj');
-const path = process.argv[2];
-let fileContents;
-let obj;
+const { defineConfig, globalIgnores } = require('eslint/config');
+const nodeConfig = require('@cordova/eslint-config/node');
+const nodeTestConfig = require('@cordova/eslint-config/node-tests');
 
-try {
-    fileContents = fs.readFileSync(path, 'utf-8');
-    obj = parser.parse(fileContents);
-    process.send(obj);
-} catch (e) {
-    process.send(e);
-    process.exitCode = 1;
-}
+module.exports = defineConfig([
+    globalIgnores([
+        'lib/parser/pbxproj.js'
+    ]),
+    ...nodeConfig,
+    ...nodeTestConfig.map(config => ({
+        files: ['test/**/*.js'],
+        ...config
+    }))
+]);

@@ -20,14 +20,13 @@
 const { describe, it } = require('node:test');
 const assert = require('node:assert');
 
-var PEG = require('pegjs'),
-    fs = require('fs'),
-    pbx = fs.readFileSync('test/parser/projects/build-config.pbxproj', 'utf-8'),
-    grammar = fs.readFileSync('lib/parser/pbxproj.pegjs', 'utf-8'),
-    parser = PEG.generate(grammar),
-    rawProj = parser.parse(pbx),
-    util = require('util'),
-    project = rawProj.project;
+const PEG = require('pegjs');
+const fs = require('fs');
+const pbx = fs.readFileSync('test/parser/projects/build-config.pbxproj', 'utf-8');
+const grammar = fs.readFileSync('lib/parser/pbxproj.pegjs', 'utf-8');
+const parser = PEG.generate(grammar);
+const rawProj = parser.parse(pbx);
+const project = rawProj.project;
 
 describe('parser/build-config', () => {
     it('should parse the build config section', () => {
@@ -35,17 +34,17 @@ describe('parser/build-config', () => {
     });
 
     it('should read a decimal value correctly', () => {
-        const xcbConfig = project.objects['XCBuildConfiguration'];
+        const xcbConfig = project.objects.XCBuildConfiguration;
         const debugSettings = xcbConfig['1D6058950D05DD3E006BFB54'].buildSettings;
 
-        assert.strictEqual(debugSettings['IPHONEOS_DEPLOYMENT_TARGET'], '3.0');
+        assert.strictEqual(debugSettings.IPHONEOS_DEPLOYMENT_TARGET, '3.0');
     });
 
     it('should read an escaped value correctly', () => {
-        const xcbConfig = project.objects['XCBuildConfiguration'];
-        const debugSettings = xcbConfig['C01FCF4F08A954540054247B'].buildSettings;
+        const xcbConfig = project.objects.XCBuildConfiguration;
+        const debugSettings = xcbConfig.C01FCF4F08A954540054247B.buildSettings;
         const expt = '"\\"$(PHONEGAPLIB)/Classes/JSON\\" \\"$(PHONEGAPLIB)/Classes\\""';
 
-        assert.strictEqual(debugSettings['USER_HEADER_SEARCH_PATHS'], expt);
+        assert.strictEqual(debugSettings.USER_HEADER_SEARCH_PATHS, expt);
     });
 });

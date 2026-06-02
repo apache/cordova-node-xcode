@@ -20,18 +20,17 @@
 const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert');
 
-var xcode5proj = require('./fixtures/library-search-paths')
-    xcode5projStr = JSON.stringify(xcode5proj),
-    pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    proj = new pbx('.'),
-    libPoop = { path: 'some/path/poop.a' };
+const xcode5proj = require('./fixtures/library-search-paths');
+const xcode5projStr = JSON.stringify(xcode5proj);
+const PBXProject = require('../lib/pbxProject');
+const proj = new PBXProject('.');
+const libPoop = { path: 'some/path/poop.a' };
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(xcode5projStr);
 }
 
-var PRODUCT_NAME = '"$(TARGET_NAME)"';
+const PRODUCT_NAME = '"$(TARGET_NAME)"';
 
 describe('addAndRemoveToFromLibrarySearchPaths', () => {
     beforeEach(() => {
@@ -39,20 +38,20 @@ describe('addAndRemoveToFromLibrarySearchPaths', () => {
     });
 
     it('add should add the path to each configuration section', () => {
-        var expected = '"\\"$(SRCROOT)/$(TARGET_NAME)/some/path\\""',
-            config = proj.pbxXCBuildConfigurationSection(),
-            ref, lib, refSettings;
+        const expected = '"\\"$(SRCROOT)/$(TARGET_NAME)/some/path\\""';
+        const config = proj.pbxXCBuildConfigurationSection();
+        let ref;
+        let lib;
+        let refSettings;
 
         proj.addToLibrarySearchPaths(libPoop);
 
         for (ref in config) {
-            if (ref.indexOf('_comment') > -1)
-                continue;
+            if (ref.indexOf('_comment') > -1) { continue; }
 
             refSettings = config[ref].buildSettings;
 
-            if (refSettings.PRODUCT_NAME != PRODUCT_NAME)
-                continue;
+            if (refSettings.PRODUCT_NAME !== PRODUCT_NAME) { continue; }
 
             lib = refSettings.LIBRARY_SEARCH_PATHS;
             assert.equal(lib[1], expected);
@@ -60,18 +59,19 @@ describe('addAndRemoveToFromLibrarySearchPaths', () => {
     });
 
     it('remove should remove from the path to each configuration section', () => {
-        var config, ref, lib;
+        let ref;
+        let lib;
 
         proj.addToLibrarySearchPaths(libPoop);
         proj.removeFromLibrarySearchPaths(libPoop);
 
-        config = proj.pbxXCBuildConfigurationSection();
+        const config = proj.pbxXCBuildConfigurationSection();
         for (ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
 
             lib = config[ref].buildSettings.LIBRARY_SEARCH_PATHS;
             assert.ok(lib.length === 1);
-            assert.ok(lib[0].indexOf('$(SRCROOT)/KitchenSinktablet/some/path') == -1);
+            assert.ok(lib[0].indexOf('$(SRCROOT)/KitchenSinktablet/some/path') === -1);
         }
     });
 });

@@ -19,41 +19,40 @@
 const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert');
 
-var fullProject = require('./fixtures/full-project'),
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    proj = new pbx('.');
+const fullProject = require('./fixtures/full-project');
+const fullProjectStr = JSON.stringify(fullProject);
+const PBXProject = require('../lib/pbxProject');
+const proj = new PBXProject('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
-
-var PRODUCT_NAME = '"KitchenSinktablet"';
+const PRODUCT_NAME = '"KitchenSinktablet"';
 
 describe('addAndRemoveToFromBuildSettings', () => {
     beforeEach(() => {
         proj.hash = cleanHash();
     });
     it('add should add the build setting to each configuration section', () => {
-        var buildSetting = 'some/buildSetting';
-        var value = 'some/buildSetting';
+        const buildSetting = 'some/buildSetting';
+        const value = 'some/buildSetting';
         proj.addToBuildSettings(buildSetting, value);
-        var config = proj.pbxXCBuildConfigurationSection();
-        for (var ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
+        const config = proj.pbxXCBuildConfigurationSection();
+        for (const ref in config) {
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
             assert.ok(config[ref].buildSettings[buildSetting] === value);
         }
     });
     it('remove should remove from the build settings in each configuration section', () => {
-        var buildSetting = 'some/buildSetting';
+        const buildSetting = 'some/buildSetting';
         proj.addToBuildSettings(buildSetting, 'some/buildSetting');
         proj.removeFromBuildSettings(buildSetting);
-        var config = proj.pbxXCBuildConfigurationSection();
-        for (var ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
-            assert.ok(!config[ref].buildSettings.hasOwnProperty(buildSetting));
+        const config = proj.pbxXCBuildConfigurationSection();
+        for (const ref in config) {
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
+            const buildSettings = config[ref].buildSettings;
+            assert.ok(!Object.prototype.hasOwnProperty.call(buildSettings, buildSetting));
         }
     });
 });

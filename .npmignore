@@ -18,3 +18,8 @@
 .*
 coverage
 test
+eslint.config.js
+licence_checker.yml
+
+# ASF release workspace
+.asf-release/

@@ -20,13 +20,13 @@
 const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert');
 
-var fullProject = require('./fixtures/full-project'),
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    proj = new pbx('.');
+const fullProject = require('./fixtures/full-project');
+const fullProjectStr = JSON.stringify(fullProject);
+const PBXProject = require('../lib/pbxProject');
+const PBXFile = require('../lib/pbxFile');
+const proj = new PBXProject('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
@@ -36,19 +36,19 @@ describe('addHeaderFile', () => {
     });
 
     it('should return a pbxFile', () => {
-        var newFile = proj.addHeaderFile('file.h');
-        assert.equal(newFile.constructor, pbxFile);
+        const newFile = proj.addHeaderFile('file.h');
+        assert.equal(newFile.constructor, PBXFile);
     });
 
     it('should set a fileRef on the pbxFile', () => {
-        var newFile = proj.addHeaderFile('file.h');
+        const newFile = proj.addHeaderFile('file.h');
         assert.ok(newFile.fileRef);
     });
 
     it('should populate the PBXFileReference section with 2 fields', () => {
-        var newFile = proj.addHeaderFile('file.h'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            frsLength = Object.keys(fileRefSection).length;
+        const newFile = proj.addHeaderFile('file.h');
+        const fileRefSection = proj.pbxFileReferenceSection();
+        const frsLength = Object.keys(fileRefSection).length;
 
         assert.equal(68, frsLength);
         assert.ok(fileRefSection[newFile.fileRef]);
@@ -56,17 +56,17 @@ describe('addHeaderFile', () => {
     });
 
     it('should populate the PBXFileReference comment correctly', () => {
-        var newFile = proj.addHeaderFile('file.h'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            commentKey = newFile.fileRef + '_comment';
+        const newFile = proj.addHeaderFile('file.h');
+        const fileRefSection = proj.pbxFileReferenceSection();
+        const commentKey = newFile.fileRef + '_comment';
 
         assert.equal(fileRefSection[commentKey], 'file.h');
     });
 
     it('should add the PBXFileReference object correctly', () => {
-        var newFile = proj.addHeaderFile('Plugins/file.h'),
-            fileRefSection = proj.pbxFileReferenceSection(),
-            fileRefEntry = fileRefSection[newFile.fileRef];
+        const newFile = proj.addHeaderFile('Plugins/file.h');
+        const fileRefSection = proj.pbxFileReferenceSection();
+        const fileRefEntry = fileRefSection[newFile.fileRef];
 
         assert.equal(fileRefEntry.isa, 'PBXFileReference');
         assert.equal(fileRefEntry.fileEncoding, 4);
@@ -77,16 +77,17 @@ describe('addHeaderFile', () => {
     });
 
     it('should add to the Plugins PBXGroup group', () => {
-        proj.addHeaderFile('Plugins/file.h'),
-            plugins = proj.pbxGroupByName('Plugins');
+        proj.addHeaderFile('Plugins/file.h');
+
+        const plugins = proj.pbxGroupByName('Plugins');
 
         assert.equal(plugins.children.length, 1);
     });
 
     it('should have the right values for the PBXGroup entry', () => {
-        var newFile = proj.addHeaderFile('Plugins/file.h'),
-            plugins = proj.pbxGroupByName('Plugins'),
-            pluginObj = plugins.children[0];
+        const newFile = proj.addHeaderFile('Plugins/file.h');
+        const plugins = proj.pbxGroupByName('Plugins');
+        const pluginObj = plugins.children[0];
 
         assert.equal(pluginObj.comment, 'file.h');
         assert.equal(pluginObj.value, newFile.fileRef);
@@ -100,9 +101,9 @@ describe('addHeaderFile', () => {
     it('addHeaderFile duplicate entries: should not add another entry anywhere', () => {
         proj.addHeaderFile('Plugins/file.h');
 
-        var fileRefSection = proj.pbxFileReferenceSection(),
-            frsLength = Object.keys(fileRefSection).length,
-            plugins = proj.pbxGroupByName('Plugins');
+        const fileRefSection = proj.pbxFileReferenceSection();
+        const frsLength = Object.keys(fileRefSection).length;
+        const plugins = proj.pbxGroupByName('Plugins');
 
         proj.addHeaderFile('Plugins/file.h');
 

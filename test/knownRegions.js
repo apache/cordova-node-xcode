@@ -19,12 +19,12 @@
 const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert');
 
-var fullProject = require('./fixtures/full-project'),
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    project = new pbx('.');
+const fullProject = require('./fixtures/full-project');
+const fullProjectStr = JSON.stringify(fullProject);
+const PBXProject = require('../lib/pbxProject');
+const project = new PBXProject('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
@@ -34,58 +34,58 @@ describe('knownRegions', () => {
     });
 
     describe('addKnownRegion', () => {
-      it('should add new region to existing knownRegions', () => {
-        var knownRegions = project.pbxProjectSection()[project.getFirstProject()['uuid']]['knownRegions'];
-        assert.equal(knownRegions.indexOf('Spanish'), -1);
+        it('should add new region to existing knownRegions', () => {
+            let knownRegions = project.pbxProjectSection()[project.getFirstProject().uuid].knownRegions;
+            assert.equal(knownRegions.indexOf('Spanish'), -1);
 
-        project.addKnownRegion('Spanish')
-        knownRegions = project.pbxProjectSection()[project.getFirstProject()['uuid']]['knownRegions'];
-        assert.notEqual(knownRegions.indexOf('Spanish'), -1);
-      });
+            project.addKnownRegion('Spanish');
+            knownRegions = project.pbxProjectSection()[project.getFirstProject().uuid].knownRegions;
+            assert.notEqual(knownRegions.indexOf('Spanish'), -1);
+        });
 
-      it('should not add region if it already exists in knownRegions', () => {
-        var numberOfRegions = project.pbxProjectSection()[project.getFirstProject()['uuid']]['knownRegions'].length;
+        it('should not add region if it already exists in knownRegions', () => {
+            const numberOfRegions = project.pbxProjectSection()[project.getFirstProject().uuid].knownRegions.length;
 
-        project.addKnownRegion('German');
-        var newNumberOfRegions = project.pbxProjectSection()[project.getFirstProject()['uuid']]['knownRegions'].length;
-        assert.equal(numberOfRegions, newNumberOfRegions);
-      });
+            project.addKnownRegion('German');
+            const newNumberOfRegions = project.pbxProjectSection()[project.getFirstProject().uuid].knownRegions.length;
+            assert.equal(numberOfRegions, newNumberOfRegions);
+        });
 
-      it('should create knownRegions array if it does not exist', () => {
-        delete project.pbxProjectSection()[project.getFirstProject()['uuid']]['knownRegions'];
-        assert.ok(!project.pbxProjectSection()[project.getFirstProject()['uuid']]['knownRegions']);
+        it('should create knownRegions array if it does not exist', () => {
+            delete project.pbxProjectSection()[project.getFirstProject().uuid].knownRegions;
+            assert.ok(!project.pbxProjectSection()[project.getFirstProject().uuid].knownRegions);
 
-        project.addKnownRegion('German')
-        assert.ok(project.pbxProjectSection()[project.getFirstProject()['uuid']]['knownRegions']);
-      });
+            project.addKnownRegion('German');
+            assert.ok(project.pbxProjectSection()[project.getFirstProject().uuid].knownRegions);
+        });
     });
 
     describe('removeKnownRegion', () => {
-      it('should remove named region from knownRegions', () => {
-        var knownRegions = project.pbxProjectSection()[project.getFirstProject()['uuid']]['knownRegions'];
-        assert.notEqual(knownRegions.indexOf('German'), -1);
+        it('should remove named region from knownRegions', () => {
+            let knownRegions = project.pbxProjectSection()[project.getFirstProject().uuid].knownRegions;
+            assert.notEqual(knownRegions.indexOf('German'), -1);
 
-        project.removeKnownRegion('German');
-        knownRegions = project.pbxProjectSection()[project.getFirstProject()['uuid']]['knownRegions'];
-        assert.equal(knownRegions.indexOf('German'), -1);
-      });
+            project.removeKnownRegion('German');
+            knownRegions = project.pbxProjectSection()[project.getFirstProject().uuid].knownRegions;
+            assert.equal(knownRegions.indexOf('German'), -1);
+        });
 
-      it('should do nothing if named region does not exist in knownRegions', () => {
-        var numberOfRegions = project.pbxProjectSection()[project.getFirstProject()['uuid']]['knownRegions'].length;
+        it('should do nothing if named region does not exist in knownRegions', () => {
+            const numberOfRegions = project.pbxProjectSection()[project.getFirstProject().uuid].knownRegions.length;
 
-        project.removeKnownRegion('Korean');
-        var newNumberOfRegions = project.pbxProjectSection()[project.getFirstProject()['uuid']]['knownRegions'].length;
-        assert.equal(numberOfRegions, newNumberOfRegions);
-      });
+            project.removeKnownRegion('Korean');
+            const newNumberOfRegions = project.pbxProjectSection()[project.getFirstProject().uuid].knownRegions.length;
+            assert.equal(numberOfRegions, newNumberOfRegions);
+        });
     });
 
     describe('hasKnownRegion', () => {
-      it('should return true if named region exists in knownRegions', () => {
-        assert.ok(project.hasKnownRegion('German'));
-      });
+        it('should return true if named region exists in knownRegions', () => {
+            assert.ok(project.hasKnownRegion('German'));
+        });
 
-      it('should return false if named region does not exist in knownRegions', () => {
-        assert.ok(!project.hasKnownRegion('Ducth'));
-      });
+        it('should return false if named region does not exist in knownRegions', () => {
+            assert.ok(!project.hasKnownRegion('Ducth'));
+        });
     });
 });

@@ -19,18 +19,16 @@
 const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert');
 
-var fullProject = require('./fixtures/full-project'),
-    fullProjectStr = JSON.stringify(fullProject),
-    pbx = require('../lib/pbxProject'),
-    pbxFile = require('../lib/pbxFile'),
-    proj = new pbx('.');
+const fullProject = require('./fixtures/full-project');
+const fullProjectStr = JSON.stringify(fullProject);
+const PBXProject = require('../lib/pbxProject');
+const proj = new PBXProject('.');
 
-function cleanHash() {
+function cleanHash () {
     return JSON.parse(fullProjectStr);
 }
 
-
-var PRODUCT_NAME = '"KitchenSinktablet"';
+const PRODUCT_NAME = '"KitchenSinktablet"';
 
 describe('addAndRemoveToFromOtherLinkerFlags', () => {
     beforeEach(() => {
@@ -38,25 +36,25 @@ describe('addAndRemoveToFromOtherLinkerFlags', () => {
     });
 
     it('add should add the flag to each configuration section', () => {
-        var flag = 'some/flag';
+        const flag = 'some/flag';
         proj.addToOtherLinkerFlags(flag);
-        var config = proj.pbxXCBuildConfigurationSection();
-        for (var ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
-            var lib = config[ref].buildSettings.OTHER_LDFLAGS;
+        const config = proj.pbxXCBuildConfigurationSection();
+        for (const ref in config) {
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
+            const lib = config[ref].buildSettings.OTHER_LDFLAGS;
             assert.ok(lib[1].indexOf(flag) > -1);
         }
     });
     it('remove should remove from the path to each configuration section', () => {
-        var flag = 'some/flag';
+        const flag = 'some/flag';
         proj.addToOtherLinkerFlags(flag);
         proj.removeFromOtherLinkerFlags(flag);
-        var config = proj.pbxXCBuildConfigurationSection();
-        for (var ref in config) {
-            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME != PRODUCT_NAME) continue;
-            var lib = config[ref].buildSettings.OTHER_LDFLAGS;
+        const config = proj.pbxXCBuildConfigurationSection();
+        for (const ref in config) {
+            if (ref.indexOf('_comment') > -1 || config[ref].buildSettings.PRODUCT_NAME !== PRODUCT_NAME) continue;
+            const lib = config[ref].buildSettings.OTHER_LDFLAGS;
             assert.ok(lib.length === 1);
-            assert.ok(lib[0].indexOf(flag) == -1);
+            assert.ok(lib[0].indexOf(flag) === -1);
         }
     });
 });

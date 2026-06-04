@@ -21,9 +21,12 @@
 
 # cordova-node-xcode
 
-[![NPM](https://nodei.co/npm/xcode.png?compact=true)](https://nodei.co/npm/xcode/)
+[![npm - Latest](https://img.shields.io/npm/v/xcode/latest?label=Latest%20Release%20(npm))](https://npmjs.com/package/xcode)
+[![GitHub](https://img.shields.io/github/package-json/v/apache/cordova-node-xcode?label=Development%20(Git))](https://github.com/apache/cordova-node-xcode)
 
-[![Node CI](https://github.com/apache/cordova-node-xcode/workflows/Node%20CI/badge.svg?branch=master)](https://github.com/apache/cordova-node-xcode/actions?query=branch%3Amaster)
+[![GitHub - Node Workflow](https://github.com/apache/cordova-node-xcode/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/apache/cordova-node-xcode/actions/workflows/ci.yml?query=branch%3Amaster)
+[![GitHub - Release Audit Workflow](https://github.com/apache/cordova-node-xcode/actions/workflows/release-audit.yml/badge.svg?branch=master)](https://github.com/apache/cordova-node-xcode/actions/workflows/release-audit.yml?query=branch%3Amaster)
+[![Code Coverage](https://codecov.io/github/apache/cordova-node-xcode/coverage.svg?branch=master)](https://codecov.io/github/apache/cordova-node-xcode?branch=master)
 
 Parser utility for xcodeproj project files
 

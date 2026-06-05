@@ -31,17 +31,20 @@ permissions:
 
 jobs:
   test:
-    name: NodeJS ${{ matrix.node.version }} on ${{ matrix.os }}
+    name: NodeJS ${{ matrix.node-version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        node:
-          - version: 20.x
-          - version: 22.x
-            options: --test-coverage-exclude="test/**/*.js"
-          - version: 24.x
-        os: [ubuntu-latest, macos-15]
+        node-version: [20.x, 22.x, 24.x]
+        os: [ubuntu-latest, macos-26]
+        node-options: '--test-coverage-exclude="test/**/*.js"' # shared default node options
+
+        include:
+          # Override default node options for node 20.x
+          # The "--test-coverage-exclude" flag does not exist in node 20.x.
+          - node-version: 20.x
+            node-options: ''
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -51,7 +54,7 @@ jobs:
 
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
-          node-version: ${{ matrix.node.version }}
+          node-version: ${{ matrix.node-version }}
 
       - name: Environment Information
         run: |
@@ -71,12 +74,13 @@ jobs:
         run: npm cit
         env:
           CI: true
+          NODE_OPTIONS: ${{ matrix.node-options }}
 
       - uses: github/codeql-action/analyze@9e0d7b8d25671d64c341c19c0152d693099fb5ba # v4.35.5
 
       - uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238 # v4.6.0
         if: success()
         with:
-          name: ${{ runner.os }} node.js ${{ matrix.node.version }}
+          name: ${{ runner.os }} node.js ${{ matrix.node-version }}
           token: ${{ secrets.CORDOVA_CODECOV_TOKEN }}
           fail_ci_if_error: false

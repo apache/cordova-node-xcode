@@ -54,22 +54,6 @@ myProj.parse(function (err) {
 });
 ```
 
-## Working on the parser
-
-If there's a problem parsing, you will want to edit the grammar under
-`lib/parser/pbxproj.pegjs`. You can test it online with the PEGjs online thingy
-at https://pegjs.org/online - I have had some mixed results though.
-
-Tests under the `test/parser` directory will compile the parser from the
-grammar. Other tests will use the prebuilt parser (`lib/parser/pbxproj.js`).
-
-To rebuild the parser js file after editing the grammar, run:
-
-    npm run pegjs
-
-(and be sure to restore the Apache license notice in
-`lib/parser/pbxproj.js` before committing)
-
 ## License
 
 Apache V2

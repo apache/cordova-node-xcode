@@ -87,8 +87,29 @@ jobs:
           node --version
           npm --version
 
-      - name: npm install and test
-        run: npm cit
+      - name: npm install
+        run: npm ci
+        env:
+          CI: true
+          NODE_OPTIONS: ${{ matrix.node.options }}
+
+      - name: Build parser
+        run: npm run build
+        env:
+          CI: true
+          NODE_OPTIONS: ${{ matrix.node.options }}
+
+      - name: Check for uncommitted changes
+        run: |
+          if ! git diff --exit-code; then
+            echo ""
+            echo "::error::Detected changes that appear to not be committed."
+            echo "::error::Please run 'npm run build' and commit the built parser."
+            exit 1
+          fi
+
+      - name: npm test
+        run: npm t
         env:
           CI: true
           NODE_OPTIONS: ${{ matrix.node.options }}

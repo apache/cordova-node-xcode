@@ -20,7 +20,7 @@
     "build": "node bin/generate-pbxproj-parser.js",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "test": "node --test --experimental-test-coverage --test-reporter=spec --test-reporter=lcov --test-reporter-destination=stdout --test-reporter-destination=lcov.info"
+    "test": "npm run lint && node --test --experimental-test-coverage --test-reporter=spec --test-reporter=lcov --test-reporter-destination=stdout --test-reporter-destination=lcov.info"
   },
   "license": "Apache-2.0"
 }

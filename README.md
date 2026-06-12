@@ -37,23 +37,23 @@ based on donated code from [alunny / node-xcode](https://github.com/alunny/node-
 ## Example
 
 ```js
-// API is a bit wonky right now
-var xcode = require('xcode'),
-    fs = require('fs'),
-    projectPath = 'myproject.xcodeproj/project.pbxproj',
-    myProj = xcode.project(projectPath);
+const fs = require('node:fs');
+const xcode = require('xcode');
 
-// parsing is async, in a different process
+// Path to the Xcode project's project.pbxproj file.
+const projectPath = 'myproject.xcodeproj/project.pbxproj';
+// Create a PBXProject instance for the project.
+const myProj = xcode.project(projectPath);
+
+// Parse the project file asynchronously before making changes.
 myProj.parse(function (err) {
     myProj.addHeaderFile('foo.h');
     myProj.addSourceFile('foo.m');
     myProj.addFramework('FooKit.framework');
    
+    // Write the updated project back to disk.
     fs.writeFileSync(projectPath, myProj.writeSync());
-    console.log('new project written');
+
+    console.log('New project written');
 });
 ```
-
-## License
-
-Apache V2

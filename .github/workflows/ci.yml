@@ -60,7 +60,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-26]
+        os: [windows-latest, ubuntu-latest, macos-26]
         # The "--test-coverage-exclude" flag is supported in v22.5.0 and later.
         # By default, all matching test files are excluded from the coverage report.
         # Only Node.js 22.x requires explicitly declaring test file exclusions.
@@ -100,6 +100,7 @@ jobs:
           NODE_OPTIONS: ${{ matrix.node.options }}
 
       - name: Check for uncommitted changes
+        if: ${{ ! startsWith(matrix.os, 'windows') }}
         run: |
           if ! git diff --exit-code; then
             echo ""

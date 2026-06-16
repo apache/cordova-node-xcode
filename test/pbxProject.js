@@ -58,51 +58,58 @@ describe('PBXProject', () => {
     });
 
     describe('parse function', () => {
-        it('should emit an "end" event', () => {
+        it('should emit an "end" event', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/hash.pbxproj');
 
             myProj.parse().on('end', function () {
+                done();
             });
         });
-        it('should take the end callback as a parameter', () => {
+        it('should take the end callback as a parameter', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/hash.pbxproj');
 
             myProj.parse(function () {
+                done();
             });
         });
-        it('should allow evented error handling', () => {
+        it('should allow evented error handling', (t, done) => {
             const myProj = new PBXProject('NotARealPath.pbxproj');
 
             myProj.parse().on('error', function (err) {
                 assert.equal(typeof err, 'object');
+                done();
             });
         });
-        it('should pass the hash object to the callback function', () => {
+        it('should pass the hash object to the callback function', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/hash.pbxproj');
 
             myProj.parse(function (_, projHash) {
                 assert.ok(projHash);
+                done();
             });
         });
-        it('should handle projects with comments in the header', () => {
+        it('should handle projects with comments in the header', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/comments.pbxproj');
 
             myProj.parse(function (_, projHash) {
                 assert.ok(projHash);
+                done();
             });
         });
-        it('should attach the hash object to the pbx object', () => {
+        it('should attach the hash object to the pbx object', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/hash.pbxproj');
 
             myProj.parse(function () {
                 assert.ok(myProj.hash);
+                done();
             });
         });
-        it('it should pass an error object back when the parsing fails', () => {
+        it('it should pass an error object back when the parsing fails', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/fail.pbxproj');
 
             myProj.parse(function (err, _) {
                 assert.ok(err);
+                done();
             });
         });
     });
@@ -145,12 +152,13 @@ describe('PBXProject', () => {
         afterEach(() => {
             fs.writeFileSync(bcpbx, original_pbx, 'utf-8');
         });
-        it('should change the PRODUCT_NAME field in the .pbxproj file', () => {
+        it('should change the PRODUCT_NAME field in the .pbxproj file', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/build-config.pbxproj');
             myProj.parse(function () {
                 myProj.updateProductName('furious anger');
                 const newContents = myProj.writeSync();
                 assert.ok(newContents.match(/PRODUCT_NAME\s*=\s*"furious anger"/));
+                done();
             });
         });
     });
@@ -159,7 +167,7 @@ describe('PBXProject', () => {
         afterEach(() => {
             fs.writeFileSync(bcpbx, original_pbx, 'utf-8');
         });
-        it('should change build properties in the .pbxproj file', () => {
+        it('should change build properties in the .pbxproj file', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/build-config.pbxproj');
             myProj.parse(function () {
                 myProj.updateBuildProperty('TARGETED_DEVICE_FAMILY', '"arm"');
@@ -168,24 +176,27 @@ describe('PBXProject', () => {
                 myProj.updateBuildProperty('OTHER_LDFLAGS', ['T', 'E', 'S', 'T']);
                 newContents = myProj.writeSync();
                 assert.ok(newContents.match(/OTHER_LDFLAGS\s*=\s*\(\s*T,\s*E,\s*S,\s*T,\s*\)/));
+                done();
             });
         });
-        it('should change all targets in .pbxproj with multiple targets', () => {
+        it('should change all targets in .pbxproj with multiple targets', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/multitarget.pbxproj');
             myProj.parse(function () {
                 myProj.updateBuildProperty('PRODUCT_BUNDLE_IDENTIFIER', 'comcompanytest');
                 const newContents = myProj.writeSync();
                 // Should be 10 times = 5 targets, debug and release each
                 assert.ok(newContents.match(/PRODUCT_BUNDLE_IDENTIFIER\s*=\s*comcompanytest/g).length === 10);
+                done();
             });
         });
-        it('should change only one target in .pbxproj with multiple targets', () => {
+        it('should change only one target in .pbxproj with multiple targets', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/multitarget.pbxproj');
             myProj.parse(function () {
                 myProj.updateBuildProperty('PRODUCT_BUNDLE_IDENTIFIER', 'comcompanytest', null, 'MultiTargetTest');
                 const newContents = myProj.writeSync();
                 // should be 2 times = one target debug and release
                 assert.ok(newContents.match(/PRODUCT_BUNDLE_IDENTIFIER\s*=\s*comcompanytest/g).length === 2);
+                done();
             });
         });
     });
@@ -194,20 +205,22 @@ describe('PBXProject', () => {
         afterEach(() => {
             fs.writeFileSync(bcpbx, original_pbx, 'utf-8');
         });
-        it('should change all targets in .pbxproj with multiple targets', () => {
+        it('should change all targets in .pbxproj with multiple targets', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/multitarget.pbxproj');
             myProj.parse(function () {
                 myProj.updateBuildProperty('PRODUCT_BUNDLE_IDENTIFIER', 'comcompanytest');
                 myProj.writeSync();
                 assert.ok(myProj.getBuildProperty('PRODUCT_BUNDLE_IDENTIFIER') === 'comcompanytest');
+                done();
             });
         });
-        it('should change only one target in .pbxproj with multiple targets', () => {
+        it('should change only one target in .pbxproj with multiple targets', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/multitarget.pbxproj');
             myProj.parse(function () {
                 myProj.updateBuildProperty('PRODUCT_BUNDLE_IDENTIFIER', 'comcompanytest', null, 'MultiTargetTest');
                 myProj.writeSync();
                 assert.ok(myProj.getBuildProperty('PRODUCT_BUNDLE_IDENTIFIER', undefined, 'MultiTargetTest') === 'comcompanytest');
+                done();
             });
         });
     });
@@ -216,28 +229,31 @@ describe('PBXProject', () => {
         afterEach(() => {
             fs.writeFileSync(bcpbx, original_pbx, 'utf-8');
         });
-        it('should add 4 build properties in the .pbxproj file', () => {
+        it('should add 4 build properties in the .pbxproj file', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/build-config.pbxproj');
             myProj.parse(function () {
                 myProj.addBuildProperty('ENABLE_BITCODE', 'NO');
                 const newContents = myProj.writeSync();
                 assert.equal(newContents.match(/ENABLE_BITCODE\s*=\s*NO/g).length, 4);
+                done();
             });
         });
-        it('should add 2 build properties in the .pbxproj file for specific build', () => {
+        it('should add 2 build properties in the .pbxproj file for specific build', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/build-config.pbxproj');
             myProj.parse(function () {
                 myProj.addBuildProperty('ENABLE_BITCODE', 'NO', 'Release');
                 const newContents = myProj.writeSync();
                 assert.equal(newContents.match(/ENABLE_BITCODE\s*=\s*NO/g).length, 2);
+                done();
             });
         });
-        it('should not add build properties in the .pbxproj file for nonexist build', () => {
+        it('should not add build properties in the .pbxproj file for nonexist build', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/build-config.pbxproj');
             myProj.parse(function () {
                 myProj.addBuildProperty('ENABLE_BITCODE', 'NO', 'nonexist');
                 const newContents = myProj.writeSync();
                 assert.ok(!newContents.match(/ENABLE_BITCODE\s*=\s*NO/g));
+                done();
             });
         });
     });
@@ -246,36 +262,40 @@ describe('PBXProject', () => {
         afterEach(() => {
             fs.writeFileSync(bcpbx, original_pbx, 'utf-8');
         });
-        it('should remove all build properties in the .pbxproj file', () => {
+        it('should remove all build properties in the .pbxproj file', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/build-config.pbxproj');
             myProj.parse(function () {
                 myProj.removeBuildProperty('IPHONEOS_DEPLOYMENT_TARGET');
                 const newContents = myProj.writeSync();
                 assert.ok(!newContents.match(/IPHONEOS_DEPLOYMENT_TARGET/));
+                done();
             });
         });
-        it('should remove specific build properties in the .pbxproj file', () => {
+        it('should remove specific build properties in the .pbxproj file', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/build-config.pbxproj');
             myProj.parse(function () {
                 myProj.removeBuildProperty('IPHONEOS_DEPLOYMENT_TARGET', 'Debug');
                 const newContents = myProj.writeSync();
                 assert.equal(newContents.match(/IPHONEOS_DEPLOYMENT_TARGET/g).length, 2);
+                done();
             });
         });
-        it('should not remove any build properties in the .pbxproj file', () => {
+        it('should not remove any build properties in the .pbxproj file', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/build-config.pbxproj');
             myProj.parse(function () {
                 myProj.removeBuildProperty('IPHONEOS_DEPLOYMENT_TARGET', 'notexist');
                 const newContents = myProj.writeSync();
                 assert.equal(newContents.match(/IPHONEOS_DEPLOYMENT_TARGET/g).length, 4);
+                done();
             });
         });
-        it('should fine with remove inexist build properties in the .pbxproj file', () => {
+        it('should fine with remove inexist build properties in the .pbxproj file', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/build-config.pbxproj');
             myProj.parse(function () {
                 myProj.removeBuildProperty('ENABLE_BITCODE');
                 const newContents = myProj.writeSync();
                 assert.ok(!newContents.match(/ENABLE_BITCODE/));
+                done();
             });
         });
     });
@@ -290,21 +310,23 @@ describe('PBXProject', () => {
     });
 
     describe('addPluginFile function', () => {
-        it('should strip the Plugin path prefix', () => {
+        it('should strip the Plugin path prefix', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/full.pbxproj');
 
             myProj.parse(function () {
                 assert.equal(myProj.addPluginFile('Plugins/testMac.m').path, 'testMac.m');
                 assert.equal(myProj.addPluginFile('Plugins\\testWin.m').path, 'testWin.m');
+                done();
             });
         });
-        it('should add files to the .pbxproj file using the / path seperator', () => {
+        it('should add files to the .pbxproj file using the / path seperator', (t, done) => {
             const myProj = new PBXProject('test/parser/projects/full.pbxproj');
 
             myProj.parse(function () {
                 const file = myProj.addPluginFile('myPlugin\\newFile.m');
 
                 assert.equal(myProj.pbxFileReferenceSection()[file.fileRef].path, '"myPlugin/newFile.m"');
+                done();
             });
         });
     });

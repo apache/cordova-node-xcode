@@ -110,35 +110,39 @@ describe('writeSync', () => {
         testProjectContents('test/parser/projects/file-references.pbxproj');
     });
 
-    it('should not null and undefined with the "omitEmptyValues" option set to false test', () => {
+    it('should not null and undefined with the "omitEmptyValues" option set to false test', (t, done) => {
         const filename = 'test/parser/projects/with_omit_empty_values_disabled.pbxproj';
         const expectedFilename = 'test/parser/projects/expected/with_omit_empty_values_disabled_expected.pbxproj';
         let content = fs.readFileSync(expectedFilename, 'utf-8').replace(/ {4}/g, '\t');
         const project = new PBXProject(filename);
         project.parse(function (err) {
             if (err) {
+                done(err);
                 return assert.fail(err);
             }
             const group = project.addPbxGroup([], 'CustomGroup', undefined);
             const written = project.writeSync();
             content = content.replace('CUSTOM_GROUP_UUID_REPLACED_BY_TEST', group.uuid);
             assert.equal(content, written);
+            done();
         });
     });
 
-    it('should drop null and undefined with the "omitEmptyValues" option set to true test', () => {
+    it('should drop null and undefined with the "omitEmptyValues" option set to true test', (t, done) => {
         const filename = 'test/parser/projects/with_omit_empty_values_enabled.pbxproj';
         const expectedFilename = 'test/parser/projects/expected/with_omit_empty_values_enabled_expected.pbxproj';
         let content = fs.readFileSync(expectedFilename, 'utf-8').replace(/ {4}/g, '\t');
         const project = new PBXProject(filename);
         project.parse(function (err) {
             if (err) {
+                done(err);
                 return assert.fail(err);
             }
             const group = project.addPbxGroup([], 'CustomGroup', undefined);
             const written = project.writeSync({ omitEmptyValues: true });
             content = content.replace('CUSTOM_GROUP_UUID_REPLACED_BY_TEST', group.uuid);
             assert.equal(content, written);
+            done();
         });
     });
 });

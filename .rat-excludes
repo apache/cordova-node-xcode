@@ -17,6 +17,4 @@
 
 .git/
 coverage/
-test/fixtures/
-**/*.pbxproj
 node_modules/

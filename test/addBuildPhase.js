@@ -208,7 +208,7 @@ describe('addBuildPhase', () => {
         const buildPhase = proj.addBuildPhase([], 'PBXShellScriptBuildPhase', 'Run a script', proj.getFirstTarget().uuid, options).buildPhase;
         assert.equal(buildPhase.shellPath, '/bin/sh');
         assert.equal(buildPhase.shellScript, '"test"');
-        assert.equal(buildPhase.alwaysOutOfDate, 1);
+        assert.strictEqual(buildPhase.alwaysOutOfDate, 1);
     });
 
     it('should add the PBXBuildPhase without alwaysOutOfDate property', () => {
@@ -217,6 +217,6 @@ describe('addBuildPhase', () => {
         const buildPhase = proj.addBuildPhase([], 'PBXShellScriptBuildPhase', 'Run a script', proj.getFirstTarget().uuid, options).buildPhase;
         assert.equal(buildPhase.shellPath, '/bin/sh');
         assert.equal(buildPhase.shellScript, '"test"');
-        assert.equal(buildPhase.alwaysOutOfDate, null);
+        assert.strictEqual(buildPhase.alwaysOutOfDate, undefined);
     });
 });

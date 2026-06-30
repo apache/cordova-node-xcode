@@ -219,4 +219,22 @@ describe('addBuildPhase', () => {
         assert.equal(buildPhase.shellScript, '"test"');
         assert.strictEqual(buildPhase.alwaysOutOfDate, undefined);
     });
+
+    it('should not throw error when a non-restricted value is used for build phase type.', () => {
+        assert.doesNotThrow(
+            () => {
+                proj.addBuildPhase(['MyAssets.xcassets'], 'FooBar', 'Resources');
+            },
+            /Error: "FooBar" is restricted and cannot be used as a build phase type\./
+        );
+    });
+
+    it('should throw error when a restricted value was passed in for a build phase type.', () => {
+        assert.throws(
+            () => {
+                proj.addBuildPhase(['MyAssets.xcassets'], 'prototype', 'Resources');
+            },
+            /Error: "prototype" is restricted and cannot be used as a build phase type\./
+        );
+    });
 });

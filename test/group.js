@@ -434,5 +434,23 @@ describe('group', () => {
             output = project.writeSync();
             assert.equal(output.match(/ProvisioningStyle\s*=\s*Manual/g), null);
         });
+
+        it('should not throw error when a non-restricted value is used for a target.uuid.', () => {
+            assert.doesNotThrow(
+                () => {
+                    project.addTargetAttribute('ProvisioningStyle', 'Manual', { uuid: 'FooBar' });
+                },
+                /Error: "FooBar" is restricted and cannot be used as a uuid\./
+            );
+        });
+
+        it('should throw error when a restricted value was passed in for a target.uuid.', () => {
+            assert.throws(
+                () => {
+                    project.addTargetAttribute('ProvisioningStyle', 'Manual', { uuid: 'prototype' });
+                },
+                /Error: "prototype" is restricted and cannot be used as a uuid\./
+            );
+        });
     });
 });

@@ -169,7 +169,7 @@ describe('addTarget', () => {
         const resourceFile = proj.addResourceFile('assets.bundle', options);
         const resourcePhase = proj.addBuildPhase([], 'PBXResourcesBuildPhase', 'Resources', target.uuid);
         const frameworkFile = proj.addFramework('libsqlite3.dylib', options);
-        const frameworkPhase = proj.addBuildPhase([], 'PBXFrameworkBuildPhase', 'Frameworks', target.uuid);
+        const frameworkPhase = proj.addBuildPhase([], 'PBXFrameworksBuildPhase', 'Frameworks', target.uuid);
         const headerFile = proj.addHeaderFile('file.h', options);
 
         assert.ok(sourcePhase);

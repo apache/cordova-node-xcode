@@ -65,12 +65,11 @@ jobs:
         # By default, all matching test files are excluded from the coverage report.
         # Only Node.js 22.x requires explicitly declaring test file exclusions.
         node:
-          - version: 20.x
-            options: ''
-          - version: 22.x
-            options: --test-coverage-exclude=test/**/*.js
-          - version: 24.x
-            options: ''
+          - version: 20
+          - version: 22
+            options: --test-coverage-exclude="test/**/*.js"
+          - version: 24
+          - version: 26
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

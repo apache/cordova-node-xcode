@@ -162,4 +162,31 @@ describe('addSourceFile', () => {
         assert.strictEqual(plugins.children.length, 1);
         assert.strictEqual(sources.files.length, 3);
     });
+
+    it('should add objc source files and return pbxFile', () => {
+        const newFile = proj.addSourceFile('file.m');
+        assert.strictEqual(newFile.constructor, PBXFile);
+        assert.strictEqual(newFile.lastKnownFileType, 'sourcecode.c.objc');
+        assert.strictEqual(newFile.group, 'Sources');
+        assert.strictEqual(newFile.defaultEncoding, 4);
+        assert.strictEqual(newFile.fileEncoding, 4);
+    });
+
+    it('should add objc++ source files and return pbxFile', () => {
+        const newFile = proj.addSourceFile('file.mm');
+        assert.strictEqual(newFile.constructor, PBXFile);
+        assert.strictEqual(newFile.lastKnownFileType, 'sourcecode.cpp.objcpp');
+        assert.strictEqual(newFile.group, 'Sources');
+        assert.strictEqual(newFile.defaultEncoding, 4);
+        assert.strictEqual(newFile.fileEncoding, 4);
+    });
+
+    it('should add swift source files and return pbxFile', () => {
+        const newFile = proj.addSourceFile('file.swift');
+        assert.strictEqual(newFile.constructor, PBXFile);
+        assert.strictEqual(newFile.lastKnownFileType, 'sourcecode.swift');
+        assert.strictEqual(newFile.group, 'Sources');
+        assert.strictEqual(newFile.defaultEncoding, 4);
+        assert.strictEqual(newFile.fileEncoding, 4);
+    });
 });

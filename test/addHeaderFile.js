@@ -110,4 +110,13 @@ describe('addHeaderFile', () => {
         assert.equal(68, frsLength);
         assert.equal(plugins.children.length, 1);
     });
+
+    it('should add hpp header files and return pbxFile', () => {
+        const newFile = proj.addHeaderFile('file.hpp');
+        assert.strictEqual(newFile.constructor, PBXFile);
+        assert.strictEqual(newFile.lastKnownFileType, 'sourcecode.cpp.h');
+        assert.strictEqual(newFile.group, 'Resources');
+        assert.strictEqual(newFile.defaultEncoding, 4);
+        assert.strictEqual(newFile.fileEncoding, 4);
+    });
 });

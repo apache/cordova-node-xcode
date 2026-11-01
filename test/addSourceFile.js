@@ -189,4 +189,40 @@ describe('addSourceFile', () => {
         assert.strictEqual(newFile.defaultEncoding, 4);
         assert.strictEqual(newFile.fileEncoding, 4);
     });
+
+    it('should add c source files and return pbxFile', () => {
+        const newFile = proj.addSourceFile('file.c');
+        assert.strictEqual(newFile.constructor, PBXFile);
+        assert.strictEqual(newFile.lastKnownFileType, 'sourcecode.c.c');
+        assert.strictEqual(newFile.group, 'Sources');
+        assert.strictEqual(newFile.defaultEncoding, 4);
+        assert.strictEqual(newFile.fileEncoding, 4);
+    });
+
+    it('should add cc source files and return pbxFile', () => {
+        const newFile = proj.addSourceFile('file.cc');
+        assert.strictEqual(newFile.constructor, PBXFile);
+        assert.strictEqual(newFile.lastKnownFileType, 'sourcecode.cpp.cpp');
+        assert.strictEqual(newFile.group, 'Sources');
+        assert.strictEqual(newFile.defaultEncoding, 4);
+        assert.strictEqual(newFile.fileEncoding, 4);
+    });
+
+    it('should add cpp source files and return pbxFile', () => {
+        const newFile = proj.addSourceFile('file.cpp');
+        assert.strictEqual(newFile.constructor, PBXFile);
+        assert.strictEqual(newFile.lastKnownFileType, 'sourcecode.cpp.cpp');
+        assert.strictEqual(newFile.group, 'Sources');
+        assert.strictEqual(newFile.defaultEncoding, 4);
+        assert.strictEqual(newFile.fileEncoding, 4);
+    });
+
+    it('should add cxx source files and return pbxFile', () => {
+        const newFile = proj.addSourceFile('file.cxx');
+        assert.strictEqual(newFile.constructor, PBXFile);
+        assert.strictEqual(newFile.lastKnownFileType, 'sourcecode.cpp.cpp');
+        assert.strictEqual(newFile.group, 'Sources');
+        assert.strictEqual(newFile.defaultEncoding, 4);
+        assert.strictEqual(newFile.fileEncoding, 4);
+    });
 });

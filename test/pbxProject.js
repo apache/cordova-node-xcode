@@ -23,6 +23,7 @@ const assert = require('node:assert');
 const PBXProject = require('../lib/pbxProject');
 const buildConfig = require('./fixtures/buildFiles');
 const jsonProject = require('./fixtures/full-project');
+const crypto = require('crypto');
 const fs = require('fs');
 
 describe('PBXProject', () => {
@@ -142,6 +143,17 @@ describe('PBXProject', () => {
             const newUUID = project.generateUuid();
 
             assert.ok(uHex.test(newUUID));
+        });
+        it('should not return an id made only of digits', (t) => {
+            const project = new PBXProject('.');
+            const uuids = ['12345678-9012-4345-8678-901234567890', '0a1b2c3d-4e5f-4a6b-8c7d-8e9f0a1b2c3d'];
+            const randomUUID = t.mock.method(crypto, 'randomUUID', () => uuids.shift());
+
+            project.hash = buildConfig;
+            const newUUID = project.generateUuid();
+
+            assert.equal(newUUID, '0A1B2C3D4E5F4A6B8C7D8E9F');
+            assert.equal(randomUUID.mock.callCount(), 2);
         });
     });
 
